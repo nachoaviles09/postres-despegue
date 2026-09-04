@@ -23,7 +23,7 @@ const products = [
     category: 'clasicos',
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
-    images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
+    images: ['img/choctorta-1.jpeg', 'img/chocotorta-2.jpeg'],
     prices: { '350g': 6000, '500g': 6800 }
   },
   {
@@ -68,9 +68,10 @@ function triggerHaptic(duration = 20) {
   }
 }
 
-// Detección Avanzada Táctil (Combina Swipe Horizontal y Doble Tap sobre el Slider)
-function setupSliderGestures(containerElem, productId) {
-  let lastTap = 0;
+// Gesto Inteligente: 1 Toque (Lightbox) / 2 Toques (Carrito) / Swipe (Cambiar foto)
+function setupSliderGestures(containerElem, productId, imagesList) {
+  let lastTapTime = 0;
+  let tapTimeout = null;
   let startX = 0;
   let startY = 0;
 
@@ -85,30 +86,41 @@ function setupSliderGestures(containerElem, productId) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // Si hubo desplazamiento horizontal significativo = SWIPE
+    // 1. Deslizamiento horizontal = SWIPE (Cambiar foto)
     if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (tapTimeout) clearTimeout(tapTimeout);
       if (diffX > 0) moveSlider(productId, 1);
       else moveSlider(productId, -1);
       return;
     }
 
-    // Si el toque fue casi sin mover el dedo = TAP / DOBLE TAP
+    // 2. Toque estático
     if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
       const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
+      const tapLength = currentTime - lastTapTime;
 
       if (tapLength < 350 && tapLength > 0) {
+        // --- DOBLE TOQUE (Agrega al carrito) ---
+        if (tapTimeout) clearTimeout(tapTimeout);
         e.preventDefault();
         triggerDoubleTapAction(productId, e.changedTouches[0]);
-        lastTap = 0;
+        lastTapTime = 0;
       } else {
-        lastTap = currentTime;
+        // --- UN TOQUE (Abre la imagen grande) ---
+        lastTapTime = currentTime;
+        
+        tapTimeout = setTimeout(() => {
+          const currentIdx = sliderPositions[productId] || 0;
+          const currentImgSrc = imagesList[currentIdx];
+          openLightbox(currentImgSrc);
+        }, 350);
       }
     }
   });
 
-  // Compatibilidad con Doble Click en Computadoras
+  // Soporte PC (Doble clic)
   containerElem.addEventListener('dblclick', (e) => {
+    if (tapTimeout) clearTimeout(tapTimeout);
     triggerDoubleTapAction(productId, e);
   });
 }
@@ -334,10 +346,10 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
-    // Asignar los eventos gestuales de Swipe y Doble Tap al contenedor del slider
+    // Asignar los gestos inteligentes (1 toque / 2 toques / swipe)
     const sliderContainer = document.getElementById(`slider-${product.id}`);
     if (sliderContainer) {
-      setupSliderGestures(sliderContainer, product.id);
+      setupSliderGestures(sliderContainer, product.id, product.images);
     }
 
     setup3DTilt(card);
@@ -761,28 +773,3 @@ initTheme();
 checkOpenStatus();
 renderCatalog();
 checkLastOrderAvailable();
-
-// Registro y Actualización Automática del Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=11')
-      .then(registration => {
-        // Verificar si hay una nueva versión del Service Worker en el servidor
-        registration.onupdatefound = () => {
-          const installingWorker = registration.installing;
-          if (installingWorker == null) return;
-          
-          installingWorker.onstatechange = () => {
-            if (installingWorker.state === 'installed') {
-              if (navigator.serviceWorker.controller) {
-                // Hay una versión nueva: forzar recarga automática para mostrar cambios
-                console.log('Nueva versión detectada. Actualizando...');
-                window.location.reload();
-              }
-            }
-          };
-        };
-      })
-      .catch(err => console.error('Error al registrar Service Worker:', err));
-  });
-}
