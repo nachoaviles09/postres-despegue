@@ -897,3 +897,37 @@ body.dark-theme .glass-card {
   .boarding-pass-card { max-width: 94%; }
   .bp-body { padding: 12px; gap: 8px; grid-template-columns: 1fr; }
 }
+/* Corrección de Combos: Grilla en PC / Carrusel en Celular */
+.combos-carousel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas lado a lado en PC */
+  gap: 15px;
+  overflow-x: visible;
+}
+
+.combos-carousel .combo-card {
+  flex: unset;
+  width: 100%;
+}
+
+/* Adaptación exclusiva para Celulares (Vuelve a ser carrusel horizontal) */
+@media (max-width: 768px) {
+  .combos-carousel {
+    display: flex;
+    grid-template-columns: none;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .combos-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .combos-carousel .combo-card {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+}

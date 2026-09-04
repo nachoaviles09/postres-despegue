@@ -23,7 +23,7 @@ const products = [
     category: 'clasicos',
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
-    images: ['img/choctorta-1.jpeg', 'img/chocotorta-2.jpeg'],
+    images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
     prices: { '350g': 6000, '500g': 6800 }
   },
   {
@@ -68,13 +68,14 @@ function triggerHaptic(duration = 20) {
   }
 }
 
-// Gesto Inteligente: 1 Toque (Lightbox) / 2 Toques (Carrito) / Swipe (Cambiar foto)
+// Gesto Inteligente Híbrido: PC (Clic / Doble Clic) y Celular (1 Toque / 2 Toques / Swipe)
 function setupSliderGestures(containerElem, productId, imagesList) {
   let lastTapTime = 0;
   let tapTimeout = null;
   let startX = 0;
   let startY = 0;
 
+  // --- SOPORTE MÓVIL (Táctil) ---
   containerElem.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -86,7 +87,7 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // 1. Deslizamiento horizontal = SWIPE (Cambiar foto)
+    // 1. Swipe horizontal (Cambiar foto)
     if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
       if (tapTimeout) clearTimeout(tapTimeout);
       if (diffX > 0) moveSlider(productId, 1);
@@ -100,13 +101,13 @@ function setupSliderGestures(containerElem, productId, imagesList) {
       const tapLength = currentTime - lastTapTime;
 
       if (tapLength < 350 && tapLength > 0) {
-        // --- DOBLE TOQUE (Agrega al carrito) ---
+        // --- DOBLE TOQUE (Celular -> Carrito) ---
         if (tapTimeout) clearTimeout(tapTimeout);
         e.preventDefault();
         triggerDoubleTapAction(productId, e.changedTouches[0]);
         lastTapTime = 0;
       } else {
-        // --- UN TOQUE (Abre la imagen grande) ---
+        // --- UN TOQUE (Celular -> Lightbox) ---
         lastTapTime = currentTime;
         
         tapTimeout = setTimeout(() => {
@@ -118,9 +119,24 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     }
   });
 
-  // Soporte PC (Doble clic)
-  containerElem.addEventListener('dblclick', (e) => {
+  // --- SOPORTE COMPUTADORA (Mouse / Escritorio) ---
+  // Clic simple en PC -> Abre la imagen grande (Lightbox)
+  containerElem.addEventListener('click', (e) => {
+    // Evita que se active si hicieron clic en las flechas del slider
+    if (e.target.classList.contains('slider-btn') || e.target.classList.contains('dot')) return;
+    
+    // Usamos un pequeño delay para dar espacio a que detecte el doble clic si ocurre
     if (tapTimeout) clearTimeout(tapTimeout);
+    tapTimeout = setTimeout(() => {
+      const currentIdx = sliderPositions[productId] || 0;
+      const currentImgSrc = imagesList[currentIdx];
+      openLightbox(currentImgSrc);
+    }, 250);
+  });
+
+  // Doble clic en PC -> Agrega al carrito y muestra el corazón
+  containerElem.addEventListener('dblclick', (e) => {
+    if (tapTimeout) clearTimeout(tapTimeout); // Cancela el Lightbox del clic simple
     triggerDoubleTapAction(productId, e);
   });
 }
