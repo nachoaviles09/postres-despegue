@@ -23,7 +23,7 @@ const products = [
     category: 'clasicos',
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
-    images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
+    images: ['img/choctorta-1.jpeg', 'img/chocotorta-2.jpeg'],
     prices: { '350g': 6000, '500g': 6800 }
   },
   {
@@ -636,17 +636,17 @@ function loadLastOrder() {
   }
 }
 
+// Registro de Service Worker para PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('PWA lista', reg))
+      .catch(err => console.error('Error PWA', err));
+  });
+}
+
 // Inicialización
 initTheme();
 checkOpenStatus();
 renderCatalog();
 checkLastOrderAvailable();
-
-// Registro de Service Worker para PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('Service Worker registrado con éxito', reg))
-      .catch(err => console.error('Error al registrar Service Worker', err));
-  });
-}

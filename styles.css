@@ -459,8 +459,9 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* FAQ Section */
-.faq-section { margin-top: 40px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; }
+/* FAQ Section (Ubicada abajo del todo) */
+.faq-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; }
+.full-width-faq { grid-column: 1 / -1; margin-top: 25px; }
 .faq-section h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 18px; }
 .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
 .faq-card { background-color: var(--bg-subtle); padding: 14px; border-radius: 8px; border-left: 3px solid var(--brand-gray); }
@@ -787,7 +788,7 @@ body {
   }
 
   .slider-container {
-    height: 130px; /* Fotos perfectamente encuadradas */
+    height: 130px;
     margin-bottom: 6px;
   }
 

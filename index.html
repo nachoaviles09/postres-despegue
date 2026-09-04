@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Postres Despegue | Tu antojo listo para despegar ✈️</title>
+  
   <!-- Soporte PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <!-- Encabezado / Banner Principal con Parallax -->
   <header class="hero-header">
     <div class="banner-container">
       <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
@@ -28,9 +31,11 @@
     </div>
   </header>
 
+  <!-- Banner Informativo de Servicios y Horarios -->
   <section class="flight-info-bar">
     <div class="info-item" id="status-badge">
-      </div>
+      <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
+    </div>
     <div class="info-item">
       📍 <strong>Retiro:</strong> López Jordán 1115
     </div>
@@ -46,8 +51,10 @@
   </section>
 
   <main class="container">
+    <!-- Catálogo de Productos -->
     <section class="catalog-section">
       
+      <!-- Paso a Paso (Línea de Tiempo) -->
       <div class="steps-container">
         <div class="step-card">
           <span class="step-number">1</span>
@@ -72,6 +79,7 @@
         </div>
       </div>
 
+      <!-- Ruleta del Antojo / Asistente Indeciso -->
       <div class="roulette-box">
         <div class="roulette-text">
           <h3>🎯 ¿Indeciso? ¡Dejalo en manos del Capitán!</h3>
@@ -81,6 +89,7 @@
         <div id="roulette-result" class="roulette-result hidden"></div>
       </div>
 
+      <!-- Sección de Combos / Packs de Vuelo -->
       <div class="combos-section">
         <h3>✈️ Combos & Packs Especiales</h3>
         <div class="combos-grid">
@@ -106,6 +115,7 @@
         <h2 class="section-title">Menú</h2>
       </div>
 
+      <!-- Buscador y Filtros Rápidos -->
       <div class="search-filter-container">
         <div class="search-box">
           <input type="text" id="search-input" placeholder="🔍 Buscar postre o ingrediente..." oninput="applyFilters()">
@@ -118,31 +128,15 @@
         </div>
       </div>
       
+      <!-- Contenedor del Catálogo con Efecto Radar -->
       <div class="radar-container" id="radar-container">
         <div id="radar-sweep" class="radar-sweep hidden"></div>
         <div id="catalog" class="catalog-grid"></div>
       </div>
 
-      <section class="faq-section">
-        <h3>❓ Preguntas Frecuentes & Información de Servicio</h3>
-        <div class="faq-grid">
-          <div class="faq-card">
-            <h4>❄️ ¿Cómo conservar los postres?</h4>
-            <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>
-          </div>
-          <div class="faq-card">
-            <h4>🛵 ¿Cómo funciona el envío?</h4>
-            <p>Realizamos envíos en el acto a través de Moto Uber. La tarifa del envío se calcula al momento del despacho según tu ubicación.</p>
-          </div>
-          <div class="faq-card">
-            <h4>🎁 ¿Cómo aplica la Promo Mayorista?</h4>
-            <p>Añade 10 o más postres del tamaño 350g al carrito y el sistema aplicará automáticamente el precio promocional de $4.000 por unidad.</p>
-          </div>
-        </div>
-      </section>
-
     </section>
 
+    <!-- Carrito de Pedido -->
     <aside class="cart-section" id="cart-anchor">
       <div class="cart-header">
         <h2>Pedido!</h2>
@@ -155,6 +149,7 @@
       </div>
 
       <div class="cart-summary">
+        <!-- Medidor de Progreso Gráfico Promo Mayorista Animado -->
         <div id="wholesale-tracker" class="wholesale-tracker hidden">
           <div class="tracker-text-row">
             <span>Progreso Mayorista (350g):</span>
@@ -166,6 +161,7 @@
           <p id="tracker-hint-text" class="tracker-hint">Añade postres de 350g para desbloquear $4.000 c/u</p>
         </div>
 
+        <!-- Banner Promo 10+ postres de 350g con Efecto Glow & Border Pulse -->
         <div id="promo-banner" class="promo-banner glow-pulse hidden">
           🎉 ¡Aplica Descuento Mayorista! Tus postres de 350g quedan en <strong>$4.000 c/u</strong>.
         </div>
@@ -175,6 +171,7 @@
           <span class="total-amount">$<span id="cart-total">0</span></span>
         </div>
 
+        <!-- Formulario del Cliente -->
         <form id="checkout-form" class="customer-form">
           <h3>📋 Datos para la Entrega</h3>
 
@@ -210,8 +207,29 @@
         </form>
       </div>
     </aside>
+
+    <!-- Sección Preguntas Frecuentes y Conservación (Ubicada al final) -->
+    <section class="faq-section full-width-faq">
+      <h3>❓ Preguntas Frecuentes & Información de Servicio</h3>
+      <div class="faq-grid">
+        <div class="faq-card">
+          <h4>❄️ ¿Cómo conservar los postres?</h4>
+          <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>
+        </div>
+        <div class="faq-card">
+          <h4>🛵 ¿Cómo funciona el envío?</h4>
+          <p>Realizamos envíos en el acto a través de Moto Uber. La tarifa del envío se calcula al momento del despacho según tu ubicación.</p>
+        </div>
+        <div class="faq-card">
+          <h4>🎁 ¿Cómo aplica la Promo Mayorista?</h4>
+          <p>Añade 10 o más postres del tamaño 350g al carrito y el sistema aplicará automáticamente el precio promocional de $4.000 por unidad.</p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Modal: Tarjeta de Embarque Digital (Boarding Pass) -->
   <div id="boarding-pass-modal" class="modal-overlay hidden">
     <div class="boarding-pass-card slide-up">
       <div class="approved-stamp">PASAJE APROBADO ✈️</div>
@@ -251,6 +269,7 @@
     </div>
   </div>
 
+  <!-- Modal: Visualizador de Capas de Postre -->
   <div id="layers-modal" class="modal-overlay hidden" onclick="closeLayersModal()">
     <div class="layers-card" onclick="event.stopPropagation()">
       <div class="layers-header">
@@ -261,6 +280,7 @@
     </div>
   </div>
 
+  <!-- Botones Flotantes Redes (Instagram & WhatsApp) -->
   <div class="floating-social-container">
     <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig" title="Seguinos en Instagram">
       <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
@@ -272,12 +292,15 @@
     </a>
   </div>
 
+  <!-- Modal Lightbox (Imagen Pantalla Completa) -->
   <div id="lightbox-modal" class="lightbox-overlay hidden" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="Ampliada">
   </div>
 
+  <!-- Elemento de Avión de Animación de Despegue -->
   <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
 
+  <!-- Botón / Badge Flotante para Celulares -->
   <div id="mobile-cart-badge" class="mobile-cart-badge hidden" onclick="scrollToCart()">
     <div class="mobile-cart-info">
       🛒 <span id="mobile-cart-count">0</span> postres
@@ -287,6 +310,7 @@
     </div>
   </div>
 
+  <!-- Notificación Toast de Confirmación -->
   <div id="toast-notification" class="toast hidden">
     ¡Postre sumado a tu pedido! 🛫
   </div>
