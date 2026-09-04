@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
 
@@ -31,8 +31,8 @@
     </div>
   </header>
 
-  <!-- Banner Informativo de Servicios y Horarios -->
-  <section class="flight-info-bar">
+  <!-- Banner Informativo de Servicios en Carrusel Horizontal Optimizado -->
+  <section class="flight-info-bar info-scroll-pills">
     <div class="info-item" id="status-badge">
       <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
     </div>
@@ -89,23 +89,23 @@
         <div id="roulette-result" class="roulette-result hidden"></div>
       </div>
 
-      <!-- Sección de Combos / Packs de Vuelo -->
+      <!-- Sección de Combos / Packs en Carrusel Horizontal (Ahorro de espacio vertical) -->
       <div class="combos-section">
         <h3>✈️ Combos & Packs Especiales</h3>
-        <div class="combos-grid">
+        <div class="combos-carousel">
           <div class="combo-card">
             <div class="combo-info">
               <h4>🛫 Pack Pareja (2x 350g)</h4>
-              <p>Ideal para compartir. Incluye 1 Oreo (350g) + 1 Chocotorta (350g).</p>
+              <p>1 Oreo (350g) + 1 Chocotorta (350g).</p>
             </div>
-            <button class="btn-combo" onclick="addCombo('pareja')">Agregar Combo ($12.000)</button>
+            <button class="btn-combo" onclick="addCombo('pareja')">Agregar ($12.000)</button>
           </div>
           <div class="combo-card">
             <div class="combo-info">
               <h4>✈️ Pack Familión (4x 500g)</h4>
-              <p>Para toda la mesa. Incluye Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
+              <p>Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
             </div>
-            <button class="btn-combo" onclick="addCombo('familiar')">Agregar Combo ($27.200)</button>
+            <button class="btn-combo" onclick="addCombo('familiar')">Agregar ($27.200)</button>
           </div>
         </div>
       </div>
@@ -214,22 +214,22 @@
       </div>
     </aside>
 
-    <!-- Sección Preguntas Frecuentes y Conservación -->
+    <!-- Sección Preguntas Frecuentes en Acordeón Táctil -->
     <section class="faq-section full-width-faq">
-      <h3>❓ Preguntas Frecuentes & Información de Servicio</h3>
-      <div class="faq-grid">
-        <div class="faq-card">
-          <h4>❄️ ¿Cómo conservar los postres?</h4>
+      <h3>❓ Preguntas Frecuentes & Información</h3>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary>❄️ ¿Cómo conservar los postres?</summary>
           <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>
-        </div>
-        <div class="faq-card">
-          <h4>🛵 ¿Cómo funciona el envío?</h4>
+        </details>
+        <details class="faq-item">
+          <summary>🛵 ¿Cómo funciona el envío?</summary>
           <p>Realizamos envíos en el acto a través de Moto Uber. La tarifa del envío se calcula al momento del despacho según tu ubicación.</p>
-        </div>
-        <div class="faq-card">
-          <h4>🎁 ¿Cómo aplica la Promo Mayorista?</h4>
+        </details>
+        <details class="faq-item">
+          <summary>🎁 ¿Cómo aplica la Promo Mayorista?</summary>
           <p>Añade 10 o más postres del tamaño 350g al carrito y el sistema aplicará automáticamente el precio promocional de $4.000 por unidad.</p>
-        </div>
+        </details>
       </div>
     </section>
 
@@ -321,7 +321,6 @@
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=10"></script>
-
+  <script src="app.js?v=12"></script>
 </body>
 </html>

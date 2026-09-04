@@ -177,16 +177,30 @@ body.dark-theme .glass-card {
   cursor: pointer;
 }
 
-/* Flight Info Bar */
+/* Flight Info Bar & Carrusel Horizontal */
 .flight-info-bar {
   background-color: #4a4548;
   color: #ffffff;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
   padding: 12px 20px;
   font-size: 0.88rem;
-  gap: 10px;
+  gap: 15px;
+}
+
+.info-scroll-pills {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.info-scroll-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.info-scroll-pills .info-item {
+  flex: 0 0 auto;
 }
 
 .status-indicator {
@@ -213,7 +227,7 @@ body.dark-theme .glass-card {
   gap: 30px;
 }
 
-/* Steps, Combos & Ruleta */
+/* Steps, Combos en Carrusel Horizontal & Ruleta */
 .steps-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -302,7 +316,24 @@ body.dark-theme .glass-card {
 }
 
 .combos-section h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px; }
-.combos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
+
+.combos-carousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.combos-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.combos-carousel .combo-card {
+  flex: 0 0 82%;
+  scroll-snap-align: start;
+}
 
 .combo-card {
   background-color: var(--bg-subtle);
@@ -398,14 +429,14 @@ body.dark-theme .glass-card {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Slider & Lightbox deshabilitando zoom nativo */
+/* Slider */
 .slider-container {
   position: relative; width: 100%; height: 220px; border-radius: 8px;
   overflow: hidden; margin-bottom: 10px; border: 1px solid var(--border-color);
   background-color: var(--bg-subtle);
   user-select: none;
   -webkit-user-select: none;
-  touch-action: none; /* Desactiva el zoom y scroll por defecto en la imagen */
+  touch-action: none;
 }
 
 .slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.3s ease-in-out; pointer-events: none; }
@@ -550,14 +581,62 @@ body.dark-theme .glass-card {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* FAQ Section */
+/* FAQ Acordeón */
 .faq-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; }
 .full-width-faq { grid-column: 1 / -1; margin-top: 25px; }
 .faq-section h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 18px; }
-.faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-.faq-card { background-color: var(--bg-subtle); padding: 14px; border-radius: 8px; border-left: 3px solid var(--brand-gray); }
-.faq-card h4 { font-size: 0.9rem; color: var(--text-main); margin-bottom: 6px; }
-.faq-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.faq-item[open] {
+  background-color: var(--bg-card);
+}
+
+.faq-item summary {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  outline: none;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '➕';
+  font-size: 0.8rem;
+}
+
+.faq-item[open] summary::after {
+  content: '➖';
+}
+
+.faq-item p {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 8px;
+}
 
 /* Cart Section & Bottom Sheet Elements */
 .sheet-drag-handle, .btn-close-sheet, .cart-backdrop { display: none; }
@@ -771,7 +850,7 @@ body.dark-theme .glass-card {
   .tagline { font-size: 0.78rem; margin-top: 2px; }
   .btn-theme-toggle { right: 10px; font-size: 1rem; padding: 5px 8px; }
 
-  .flight-info-bar { padding: 8px 10px; font-size: 0.75rem; gap: 6px; justify-content: flex-start; }
+  .flight-info-bar { padding: 8px 10px; font-size: 0.75rem; gap: 10px; justify-content: flex-start; }
   .steps-container { grid-template-columns: 1fr; gap: 8px; margin-bottom: 16px; }
   .step-card { padding: 8px 12px; border-radius: 8px; }
   .step-number { width: 26px; height: 26px; font-size: 0.8rem; }
@@ -780,8 +859,6 @@ body.dark-theme .glass-card {
   .btn-roulette { width: 100%; padding: 8px 12px; font-size: 0.82rem; }
 
   .combos-section { padding: 12px; margin-bottom: 16px; }
-  .combos-grid { grid-template-columns: 1fr; gap: 10px; }
-  .combo-card { padding: 10px; }
 
   .filter-pills { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
   .filter-btn { white-space: nowrap; padding: 5px 12px; font-size: 0.78rem; }
