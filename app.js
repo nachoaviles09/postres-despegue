@@ -61,18 +61,21 @@ const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
 
+// Vibración Háptica
 function triggerHaptic(duration = 20) {
   if ('vibrate' in navigator) {
     navigator.vibrate(duration);
   }
 }
 
+// Gestos Inteligentes adaptados para Móvil y PC
 function setupSliderGestures(containerElem, productId, imagesList) {
   let lastTapTime = 0;
   let tapTimeout = null;
   let startX = 0;
   let startY = 0;
 
+  // Eventos táctiles para Celular
   containerElem.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -84,6 +87,7 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
+    // 1. Swipe horizontal (Cambiar foto)
     if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
       if (tapTimeout) clearTimeout(tapTimeout);
       if (diffX > 0) moveSlider(productId, 1);
@@ -91,16 +95,19 @@ function setupSliderGestures(containerElem, productId, imagesList) {
       return;
     }
 
+    // 2. Toques en pantalla táctil
     if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
       const currentTime = new Date().getTime();
       const tapLength = currentTime - lastTapTime;
 
       if (tapLength < 350 && tapLength > 0) {
+        // Doble toque (Celular) = Carrito
         if (tapTimeout) clearTimeout(tapTimeout);
         e.preventDefault();
         triggerDoubleTapAction(productId, e.changedTouches[0]);
         lastTapTime = 0;
       } else {
+        // Un toque (Celular) = Lightbox
         lastTapTime = currentTime;
         tapTimeout = setTimeout(() => {
           const currentIdx = sliderPositions[productId] || 0;
@@ -110,9 +117,13 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     }
   });
 
+  // Eventos de Mouse para PC (Clic simple = Lightbox / Doble clic = Carrito)
   containerElem.addEventListener('click', (e) => {
-    if (e.target.classList.contains('slider-btn') || e.target.classList.contains('dot')) return;
+    // Evitamos que se dispare si hacen clic en los botones de flecha del slider
+    if (e.target.classList.contains('slider-btn')) return;
+
     if (tapTimeout) clearTimeout(tapTimeout);
+    
     tapTimeout = setTimeout(() => {
       const currentIdx = sliderPositions[productId] || 0;
       openLightbox(imagesList[currentIdx]);
@@ -120,24 +131,45 @@ function setupSliderGestures(containerElem, productId, imagesList) {
   });
 
   containerElem.addEventListener('dblclick', (e) => {
-    if (tapTimeout) clearTimeout(tapTimeout);
+    if (tapTimeout) clearTimeout(tapTimeout); // Cancela el clic simple en PC
     triggerDoubleTapAction(productId, e);
   });
 }
 
 function triggerDoubleTapAction(productId, event) {
   triggerHaptic([30, 20, 40]);
+
   const sliderContainer = document.getElementById(`slider-${productId}`);
   if (sliderContainer) {
     const heart = document.createElement('div');
     heart.className = 'double-tap-heart';
     heart.innerText = '❤️✈️';
     sliderContainer.appendChild(heart);
+
     setTimeout(() => heart.remove(), 800);
   }
+
   addToCart(productId, event);
 }
 
+// Skeleton Loader
+function showSkeletonLoader() {
+  const catalogDiv = document.getElementById('catalog');
+  catalogDiv.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const skel = document.createElement('div');
+    skel.className = 'skeleton-card';
+    skel.innerHTML = `
+      <div class="skeleton-box skeleton-img"></div>
+      <div class="skeleton-box skeleton-title"></div>
+      <div class="skeleton-box skeleton-text"></div>
+      <div class="skeleton-box skeleton-btn"></div>
+    `;
+    catalogDiv.appendChild(skel);
+  }
+}
+
+// Parallax Banner
 window.addEventListener('scroll', () => {
   const banner = document.getElementById('parallax-banner');
   if (banner) {
@@ -145,6 +177,7 @@ window.addEventListener('scroll', () => {
   }
 });
 
+// Bottom Sheet Carrito
 function toggleMobileCartSheet(isOpen) {
   triggerHaptic(15);
   const cartSection = document.getElementById('cart-anchor');
@@ -161,6 +194,7 @@ function toggleMobileCartSheet(isOpen) {
   }
 }
 
+// Lightbox
 function openLightbox(src) {
   triggerHaptic(15);
   document.getElementById('lightbox-img').src = src;
@@ -171,6 +205,7 @@ function closeLightbox() {
   document.getElementById('lightbox-modal').classList.add('hidden');
 }
 
+// Modal Capas
 function openLayersModal(productId) {
   triggerHaptic(15);
   const product = products.find(p => p.id === productId);
@@ -194,6 +229,7 @@ function closeLayersModal() {
   document.getElementById('layers-modal').classList.add('hidden');
 }
 
+// Ruleta del Antojo
 function spinRoulette() {
   triggerHaptic(30);
   const resultDiv = document.getElementById('roulette-result');
@@ -219,6 +255,7 @@ function spinRoulette() {
   }, 100);
 }
 
+// Tema Claro / Oscuro
 function initTheme() {
   const savedTheme = localStorage.getItem('despegue_theme');
   if (savedTheme === 'dark') {
@@ -235,6 +272,7 @@ function toggleTheme() {
   document.getElementById('theme-toggle').innerText = isDark ? '☀️' : '🌙';
 }
 
+// Horarios Dinámicos
 function checkOpenStatus() {
   const now = new Date();
   const day = now.getDay();
@@ -253,6 +291,7 @@ function checkOpenStatus() {
     : '<span class="status-indicator closed">🔴 CERRADO</span>';
 }
 
+// Render Catálogo
 function renderCatalog(itemsToRender = products) {
   const catalogDiv = document.getElementById('catalog');
   catalogDiv.innerHTML = '';
@@ -318,10 +357,26 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
+    // Asignar los gestos inteligentes
     const sliderContainer = document.getElementById(`slider-${product.id}`);
     if (sliderContainer) {
       setupSliderGestures(sliderContainer, product.id, product.images);
     }
+
+    setup3DTilt(card);
+  });
+}
+
+function setup3DTilt(card) {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - (rect.width / 2);
+    const y = e.clientY - rect.top - (rect.height / 2);
+    card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) translateY(-4px)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
   });
 }
 
@@ -368,7 +423,9 @@ function setCategoryFilter(category, btnElement) {
   setTimeout(() => radarSweep.classList.add('hidden'), 600);
 
   showSkeletonLoader();
-  setTimeout(() => { applyFilters(); }, 250);
+  setTimeout(() => {
+    applyFilters();
+  }, 250);
 }
 
 function applyFilters() {
@@ -413,8 +470,9 @@ function moveSlider(productId, direction) {
   }
 }
 
+// Fly to Cart
 function animateFlyToCart(event, imgSrc) {
-  const target = window.innerWidth <= 992 
+  const target = window.innerWidth <= 768 
     ? document.getElementById('mobile-cart-badge') 
     : document.getElementById('cart-anchor');
 
@@ -430,6 +488,7 @@ function animateFlyToCart(event, imgSrc) {
 
   clone.style.left = `${startX}px`;
   clone.style.top = `${startY}px`;
+
   document.body.appendChild(clone);
 
   requestAnimationFrame(() => {
@@ -453,7 +512,11 @@ function addToCart(productId, event) {
   animateFlyToCart(event, product.images[0]);
 
   for (let i = 0; i < qty; i++) {
-    cart.push({ name: product.name, size: size, basePrice: basePrice });
+    cart.push({
+      name: product.name,
+      size: size,
+      basePrice: basePrice
+    });
   }
 
   selectedQuantities[productId] = 1;
@@ -495,6 +558,7 @@ function renderCart() {
   }
 
   cartContainer.innerHTML = '';
+
   const count350g = cart.filter(item => item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
 
@@ -506,9 +570,11 @@ function renderCart() {
     if (count350g > 0 && count350g < 10) {
       const remaining = 10 - count350g;
       const percentage = (count350g / 10) * 100;
+      
       document.getElementById('tracker-count-text').innerText = `${count350g} de 10`;
       document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
       document.getElementById('tracker-hint-text').innerHTML = `💡 Te faltan <strong>${remaining} postre${remaining > 1 ? 's' : ''} de 350g</strong> para activar el descuento mayorista.`;
+      
       wholesaleTracker.classList.remove('hidden');
     } else {
       wholesaleTracker.classList.add('hidden');
@@ -516,9 +582,12 @@ function renderCart() {
   }
 
   let total = 0;
+
   cart.forEach((item, index) => {
     let finalUnitPrice = item.basePrice;
-    if (isWholesale350g && item.size === '350g') finalUnitPrice = 4000;
+    if (isWholesale350g && item.size === '350g') {
+      finalUnitPrice = 4000;
+    }
     total += finalUnitPrice;
 
     const itemDiv = document.createElement('div');
@@ -534,6 +603,7 @@ function renderCart() {
   });
 
   cartTotal.innerText = total.toLocaleString();
+
   document.getElementById('mobile-cart-count').innerText = cart.length;
   document.getElementById('mobile-cart-total').innerText = total.toLocaleString();
   mobileBadge.classList.remove('hidden');
@@ -553,6 +623,7 @@ function toggleAddressField() {
   }
 }
 
+// Shake Error + Boarding Pass Modal
 function openBoardingPassModal() {
   triggerHaptic(20);
   if (cart.length === 0) {
@@ -567,6 +638,7 @@ function openBoardingPassModal() {
   const groupAddr = document.getElementById('address-group');
 
   let hasError = false;
+
   if (!nameInput.value.trim()) {
     triggerHaptic([30, 30, 30]);
     groupName.classList.add('shake-error');
@@ -583,11 +655,12 @@ function openBoardingPassModal() {
 
   if (hasError) return;
 
-  if (window.innerWidth <= 992) {
+  if (window.innerWidth <= 768) {
     toggleMobileCartSheet(false);
   }
 
   const payment = document.getElementById('cust-payment').value;
+
   document.getElementById('bp-passenger-name').innerText = nameInput.value.trim();
   document.getElementById('bp-delivery-type').innerText = delivery === 'envio' ? `Envío Moto Uber (${addressInput.value.trim()})` : 'Retiro en local';
   document.getElementById('bp-payment-method').innerText = payment === 'efectivo' ? 'Efectivo' : 'Transferencia Bancaria';
@@ -606,6 +679,7 @@ function openBoardingPassModal() {
 
   document.getElementById('bp-items-list').innerHTML = itemsHtml;
   document.getElementById('bp-total-amount').innerText = `$${total.toLocaleString()}`;
+
   document.getElementById('boarding-pass-modal').classList.remove('hidden');
 }
 
@@ -614,9 +688,11 @@ function closeBoardingPassModal() {
   document.getElementById('boarding-pass-modal').classList.add('hidden');
 }
 
+// Confirmar y Avión Takeoff
 function confirmAndSendWhatsApp() {
   triggerHaptic([40, 50, 60]);
   localStorage.setItem('despegue_last_order', JSON.stringify(cart));
+
   closeBoardingPassModal();
 
   const plane = document.getElementById('takeoff-plane');
@@ -633,6 +709,7 @@ function confirmAndSendWhatsApp() {
     const phoneNumber = '5493436131681';
     let message = '✈️ *NUEVO PEDIDO - POSTRES DESPEGUE*\n';
     message += '_"Tu antojo listo para despegar"_\n\n';
+    
     message += `👤 *Pasajero:* ${name}\n`;
     if (delivery === 'envio') {
       message += `🛵 *Entrega:* Envío Moto Uber a: ${address}\n`;
@@ -650,19 +727,23 @@ function confirmAndSendWhatsApp() {
 
     cart.forEach((item, index) => {
       let finalUnitPrice = item.basePrice;
-      if (isWholesale350g && item.size === '350g') finalUnitPrice = 4000;
+      if (isWholesale350g && item.size === '350g') {
+        finalUnitPrice = 4000;
+      }
       message += `${index + 1}. ${item.name} (${item.size}) - $${finalUnitPrice.toLocaleString()}\n`;
       total += finalUnitPrice;
     });
 
     message += `\n📦 *Cantidad de postres:* ${cart.length}`;
     message += `\n💰 *Total Estimado:* $${total.toLocaleString()}`;
+
     if (isWholesale350g) {
       message += `\n🎉 *Promo Mayorista (10+ postres de 350g):* Liquidados a $4.000 c/u.`;
     }
 
     const encodedMessage = encodeURIComponent(message);
     const waUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     if (isMobile) {
@@ -689,13 +770,16 @@ function loadLastOrder() {
   }
 }
 
+// Service Worker PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('PWA lista', reg))
       .catch(err => console.error('Error PWA', err));
   });
 }
 
+// Inicialización
 initTheme();
 checkOpenStatus();
 renderCatalog();
