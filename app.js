@@ -60,16 +60,56 @@ const sliderPositions = {};
 const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
-const lastTapTimes = {};
 
-// Vibración Háptica
+// Vibración Háptica para Celulares
 function triggerHaptic(duration = 20) {
   if ('vibrate' in navigator) {
     navigator.vibrate(duration);
   }
 }
 
-// Render Skeleton Screen (Carga Animada)
+// Configuración Nativa de Doble Toque (Soporte Móvil y PC)
+function setupDoubleTapImage(imgElement, productId) {
+  let lastTapTime = 0;
+
+  // Evento táctil prioritario para Celulares
+  imgElement.addEventListener('touchend', (e) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTapTime;
+
+    if (tapLength < 350 && tapLength > 0) {
+      e.preventDefault();
+      triggerDoubleTapAction(productId, e.changedTouches[0]);
+      lastTapTime = 0;
+    } else {
+      lastTapTime = currentTime;
+    }
+  });
+
+  // Evento para escritorio / PC
+  imgElement.addEventListener('dblclick', (e) => {
+    triggerDoubleTapAction(productId, e);
+  });
+}
+
+// Acción al ejecutar Doble Toque
+function triggerDoubleTapAction(productId, event) {
+  triggerHaptic([30, 20, 40]);
+
+  const sliderContainer = document.getElementById(`slider-${productId}`);
+  if (sliderContainer) {
+    const heart = document.createElement('div');
+    heart.className = 'double-tap-heart';
+    heart.innerText = '❤️✈️';
+    sliderContainer.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 800);
+  }
+
+  addToCart(productId, event);
+}
+
+// Skeleton Loader para transiciones suaves
 function showSkeletonLoader() {
   const catalogDiv = document.getElementById('catalog');
   catalogDiv.innerHTML = '';
@@ -122,7 +162,7 @@ function closeLightbox() {
   document.getElementById('lightbox-modal').classList.add('hidden');
 }
 
-// Modal Capas
+// Modal Capas de Postre
 function openLayersModal(productId) {
   triggerHaptic(15);
   const product = products.find(p => p.id === productId);
@@ -208,31 +248,6 @@ function checkOpenStatus() {
     : '<span class="status-indicator closed">🔴 CERRADO</span>';
 }
 
-// Manejador de Doble Tap (Estilo Instagram)
-function handleImageTap(productId, imgSrc, event) {
-  const now = new Date().getTime();
-  const lastTap = lastTapTimes[productId] || 0;
-  const tapLength = now - lastTap;
-
-  if (tapLength < 300 && tapLength > 0) {
-    triggerHaptic([30, 20, 40]);
-
-    // Crear corazón animado en la imagen
-    const sliderContainer = document.getElementById(`slider-${productId}`);
-    const heart = document.createElement('div');
-    heart.className = 'double-tap-heart';
-    heart.innerText = '❤️✈️';
-    sliderContainer.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 800);
-
-    addToCart(productId, event);
-    lastTapTimes[productId] = 0;
-  } else {
-    lastTapTimes[productId] = now;
-  }
-}
-
 // Render Catálogo
 function renderCatalog(itemsToRender = products) {
   const catalogDiv = document.getElementById('catalog');
@@ -260,8 +275,8 @@ function renderCatalog(itemsToRender = products) {
       <div>
         <div class="slider-container" id="slider-${product.id}">
           <div class="slider-track" id="track-${product.id}">
-            ${product.images.map(imgSrc => `
-              <img src="${imgSrc}" alt="${product.name}" class="slider-img" onclick="handleImageTap('${product.id}', '${imgSrc}', event)">
+            ${product.images.map((imgSrc, imgIndex) => `
+              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}">
             `).join('')}
           </div>
           <button class="slider-btn prev" onclick="moveSlider('${product.id}', -1)">❮</button>
@@ -298,6 +313,15 @@ function renderCatalog(itemsToRender = products) {
     `;
 
     catalogDiv.appendChild(card);
+
+    // Asignar escuchadores de doble toque a cada imagen
+    product.images.forEach((_, imgIndex) => {
+      const imgElem = document.getElementById(`img-${product.id}-${imgIndex}`);
+      if (imgElem) {
+        setupDoubleTapImage(imgElem, product.id);
+      }
+    });
+
     setupSwipeSupport(product.id);
     setup3DTilt(card);
   });
