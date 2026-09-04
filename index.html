@@ -7,14 +7,14 @@
   
   <!-- Soporte PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#948d91">
+  <meta name="theme-color" content="#5c6370">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=19">
+  <link rel="stylesheet" href="styles.css?v=21">
 </head>
 <body>
 
-  <!-- Encabezado / Banner Principal con Parallax -->
+  <!-- Encabezado / Banner Principal con Ajuste Perfecto -->
   <header class="hero-header">
     <div class="banner-container">
       <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
@@ -31,7 +31,7 @@
     </div>
   </header>
 
-  <!-- Banner Informativo de Servicios en Carrusel Horizontal Optimizado (Sin dirección fija) -->
+  <!-- Banner Informativo de Servicios en Carrusel Horizontal Optimizado -->
   <section class="flight-info-bar info-scroll-pills">
     <div class="info-item" id="status-badge">
       <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
@@ -40,7 +40,7 @@
       🛵 <strong>Envíos:</strong> Moto Uber
     </div>
     <div class="info-item">
-      🕒 <strong>Horarios:</strong> Lun-Jue h/ 00:00 hs | Vie-Dom h/ 02:00 hs
+      🕒 <strong>Horarios:</strong> Lun-Jue 00:00 hs | Vie-Dom 02:00 hs
     </div>
     <div class="info-item highlight">
       🎁 <strong>Promo Mayorista:</strong> 10+ postres de 350g a $4.000 c/u
@@ -86,7 +86,7 @@
         <div id="roulette-result" class="roulette-result hidden"></div>
       </div>
 
-      <!-- Sección de Combos / Packs en Carrusel / Grilla adaptable -->
+      <!-- Sección de Combos / Packs -->
       <div class="combos-section">
         <h3> Combos & Packs Especiales</h3>
         <div class="combos-carousel">
@@ -133,7 +133,7 @@
 
     </section>
 
-    <!-- Overlay de Fondo para el Carrito Móvil (Bottom Sheet) -->
+    <!-- Overlay de Fondo para el Carrito Móvil -->
     <div id="cart-backdrop" class="cart-backdrop hidden" onclick="toggleMobileCartSheet(false)"></div>
 
     <!-- Carrito de Pedido -->
@@ -154,6 +154,7 @@
       </div>
 
       <div class="cart-summary">
+        <!-- Rastreador de Progreso Mayorista (Corregido) -->
         <div id="wholesale-tracker" class="wholesale-tracker hidden">
           <div class="tracker-text-row">
             <span>Progreso Mayorista (350g):</span>
@@ -245,7 +246,7 @@
 
   </main>
 
-  <!-- Modal: Tarjeta de Embarque Digital (Boarding Pass) -->
+  <!-- Modal: Tarjeta de Embarque Digital -->
   <div id="boarding-pass-modal" class="modal-overlay hidden">
     <div class="boarding-pass-card slide-up">
       <div class="approved-stamp">PASAJE APROBADO ✈️</div>
@@ -285,7 +286,7 @@
     </div>
   </div>
 
-  <!-- Modal: Visualizador de Capas de Postre -->
+  <!-- Modal: Visualizador de Capas -->
   <div id="layers-modal" class="modal-overlay hidden" onclick="closeLayersModal()">
     <div class="layers-card" onclick="event.stopPropagation()">
       <div class="layers-header">
@@ -296,19 +297,19 @@
     </div>
   </div>
 
-  <!-- Botones Flotantes Redes (Instagram & WhatsApp) -->
+  <!-- Botones Flotantes Redes -->
   <div class="floating-social-container">
     <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig glass-btn" title="Seguinos en Instagram">
       <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
       <span class="social-text">Instagram @postre.despegue</span>
     </a>
-    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="¿Consultas rápidas? Hablá con la tripulación">
+    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="Hablá con la tripulación">
       <img src="img/logo-wsp.png" alt="WhatsApp Logo" class="btn-icon-img">
       <span class="social-text">¿Dudas? Consultá acá</span>
     </a>
   </div>
 
-  <!-- Modal Lightbox (Imagen Pantalla Completa) -->
+  <!-- Modal Lightbox -->
   <div id="lightbox-modal" class="lightbox-overlay hidden" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="Ampliada">
   </div>
@@ -326,11 +327,11 @@
     </div>
   </div>
 
-  <!-- Notificación Toast de Confirmación -->
+  <!-- Notificación Toast -->
   <div id="toast-notification" class="toast hidden">
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=21"></script>
 </body>
 </html>

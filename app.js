@@ -138,16 +138,6 @@ function triggerDoubleTapAction(productId, event) {
   addToCart(productId, event);
 }
 
-function showSkeletonLoader() {
-  const catalogDiv = document.getElementById('catalog');
-  catalogDiv.innerHTML = '';
-  for (let i = 0; i < 4; i++) {
-    const skel = document.createElement('div');
-    skel.className = 'skeleton-card';
-    catalogDiv.appendChild(skel);
-  }
-}
-
 window.addEventListener('scroll', () => {
   const banner = document.getElementById('parallax-banner');
   if (banner) {
