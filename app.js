@@ -761,3 +761,28 @@ initTheme();
 checkOpenStatus();
 renderCatalog();
 checkLastOrderAvailable();
+
+// Registro y Actualización Automática del Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js?v=11')
+      .then(registration => {
+        // Verificar si hay una nueva versión del Service Worker en el servidor
+        registration.onupdatefound = () => {
+          const installingWorker = registration.installing;
+          if (installingWorker == null) return;
+          
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed') {
+              if (navigator.serviceWorker.controller) {
+                // Hay una versión nueva: forzar recarga automática para mostrar cambios
+                console.log('Nueva versión detectada. Actualizando...');
+                window.location.reload();
+              }
+            }
+          };
+        };
+      })
+      .catch(err => console.error('Error al registrar Service Worker:', err));
+  });
+}
