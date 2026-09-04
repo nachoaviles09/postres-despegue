@@ -141,8 +141,6 @@ body {
   gap: 30px;
 }
 
-@media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
-
 /* Steps, Combos & Ruleta */
 .steps-container {
   display: grid;
@@ -150,8 +148,6 @@ body {
   gap: 15px;
   margin-bottom: 25px;
 }
-
-@media (max-width: 600px) { .steps-container { grid-template-columns: 1fr; } }
 
 .step-card {
   background: var(--bg-card);
@@ -372,7 +368,7 @@ body {
 
 .pill-btn.active { background-color: var(--brand-gray); border-color: var(--brand-gray); color: #ffffff; }
 
-/* Fila de Selector de Cantidad y Precio (Acomodado con Espaciado) */
+/* Fila de Selector de Cantidad y Precio */
 .qty-control-row {
   display: flex;
   align-items: center;
@@ -669,5 +665,127 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Ajustes para Celulares / Pantallas Pequeñas */
-@media (max-width:
+/* ==========================================
+   AJUSTES EXCLUSIVOS PARA CELULARES (MÓVIL)
+   ========================================== */
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 0 12px;
+    margin: 15px auto;
+    gap: 20px;
+  }
+
+  .brand-info h1 {
+    font-size: 1.4rem;
+  }
+
+  .tagline {
+    font-size: 0.88rem;
+  }
+
+  .flight-info-bar {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .step-card {
+    padding: 10px;
+  }
+
+  .roulette-box {
+    padding: 14px;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .btn-roulette {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .combos-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .combo-card {
+    padding: 12px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 14px;
+    margin-bottom: 5px;
+  }
+
+  .slider-container {
+    height: 190px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    margin-top: 6px;
+  }
+
+  .qty-control-row {
+    padding: 10px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .btn-qty {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cart-section {
+    padding: 15px;
+    margin-top: 10px;
+  }
+
+  .floating-social-container {
+    bottom: 75px;
+    left: 12px;
+    gap: 8px;
+  }
+
+  .social-text {
+    display: none;
+  }
+
+  .floating-social-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+  }
+
+  .btn-icon-img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .boarding-pass-card {
+    max-width: 95%;
+    padding: 0;
+  }
+
+  .bp-body {
+    padding: 14px;
+    gap: 10px;
+  }
+}
