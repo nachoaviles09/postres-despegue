@@ -60,11 +60,29 @@ const sliderPositions = {};
 const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
+const lastTapTimes = {};
 
-// Vibración Háptica para Celulares
+// Vibración Háptica
 function triggerHaptic(duration = 20) {
   if ('vibrate' in navigator) {
     navigator.vibrate(duration);
+  }
+}
+
+// Render Skeleton Screen (Carga Animada)
+function showSkeletonLoader() {
+  const catalogDiv = document.getElementById('catalog');
+  catalogDiv.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const skel = document.createElement('div');
+    skel.className = 'skeleton-card';
+    skel.innerHTML = `
+      <div class="skeleton-box skeleton-img"></div>
+      <div class="skeleton-box skeleton-title"></div>
+      <div class="skeleton-box skeleton-text"></div>
+      <div class="skeleton-box skeleton-btn"></div>
+    `;
+    catalogDiv.appendChild(skel);
   }
 }
 
@@ -76,7 +94,7 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Abrir / Cerrar Bottom Sheet del Carrito en Celular
+// Abrir / Cerrar Bottom Sheet del Carrito
 function toggleMobileCartSheet(isOpen) {
   triggerHaptic(15);
   const cartSection = document.getElementById('cart-anchor');
@@ -104,7 +122,7 @@ function closeLightbox() {
   document.getElementById('lightbox-modal').classList.add('hidden');
 }
 
-// Modal Capas de Postre
+// Modal Capas
 function openLayersModal(productId) {
   triggerHaptic(15);
   const product = products.find(p => p.id === productId);
@@ -190,6 +208,31 @@ function checkOpenStatus() {
     : '<span class="status-indicator closed">🔴 CERRADO</span>';
 }
 
+// Manejador de Doble Tap (Estilo Instagram)
+function handleImageTap(productId, imgSrc, event) {
+  const now = new Date().getTime();
+  const lastTap = lastTapTimes[productId] || 0;
+  const tapLength = now - lastTap;
+
+  if (tapLength < 300 && tapLength > 0) {
+    triggerHaptic([30, 20, 40]);
+
+    // Crear corazón animado en la imagen
+    const sliderContainer = document.getElementById(`slider-${productId}`);
+    const heart = document.createElement('div');
+    heart.className = 'double-tap-heart';
+    heart.innerText = '❤️✈️';
+    sliderContainer.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 800);
+
+    addToCart(productId, event);
+    lastTapTimes[productId] = 0;
+  } else {
+    lastTapTimes[productId] = now;
+  }
+}
+
 // Render Catálogo
 function renderCatalog(itemsToRender = products) {
   const catalogDiv = document.getElementById('catalog');
@@ -217,7 +260,9 @@ function renderCatalog(itemsToRender = products) {
       <div>
         <div class="slider-container" id="slider-${product.id}">
           <div class="slider-track" id="track-${product.id}">
-            ${product.images.map(imgSrc => `<img src="${imgSrc}" alt="${product.name}" class="slider-img" onclick="openLightbox('${imgSrc}')">`).join('')}
+            ${product.images.map(imgSrc => `
+              <img src="${imgSrc}" alt="${product.name}" class="slider-img" onclick="handleImageTap('${product.id}', '${imgSrc}', event)">
+            `).join('')}
           </div>
           <button class="slider-btn prev" onclick="moveSlider('${product.id}', -1)">❮</button>
           <button class="slider-btn next" onclick="moveSlider('${product.id}', 1)">❯</button>
@@ -313,7 +358,10 @@ function setCategoryFilter(category, btnElement) {
   radarSweep.classList.remove('hidden');
   setTimeout(() => radarSweep.classList.add('hidden'), 600);
 
-  applyFilters();
+  showSkeletonLoader();
+  setTimeout(() => {
+    applyFilters();
+  }, 250);
 }
 
 function applyFilters() {

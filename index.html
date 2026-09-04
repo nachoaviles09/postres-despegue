@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -19,7 +19,7 @@
     <div class="banner-container">
       <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
     </div>
-    <div class="header-content">
+    <div class="header-content glass-header">
       <div class="logo-wrapper">
         <img src="img/logo.jpeg" alt="Logo Postres Despegue" class="main-logo">
       </div>
@@ -115,8 +115,8 @@
         <h2 class="section-title">Menú</h2>
       </div>
 
-      <!-- Buscador y Filtros Rápidos Sticky -->
-      <div class="search-filter-container sticky-search">
+      <!-- Buscador y Filtros Rápidos Sticky con Glassmorphism -->
+      <div class="search-filter-container sticky-search glass-card">
         <div class="search-box">
           <input type="text" id="search-input" placeholder="🔍 Buscar postre o ingrediente..." oninput="applyFilters()">
         </div>
@@ -217,7 +217,7 @@
       </div>
     </aside>
 
-    <!-- Sección Preguntas Frecuentes y Conservación (Ubicada al final) -->
+    <!-- Sección Preguntas Frecuentes y Conservación -->
     <section class="faq-section full-width-faq">
       <h3>❓ Preguntas Frecuentes & Información de Servicio</h3>
       <div class="faq-grid">
@@ -289,13 +289,13 @@
     </div>
   </div>
 
-  <!-- Botones Flotantes Redes (Instagram & WhatsApp) -->
+  <!-- Botones Flotantes Redes (Instagram & WhatsApp con Glassmorphism) -->
   <div class="floating-social-container">
-    <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig" title="Seguinos en Instagram">
+    <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig glass-btn" title="Seguinos en Instagram">
       <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
       <span class="social-text">Instagram @postre.despegue</span>
     </a>
-    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa" title="¿Consultas rápidas? Hablá con la tripulación">
+    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="¿Consultas rápidas? Hablá con la tripulación">
       <img src="img/logo-wsp.png" alt="WhatsApp Logo" class="btn-icon-img">
       <span class="social-text">¿Dudas? Consultá acá</span>
     </a>
@@ -309,8 +309,8 @@
   <!-- Elemento de Avión de Animación de Despegue -->
   <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
 
-  <!-- Botón / Badge Flotante para Celulares (Bottom Sheet Trigger) -->
-  <div id="mobile-cart-badge" class="mobile-cart-badge hidden" onclick="toggleMobileCartSheet(true)">
+  <!-- Botón / Badge Flotante para Celulares con Glassmorphism -->
+  <div id="mobile-cart-badge" class="mobile-cart-badge glass-badge hidden" onclick="toggleMobileCartSheet(true)">
     <div class="mobile-cart-info">
       🛒 <span id="mobile-cart-count">0</span> postres
     </div>
