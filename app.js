@@ -61,21 +61,18 @@ const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
 
-// Vibración Háptica
 function triggerHaptic(duration = 20) {
   if ('vibrate' in navigator) {
     navigator.vibrate(duration);
   }
 }
 
-// Gesto Híbrido: PC (Clic / Doble Clic) y Celular (1 Toque / 2 Toques / Swipe)
 function setupSliderGestures(containerElem, productId, imagesList) {
   let lastTapTime = 0;
   let tapTimeout = null;
   let startX = 0;
   let startY = 0;
 
-  // --- MÓVIL ---
   containerElem.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -113,7 +110,6 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     }
   });
 
-  // --- PC ---
   containerElem.addEventListener('click', (e) => {
     if (e.target.classList.contains('slider-btn') || e.target.classList.contains('dot')) return;
     if (tapTimeout) clearTimeout(tapTimeout);
@@ -131,7 +127,6 @@ function setupSliderGestures(containerElem, productId, imagesList) {
 
 function triggerDoubleTapAction(productId, event) {
   triggerHaptic([30, 20, 40]);
-
   const sliderContainer = document.getElementById(`slider-${productId}`);
   if (sliderContainer) {
     const heart = document.createElement('div');
@@ -140,28 +135,19 @@ function triggerDoubleTapAction(productId, event) {
     sliderContainer.appendChild(heart);
     setTimeout(() => heart.remove(), 800);
   }
-
   addToCart(productId, event);
 }
 
-// Skeleton Loader
 function showSkeletonLoader() {
   const catalogDiv = document.getElementById('catalog');
   catalogDiv.innerHTML = '';
   for (let i = 0; i < 4; i++) {
     const skel = document.createElement('div');
     skel.className = 'skeleton-card';
-    skel.innerHTML = `
-      <div class="skeleton-box skeleton-img"></div>
-      <div class="skeleton-box skeleton-title"></div>
-      <div class="skeleton-box skeleton-text"></div>
-      <div class="skeleton-box skeleton-btn"></div>
-    `;
     catalogDiv.appendChild(skel);
   }
 }
 
-// Parallax Banner
 window.addEventListener('scroll', () => {
   const banner = document.getElementById('parallax-banner');
   if (banner) {
@@ -169,7 +155,6 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Bottom Sheet Carrito
 function toggleMobileCartSheet(isOpen) {
   triggerHaptic(15);
   const cartSection = document.getElementById('cart-anchor');
@@ -186,7 +171,6 @@ function toggleMobileCartSheet(isOpen) {
   }
 }
 
-// Lightbox
 function openLightbox(src) {
   triggerHaptic(15);
   document.getElementById('lightbox-img').src = src;
@@ -197,7 +181,6 @@ function closeLightbox() {
   document.getElementById('lightbox-modal').classList.add('hidden');
 }
 
-// Modal Capas
 function openLayersModal(productId) {
   triggerHaptic(15);
   const product = products.find(p => p.id === productId);
@@ -221,7 +204,6 @@ function closeLayersModal() {
   document.getElementById('layers-modal').classList.add('hidden');
 }
 
-// Ruleta del Antojo
 function spinRoulette() {
   triggerHaptic(30);
   const resultDiv = document.getElementById('roulette-result');
@@ -247,7 +229,6 @@ function spinRoulette() {
   }, 100);
 }
 
-// Tema Claro / Oscuro
 function initTheme() {
   const savedTheme = localStorage.getItem('despegue_theme');
   if (savedTheme === 'dark') {
@@ -264,7 +245,6 @@ function toggleTheme() {
   document.getElementById('theme-toggle').innerText = isDark ? '☀️' : '🌙';
 }
 
-// Horarios Dinámicos
 function checkOpenStatus() {
   const now = new Date();
   const day = now.getDay();
@@ -283,7 +263,6 @@ function checkOpenStatus() {
     : '<span class="status-indicator closed">🔴 CERRADO</span>';
 }
 
-// Render Catálogo
 function renderCatalog(itemsToRender = products) {
   const catalogDiv = document.getElementById('catalog');
   catalogDiv.innerHTML = '';
@@ -444,7 +423,6 @@ function moveSlider(productId, direction) {
   }
 }
 
-// Fly to Cart
 function animateFlyToCart(event, imgSrc) {
   const target = window.innerWidth <= 992 
     ? document.getElementById('mobile-cart-badge') 
@@ -721,7 +699,6 @@ function loadLastOrder() {
   }
 }
 
-// Service Worker PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -729,7 +706,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Inicialización
 initTheme();
 checkOpenStatus();
 renderCatalog();

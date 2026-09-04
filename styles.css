@@ -28,7 +28,7 @@ body.dark-theme {
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  padding-bottom: 80px;
+  padding-bottom: 90px;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -157,11 +157,11 @@ body {
   font-weight: bold;
 }
 
-/* Layout Principal */
+/* Layout Principal Clásico */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px;
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 24px;
@@ -170,6 +170,7 @@ body {
 @media (max-width: 992px) {
   .container {
     grid-template-columns: 1fr;
+    padding: 12px;
   }
 }
 
@@ -271,7 +272,7 @@ body {
   cursor: pointer;
 }
 
-/* Combos Section (Grilla PC / Carrusel Celular) */
+/* Combos Section */
 .combos-section {
   margin-bottom: 24px;
 }
@@ -1168,7 +1169,7 @@ body {
   object-fit: cover;
 }
 
-/* Móvil Cart Bottom Sheet (Oculto en PC) */
+/* Móvil Cart Bottom Sheet */
 .mobile-cart-badge {
   display: none;
 }
