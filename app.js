@@ -61,38 +61,58 @@ const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
 
-// Vibración Háptica para Celulares
+// Vibración Háptica
 function triggerHaptic(duration = 20) {
   if ('vibrate' in navigator) {
     navigator.vibrate(duration);
   }
 }
 
-// Configuración Nativa de Doble Toque (Soporte Móvil y PC)
-function setupDoubleTapImage(imgElement, productId) {
-  let lastTapTime = 0;
+// Detección Avanzada Táctil (Combina Swipe Horizontal y Doble Tap sobre el Slider)
+function setupSliderGestures(containerElem, productId) {
+  let lastTap = 0;
+  let startX = 0;
+  let startY = 0;
 
-  // Evento táctil prioritario para Celulares
-  imgElement.addEventListener('touchend', (e) => {
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - lastTapTime;
+  containerElem.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
 
-    if (tapLength < 350 && tapLength > 0) {
-      e.preventDefault();
-      triggerDoubleTapAction(productId, e.changedTouches[0]);
-      lastTapTime = 0;
-    } else {
-      lastTapTime = currentTime;
+  containerElem.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+    const diffX = startX - endX;
+    const diffY = startY - endY;
+
+    // Si hubo desplazamiento horizontal significativo = SWIPE
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0) moveSlider(productId, 1);
+      else moveSlider(productId, -1);
+      return;
+    }
+
+    // Si el toque fue casi sin mover el dedo = TAP / DOBLE TAP
+    if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+
+      if (tapLength < 350 && tapLength > 0) {
+        e.preventDefault();
+        triggerDoubleTapAction(productId, e.changedTouches[0]);
+        lastTap = 0;
+      } else {
+        lastTap = currentTime;
+      }
     }
   });
 
-  // Evento para escritorio / PC
-  imgElement.addEventListener('dblclick', (e) => {
+  // Compatibilidad con Doble Click en Computadoras
+  containerElem.addEventListener('dblclick', (e) => {
     triggerDoubleTapAction(productId, e);
   });
 }
 
-// Acción al ejecutar Doble Toque
 function triggerDoubleTapAction(productId, event) {
   triggerHaptic([30, 20, 40]);
 
@@ -109,7 +129,7 @@ function triggerDoubleTapAction(productId, event) {
   addToCart(productId, event);
 }
 
-// Skeleton Loader para transiciones suaves
+// Skeleton Loader
 function showSkeletonLoader() {
   const catalogDiv = document.getElementById('catalog');
   catalogDiv.innerHTML = '';
@@ -134,7 +154,7 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Abrir / Cerrar Bottom Sheet del Carrito
+// Bottom Sheet Carrito
 function toggleMobileCartSheet(isOpen) {
   triggerHaptic(15);
   const cartSection = document.getElementById('cart-anchor');
@@ -162,7 +182,7 @@ function closeLightbox() {
   document.getElementById('lightbox-modal').classList.add('hidden');
 }
 
-// Modal Capas de Postre
+// Modal Capas
 function openLayersModal(productId) {
   triggerHaptic(15);
   const product = products.find(p => p.id === productId);
@@ -314,15 +334,12 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
-    // Asignar escuchadores de doble toque a cada imagen
-    product.images.forEach((_, imgIndex) => {
-      const imgElem = document.getElementById(`img-${product.id}-${imgIndex}`);
-      if (imgElem) {
-        setupDoubleTapImage(imgElem, product.id);
-      }
-    });
+    // Asignar los eventos gestuales de Swipe y Doble Tap al contenedor del slider
+    const sliderContainer = document.getElementById(`slider-${product.id}`);
+    if (sliderContainer) {
+      setupSliderGestures(sliderContainer, product.id);
+    }
 
-    setupSwipeSupport(product.id);
     setup3DTilt(card);
   });
 }
@@ -430,27 +447,6 @@ function moveSlider(productId, direction) {
   }
 }
 
-function setupSwipeSupport(productId) {
-  setTimeout(() => {
-    const slider = document.getElementById(`slider-${productId}`);
-    if (!slider) return;
-    let startX = 0;
-
-    slider.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    }, { passive: true });
-
-    slider.addEventListener('touchend', (e) => {
-      const endX = e.changedTouches[0].clientX;
-      const diff = startX - endX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) moveSlider(productId, 1);
-        else moveSlider(productId, -1);
-      }
-    }, { passive: true });
-  }, 100);
-}
-
 // Fly to Cart
 function animateFlyToCart(event, imgSrc) {
   const target = window.innerWidth <= 768 
@@ -464,8 +460,8 @@ function animateFlyToCart(event, imgSrc) {
   clone.src = imgSrc;
   clone.className = 'flying-clone';
 
-  const startX = event ? event.clientX - 30 : window.innerWidth / 2;
-  const startY = event ? event.clientY - 30 : window.innerHeight / 2;
+  const startX = event ? (event.clientX || window.innerWidth / 2) : window.innerWidth / 2;
+  const startY = event ? (event.clientY || window.innerHeight / 2) : window.innerHeight / 2;
 
   clone.style.left = `${startX}px`;
   clone.style.top = `${startY}px`;
@@ -751,7 +747,7 @@ function loadLastOrder() {
   }
 }
 
-// Registro de Service Worker para PWA
+// Service Worker PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Postres Despegue | Tu antojo listo para despegar ✈️</title>
   
   <!-- Soporte PWA -->
@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
@@ -141,7 +141,6 @@
 
     <!-- Carrito de Pedido -->
     <aside class="cart-section" id="cart-anchor">
-      <!-- Indicador Táctil de Deslizar en Celular -->
       <div class="sheet-drag-handle" onclick="toggleMobileCartSheet(false)"></div>
 
       <div class="cart-header">
@@ -158,7 +157,6 @@
       </div>
 
       <div class="cart-summary">
-        <!-- Medidor de Progreso Gráfico Promo Mayorista Animado -->
         <div id="wholesale-tracker" class="wholesale-tracker hidden">
           <div class="tracker-text-row">
             <span>Progreso Mayorista (350g):</span>
@@ -170,7 +168,6 @@
           <p id="tracker-hint-text" class="tracker-hint">Añade postres de 350g para desbloquear $4.000 c/u</p>
         </div>
 
-        <!-- Banner Promo 10+ postres de 350g con Efecto Glow & Border Pulse -->
         <div id="promo-banner" class="promo-banner glow-pulse hidden">
           🎉 ¡Aplica Descuento Mayorista! Tus postres de 350g quedan en <strong>$4.000 c/u</strong>.
         </div>
@@ -289,7 +286,7 @@
     </div>
   </div>
 
-  <!-- Botones Flotantes Redes (Instagram & WhatsApp con Glassmorphism) -->
+  <!-- Botones Flotantes Redes (Instagram & WhatsApp) -->
   <div class="floating-social-container">
     <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig glass-btn" title="Seguinos en Instagram">
       <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
@@ -309,7 +306,7 @@
   <!-- Elemento de Avión de Animación de Despegue -->
   <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
 
-  <!-- Botón / Badge Flotante para Celulares con Glassmorphism -->
+  <!-- Botón / Badge Flotante para Celulares -->
   <div id="mobile-cart-badge" class="mobile-cart-badge glass-badge hidden" onclick="toggleMobileCartSheet(true)">
     <div class="mobile-cart-info">
       🛒 <span id="mobile-cart-count">0</span> postres
