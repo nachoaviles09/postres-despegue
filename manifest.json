@@ -1,0 +1,21 @@
+{
+  "short_name": "Despegue",
+  "name": "Postres Despegue",
+  "icons": [
+    {
+      "src": "img/logo.jpeg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/logo.jpeg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#7d767a",
+  "theme_color": "#948d91",
+  "display": "standalone",
+  "orientation": "portrait"
+}
