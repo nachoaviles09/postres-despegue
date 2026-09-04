@@ -68,14 +68,14 @@ function triggerHaptic(duration = 20) {
   }
 }
 
-// Gesto Inteligente Híbrido: PC (Clic / Doble Clic) y Celular (1 Toque / 2 Toques / Swipe)
+// Gesto Híbrido: PC (Clic / Doble Clic) y Celular (1 Toque / 2 Toques / Swipe)
 function setupSliderGestures(containerElem, productId, imagesList) {
   let lastTapTime = 0;
   let tapTimeout = null;
   let startX = 0;
   let startY = 0;
 
-  // --- SOPORTE MÓVIL (Táctil) ---
+  // --- MÓVIL ---
   containerElem.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -87,7 +87,6 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // 1. Swipe horizontal (Cambiar foto)
     if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
       if (tapTimeout) clearTimeout(tapTimeout);
       if (diffX > 0) moveSlider(productId, 1);
@@ -95,48 +94,37 @@ function setupSliderGestures(containerElem, productId, imagesList) {
       return;
     }
 
-    // 2. Toque estático
     if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
       const currentTime = new Date().getTime();
       const tapLength = currentTime - lastTapTime;
 
       if (tapLength < 350 && tapLength > 0) {
-        // --- DOBLE TOQUE (Celular -> Carrito) ---
         if (tapTimeout) clearTimeout(tapTimeout);
         e.preventDefault();
         triggerDoubleTapAction(productId, e.changedTouches[0]);
         lastTapTime = 0;
       } else {
-        // --- UN TOQUE (Celular -> Lightbox) ---
         lastTapTime = currentTime;
-        
         tapTimeout = setTimeout(() => {
           const currentIdx = sliderPositions[productId] || 0;
-          const currentImgSrc = imagesList[currentIdx];
-          openLightbox(currentImgSrc);
+          openLightbox(imagesList[currentIdx]);
         }, 350);
       }
     }
   });
 
-  // --- SOPORTE COMPUTADORA (Mouse / Escritorio) ---
-  // Clic simple en PC -> Abre la imagen grande (Lightbox)
+  // --- PC ---
   containerElem.addEventListener('click', (e) => {
-    // Evita que se active si hicieron clic en las flechas del slider
     if (e.target.classList.contains('slider-btn') || e.target.classList.contains('dot')) return;
-    
-    // Usamos un pequeño delay para dar espacio a que detecte el doble clic si ocurre
     if (tapTimeout) clearTimeout(tapTimeout);
     tapTimeout = setTimeout(() => {
       const currentIdx = sliderPositions[productId] || 0;
-      const currentImgSrc = imagesList[currentIdx];
-      openLightbox(currentImgSrc);
+      openLightbox(imagesList[currentIdx]);
     }, 250);
   });
 
-  // Doble clic en PC -> Agrega al carrito y muestra el corazón
   containerElem.addEventListener('dblclick', (e) => {
-    if (tapTimeout) clearTimeout(tapTimeout); // Cancela el Lightbox del clic simple
+    if (tapTimeout) clearTimeout(tapTimeout);
     triggerDoubleTapAction(productId, e);
   });
 }
@@ -150,7 +138,6 @@ function triggerDoubleTapAction(productId, event) {
     heart.className = 'double-tap-heart';
     heart.innerText = '❤️✈️';
     sliderContainer.appendChild(heart);
-
     setTimeout(() => heart.remove(), 800);
   }
 
@@ -362,26 +349,10 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
-    // Asignar los gestos inteligentes (1 toque / 2 toques / swipe)
     const sliderContainer = document.getElementById(`slider-${product.id}`);
     if (sliderContainer) {
       setupSliderGestures(sliderContainer, product.id, product.images);
     }
-
-    setup3DTilt(card);
-  });
-}
-
-function setup3DTilt(card) {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left - (rect.width / 2);
-    const y = e.clientY - rect.top - (rect.height / 2);
-    card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) translateY(-4px)`;
-  });
-
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
   });
 }
 
@@ -428,9 +399,7 @@ function setCategoryFilter(category, btnElement) {
   setTimeout(() => radarSweep.classList.add('hidden'), 600);
 
   showSkeletonLoader();
-  setTimeout(() => {
-    applyFilters();
-  }, 250);
+  setTimeout(() => { applyFilters(); }, 250);
 }
 
 function applyFilters() {
@@ -477,7 +446,7 @@ function moveSlider(productId, direction) {
 
 // Fly to Cart
 function animateFlyToCart(event, imgSrc) {
-  const target = window.innerWidth <= 768 
+  const target = window.innerWidth <= 992 
     ? document.getElementById('mobile-cart-badge') 
     : document.getElementById('cart-anchor');
 
@@ -493,7 +462,6 @@ function animateFlyToCart(event, imgSrc) {
 
   clone.style.left = `${startX}px`;
   clone.style.top = `${startY}px`;
-
   document.body.appendChild(clone);
 
   requestAnimationFrame(() => {
@@ -517,11 +485,7 @@ function addToCart(productId, event) {
   animateFlyToCart(event, product.images[0]);
 
   for (let i = 0; i < qty; i++) {
-    cart.push({
-      name: product.name,
-      size: size,
-      basePrice: basePrice
-    });
+    cart.push({ name: product.name, size: size, basePrice: basePrice });
   }
 
   selectedQuantities[productId] = 1;
@@ -563,7 +527,6 @@ function renderCart() {
   }
 
   cartContainer.innerHTML = '';
-
   const count350g = cart.filter(item => item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
 
@@ -575,11 +538,9 @@ function renderCart() {
     if (count350g > 0 && count350g < 10) {
       const remaining = 10 - count350g;
       const percentage = (count350g / 10) * 100;
-      
       document.getElementById('tracker-count-text').innerText = `${count350g} de 10`;
       document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
       document.getElementById('tracker-hint-text').innerHTML = `💡 Te faltan <strong>${remaining} postre${remaining > 1 ? 's' : ''} de 350g</strong> para activar el descuento mayorista.`;
-      
       wholesaleTracker.classList.remove('hidden');
     } else {
       wholesaleTracker.classList.add('hidden');
@@ -587,12 +548,9 @@ function renderCart() {
   }
 
   let total = 0;
-
   cart.forEach((item, index) => {
     let finalUnitPrice = item.basePrice;
-    if (isWholesale350g && item.size === '350g') {
-      finalUnitPrice = 4000;
-    }
+    if (isWholesale350g && item.size === '350g') finalUnitPrice = 4000;
     total += finalUnitPrice;
 
     const itemDiv = document.createElement('div');
@@ -608,7 +566,6 @@ function renderCart() {
   });
 
   cartTotal.innerText = total.toLocaleString();
-
   document.getElementById('mobile-cart-count').innerText = cart.length;
   document.getElementById('mobile-cart-total').innerText = total.toLocaleString();
   mobileBadge.classList.remove('hidden');
@@ -628,7 +585,6 @@ function toggleAddressField() {
   }
 }
 
-// Shake Error + Boarding Pass Modal
 function openBoardingPassModal() {
   triggerHaptic(20);
   if (cart.length === 0) {
@@ -643,7 +599,6 @@ function openBoardingPassModal() {
   const groupAddr = document.getElementById('address-group');
 
   let hasError = false;
-
   if (!nameInput.value.trim()) {
     triggerHaptic([30, 30, 30]);
     groupName.classList.add('shake-error');
@@ -660,12 +615,11 @@ function openBoardingPassModal() {
 
   if (hasError) return;
 
-  if (window.innerWidth <= 768) {
+  if (window.innerWidth <= 992) {
     toggleMobileCartSheet(false);
   }
 
   const payment = document.getElementById('cust-payment').value;
-
   document.getElementById('bp-passenger-name').innerText = nameInput.value.trim();
   document.getElementById('bp-delivery-type').innerText = delivery === 'envio' ? `Envío Moto Uber (${addressInput.value.trim()})` : 'Retiro en local';
   document.getElementById('bp-payment-method').innerText = payment === 'efectivo' ? 'Efectivo' : 'Transferencia Bancaria';
@@ -684,7 +638,6 @@ function openBoardingPassModal() {
 
   document.getElementById('bp-items-list').innerHTML = itemsHtml;
   document.getElementById('bp-total-amount').innerText = `$${total.toLocaleString()}`;
-
   document.getElementById('boarding-pass-modal').classList.remove('hidden');
 }
 
@@ -693,11 +646,9 @@ function closeBoardingPassModal() {
   document.getElementById('boarding-pass-modal').classList.add('hidden');
 }
 
-// Confirmar y Avión Takeoff
 function confirmAndSendWhatsApp() {
   triggerHaptic([40, 50, 60]);
   localStorage.setItem('despegue_last_order', JSON.stringify(cart));
-
   closeBoardingPassModal();
 
   const plane = document.getElementById('takeoff-plane');
@@ -714,7 +665,6 @@ function confirmAndSendWhatsApp() {
     const phoneNumber = '5493436131681';
     let message = '✈️ *NUEVO PEDIDO - POSTRES DESPEGUE*\n';
     message += '_"Tu antojo listo para despegar"_\n\n';
-    
     message += `👤 *Pasajero:* ${name}\n`;
     if (delivery === 'envio') {
       message += `🛵 *Entrega:* Envío Moto Uber a: ${address}\n`;
@@ -732,23 +682,19 @@ function confirmAndSendWhatsApp() {
 
     cart.forEach((item, index) => {
       let finalUnitPrice = item.basePrice;
-      if (isWholesale350g && item.size === '350g') {
-        finalUnitPrice = 4000;
-      }
+      if (isWholesale350g && item.size === '350g') finalUnitPrice = 4000;
       message += `${index + 1}. ${item.name} (${item.size}) - $${finalUnitPrice.toLocaleString()}\n`;
       total += finalUnitPrice;
     });
 
     message += `\n📦 *Cantidad de postres:* ${cart.length}`;
     message += `\n💰 *Total Estimado:* $${total.toLocaleString()}`;
-
     if (isWholesale350g) {
       message += `\n🎉 *Promo Mayorista (10+ postres de 350g):* Liquidados a $4.000 c/u.`;
     }
 
     const encodedMessage = encodeURIComponent(message);
     const waUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
-
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     if (isMobile) {
@@ -779,7 +725,6 @@ function loadLastOrder() {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('PWA lista', reg))
       .catch(err => console.error('Error PWA', err));
   });
 }
