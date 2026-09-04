@@ -2,7 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
 }
 
 :root {
@@ -286,7 +286,7 @@ body {
   border-radius: 12px; border: 1px solid var(--border-color);
 }
 
-/* Catalog Grid & 3D Tilt Hover */
+/* Catalog Grid */
 .section-header-badge { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 .azafata-icon { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; }
 .section-title { font-size: 1.5rem; color: var(--text-main); }
@@ -467,7 +467,7 @@ body {
 .faq-card h4 { font-size: 0.9rem; color: var(--text-main); margin-bottom: 6px; }
 .faq-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
 
-/* Cart Section & Glow Pulse Promo Banner */
+/* Cart Section & Promo Banner */
 .cart-section { background: var(--bg-card); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); height: fit-content; }
 .cart-header h2 { font-size: 1.2rem; color: var(--text-main); }
 .cart-header p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px; }
@@ -665,101 +665,209 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ==========================================
-   AJUSTES EXCLUSIVOS PARA CELULARES (MÓVIL)
-   ========================================== */
+/* =======================================================
+   REDISEÑO EXCLUSIVO ULTRA PROFESIONAL Y OPTIMIZADO CELULAR
+   ======================================================= */
 
 @media (max-width: 768px) {
+  body {
+    padding-bottom: 85px;
+  }
+
   .container {
     grid-template-columns: 1fr;
-    padding: 0 12px;
-    margin: 15px auto;
-    gap: 20px;
-  }
-
-  .brand-info h1 {
-    font-size: 1.4rem;
-  }
-
-  .tagline {
-    font-size: 0.88rem;
-  }
-
-  .flight-info-bar {
-    padding: 10px 12px;
-    font-size: 0.8rem;
-    gap: 8px;
-  }
-
-  .steps-container {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .step-card {
-    padding: 10px;
-  }
-
-  .roulette-box {
-    padding: 14px;
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-
-  .btn-roulette {
-    width: 100%;
-    margin-top: 5px;
-  }
-
-  .combos-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .combo-card {
-    padding: 12px;
-  }
-
-  .catalog-grid {
-    grid-template-columns: 1fr;
+    padding: 0 10px;
+    margin: 12px auto;
     gap: 16px;
   }
 
+  /* Header compacto tipo App Mobile */
+  .banner-container {
+    padding: 4px 0;
+  }
+  .banner-img {
+    max-height: 120px;
+  }
+  .header-content {
+    padding: 10px 12px;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .main-logo {
+    width: 48px;
+    height: 48px;
+  }
+  .brand-info h1 {
+    font-size: 1.15rem;
+    line-height: 1.2;
+  }
+  .tagline {
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+  .btn-theme-toggle {
+    right: 10px;
+    font-size: 1rem;
+    padding: 5px 8px;
+  }
+
+  /* Barra de info rápida */
+  .flight-info-bar {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    gap: 6px;
+    justify-content: flex-start;
+  }
+
+  /* Pasos simples */
+  .steps-container {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .step-card {
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+  .step-number {
+    width: 26px;
+    height: 26px;
+    font-size: 0.8rem;
+  }
+
+  /* Ruleta y Combos */
+  .roulette-box {
+    padding: 12px;
+    margin-bottom: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 10px;
+  }
+  .btn-roulette {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+  }
+
+  .combos-section {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  .combos-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .combo-card {
+    padding: 10px;
+  }
+
+  /* Filtros deslizables */
+  .filter-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filter-btn {
+    white-space: nowrap;
+    padding: 5px 12px;
+    font-size: 0.78rem;
+  }
+
+  /* CATÁLOGO: Distribución en 2 Columnas Limpias */
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
   .card {
-    padding: 14px;
-    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .slider-container {
-    height: 190px;
+    height: 130px; /* Fotos perfectamente encuadradas */
+    margin-bottom: 6px;
+  }
+
+  .slider-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
   }
 
   .card h3 {
-    font-size: 1.1rem;
-    margin-top: 6px;
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+    line-height: 1.2;
   }
 
+  .btn-layers-toggle {
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+  }
+
+  .ingredients {
+    font-size: 0.72rem;
+    padding: 6px;
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+
+  .size-selector-pills label {
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+  }
+
+  .pills-group {
+    gap: 4px;
+  }
+
+  .pill-btn {
+    padding: 6px 2px;
+    font-size: 0.75rem;
+  }
+
+  /* Fila de Selector (+ / -) y Precio compacto */
   .qty-control-row {
-    padding: 10px;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    padding: 6px 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    gap: 6px;
   }
 
   .btn-qty {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
+    font-size: 0.95rem;
   }
 
+  .qty-value {
+    padding: 0 6px;
+    font-size: 0.85rem;
+  }
+
+  .price-tag {
+    font-size: 0.95rem;
+  }
+
+  .btn-add {
+    padding: 8px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  /* Carrito Móvil y Modales */
   .cart-section {
-    padding: 15px;
-    margin-top: 10px;
+    padding: 14px;
+    border-radius: 10px;
   }
 
   .floating-social-container {
-    bottom: 75px;
-    left: 12px;
-    gap: 8px;
+    bottom: 70px;
+    left: 10px;
+    gap: 6px;
   }
 
   .social-text {
@@ -767,25 +875,25 @@ body {
   }
 
   .floating-social-btn {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     padding: 0;
     border-radius: 50%;
     justify-content: center;
   }
 
   .btn-icon-img {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 
   .boarding-pass-card {
-    max-width: 95%;
-    padding: 0;
+    max-width: 94%;
   }
 
   .bp-body {
-    padding: 14px;
-    gap: 10px;
+    padding: 12px;
+    gap: 8px;
+    grid-template-columns: 1fr;
   }
 }
