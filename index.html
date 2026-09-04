@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 
@@ -115,8 +115,8 @@
         <h2 class="section-title">Menú</h2>
       </div>
 
-      <!-- Buscador y Filtros Rápidos -->
-      <div class="search-filter-container">
+      <!-- Buscador y Filtros Rápidos Sticky -->
+      <div class="search-filter-container sticky-search">
         <div class="search-box">
           <input type="text" id="search-input" placeholder="🔍 Buscar postre o ingrediente..." oninput="applyFilters()">
         </div>
@@ -136,11 +136,20 @@
 
     </section>
 
+    <!-- Overlay de Fondo para el Carrito Móvil (Bottom Sheet) -->
+    <div id="cart-backdrop" class="cart-backdrop hidden" onclick="toggleMobileCartSheet(false)"></div>
+
     <!-- Carrito de Pedido -->
     <aside class="cart-section" id="cart-anchor">
+      <!-- Indicador Táctil de Deslizar en Celular -->
+      <div class="sheet-drag-handle" onclick="toggleMobileCartSheet(false)"></div>
+
       <div class="cart-header">
-        <h2>Pedido!</h2>
-        <p>Resumen y Datos del pedido.</p>
+        <div class="cart-title-row">
+          <h2>Tu Pedido 🛒</h2>
+          <button class="btn-close-sheet" onclick="toggleMobileCartSheet(false)">✕</button>
+        </div>
+        <p>Resumen y datos para el envío.</p>
         <button id="btn-reorder" class="btn-reorder hidden" onclick="loadLastOrder()">🔁 Volver a pedir mi último pedido</button>
       </div>
 
@@ -300,13 +309,13 @@
   <!-- Elemento de Avión de Animación de Despegue -->
   <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
 
-  <!-- Botón / Badge Flotante para Celulares -->
-  <div id="mobile-cart-badge" class="mobile-cart-badge hidden" onclick="scrollToCart()">
+  <!-- Botón / Badge Flotante para Celulares (Bottom Sheet Trigger) -->
+  <div id="mobile-cart-badge" class="mobile-cart-badge hidden" onclick="toggleMobileCartSheet(true)">
     <div class="mobile-cart-info">
       🛒 <span id="mobile-cart-count">0</span> postres
     </div>
     <div class="mobile-cart-price">
-      $<span id="mobile-cart-total">0</span> ➔
+      Ver Pedido $<span id="mobile-cart-total">0</span> ➔
     </div>
   </div>
 

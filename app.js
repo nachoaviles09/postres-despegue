@@ -61,6 +61,13 @@ const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
 
+// Vibración Háptica para Celulares
+function triggerHaptic(duration = 20) {
+  if ('vibrate' in navigator) {
+    navigator.vibrate(duration);
+  }
+}
+
 // Parallax Banner
 window.addEventListener('scroll', () => {
   const banner = document.getElementById('parallax-banner');
@@ -69,8 +76,26 @@ window.addEventListener('scroll', () => {
   }
 });
 
+// Abrir / Cerrar Bottom Sheet del Carrito en Celular
+function toggleMobileCartSheet(isOpen) {
+  triggerHaptic(15);
+  const cartSection = document.getElementById('cart-anchor');
+  const backdrop = document.getElementById('cart-backdrop');
+
+  if (isOpen) {
+    cartSection.classList.add('open-sheet');
+    backdrop.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  } else {
+    cartSection.classList.remove('open-sheet');
+    backdrop.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+
 // Lightbox
 function openLightbox(src) {
+  triggerHaptic(15);
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox-modal').classList.remove('hidden');
 }
@@ -79,8 +104,9 @@ function closeLightbox() {
   document.getElementById('lightbox-modal').classList.add('hidden');
 }
 
-// Modal Capas de Postre (Corte Transversal)
+// Modal Capas de Postre
 function openLayersModal(productId) {
+  triggerHaptic(15);
   const product = products.find(p => p.id === productId);
   document.getElementById('layers-title').innerText = `Capas de ${product.name}`;
   
@@ -104,11 +130,13 @@ function closeLayersModal() {
 
 // Ruleta del Antojo
 function spinRoulette() {
+  triggerHaptic(30);
   const resultDiv = document.getElementById('roulette-result');
   resultDiv.classList.add('hidden');
 
   let counter = 0;
   const interval = setInterval(() => {
+    triggerHaptic(10);
     const randomProduct = products[Math.floor(Math.random() * products.length)];
     resultDiv.innerHTML = `<span>🎰 Girando... <strong>${randomProduct.name}</strong></span>`;
     resultDiv.classList.remove('hidden');
@@ -116,6 +144,7 @@ function spinRoulette() {
 
     if (counter > 12) {
       clearInterval(interval);
+      triggerHaptic([40, 30, 50]);
       const chosen = products[Math.floor(Math.random() * products.length)];
       resultDiv.innerHTML = `
         <div>🎯 ¡El Capitán elige para vos: <strong>${chosen.name}</strong>!</div>
@@ -135,6 +164,7 @@ function initTheme() {
 }
 
 function toggleTheme() {
+  triggerHaptic(15);
   document.body.classList.toggle('dark-theme');
   const isDark = document.body.classList.contains('dark-theme');
   localStorage.setItem('despegue_theme', isDark ? 'dark' : 'light');
@@ -160,7 +190,7 @@ function checkOpenStatus() {
     : '<span class="status-indicator closed">🔴 CERRADO</span>';
 }
 
-// Render Catálogo + 3D Tilt Hover
+// Render Catálogo
 function renderCatalog(itemsToRender = products) {
   const catalogDiv = document.getElementById('catalog');
   catalogDiv.innerHTML = '';
@@ -197,7 +227,7 @@ function renderCatalog(itemsToRender = products) {
           </div>
         </div>
         <h3>${product.name}</h3>
-        <button class="btn-layers-toggle" onclick="openLayersModal('${product.id}')">🔍 Ver Capas del Postre</button>
+        <button class="btn-layers-toggle" onclick="openLayersModal('${product.id}')">🔍 Ver Capas</button>
         <p class="ingredients"><strong>Ingredientes:</strong> ${product.ingredients}</p>
       </div>
       <div>
@@ -218,7 +248,7 @@ function renderCatalog(itemsToRender = products) {
           <div class="price-tag" id="price-${product.id}">$${(currentPrice * currentQty).toLocaleString()}</div>
         </div>
 
-        <button class="btn-add" onclick="addToCart('${product.id}', event)">Agregar al Vuelo 🛫</button>
+        <button class="btn-add" onclick="addToCart('${product.id}', event)">Agregar 🛫</button>
       </div>
     `;
 
@@ -228,7 +258,6 @@ function renderCatalog(itemsToRender = products) {
   });
 }
 
-// Hover 3D Tilt
 function setup3DTilt(card) {
   card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
@@ -243,6 +272,7 @@ function setup3DTilt(card) {
 }
 
 function changeQty(productId, delta) {
+  triggerHaptic(12);
   let current = selectedQuantities[productId] || 1;
   current += delta;
   if (current < 1) current = 1;
@@ -257,6 +287,7 @@ function changeQty(productId, delta) {
 }
 
 function addCombo(comboType) {
+  triggerHaptic(25);
   if (comboType === 'pareja') {
     const oreo = products.find(p => p.id === 'oreo');
     const chocotorta = products.find(p => p.id === 'chocotorta');
@@ -273,6 +304,7 @@ function addCombo(comboType) {
 }
 
 function setCategoryFilter(category, btnElement) {
+  triggerHaptic(15);
   currentCategory = category;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
@@ -296,6 +328,7 @@ function applyFilters() {
 }
 
 function selectSize(productId, size) {
+  triggerHaptic(12);
   selectedSizes[productId] = size;
   const product = products.find(p => p.id === productId);
 
@@ -307,6 +340,7 @@ function selectSize(productId, size) {
 }
 
 function moveSlider(productId, direction) {
+  triggerHaptic(10);
   const product = products.find(p => p.id === productId);
   const totalImages = product.images.length;
   
@@ -347,7 +381,7 @@ function setupSwipeSupport(productId) {
 
 // Fly to Cart
 function animateFlyToCart(event, imgSrc) {
-  const target = window.innerWidth <= 900 
+  const target = window.innerWidth <= 768 
     ? document.getElementById('mobile-cart-badge') 
     : document.getElementById('cart-anchor');
 
@@ -378,6 +412,7 @@ function animateFlyToCart(event, imgSrc) {
 }
 
 function addToCart(productId, event) {
+  triggerHaptic(25);
   const product = products.find(p => p.id === productId);
   const size = selectedSizes[productId] || '350g';
   const qty = selectedQuantities[productId] || 1;
@@ -410,12 +445,9 @@ function showToast() {
 }
 
 function removeFromCart(index) {
+  triggerHaptic(15);
   cart.splice(index, 1);
   renderCart();
-}
-
-function scrollToCart() {
-  document.getElementById('cart-anchor').scrollIntoView({ behavior: 'smooth' });
 }
 
 function renderCart() {
@@ -487,6 +519,7 @@ function renderCart() {
 }
 
 function toggleAddressField() {
+  triggerHaptic(10);
   const deliveryOpt = document.getElementById('cust-delivery').value;
   const addressGroup = document.getElementById('address-group');
   
@@ -501,6 +534,7 @@ function toggleAddressField() {
 
 // Shake Error + Boarding Pass Modal
 function openBoardingPassModal() {
+  triggerHaptic(20);
   if (cart.length === 0) {
     alert('Tu carrito está vacío. Agrega algún postre primero.');
     return;
@@ -515,18 +549,24 @@ function openBoardingPassModal() {
   let hasError = false;
 
   if (!nameInput.value.trim()) {
+    triggerHaptic([30, 30, 30]);
     groupName.classList.add('shake-error');
     setTimeout(() => groupName.classList.remove('shake-error'), 500);
     hasError = true;
   }
 
   if (delivery === 'envio' && !addressInput.value.trim()) {
+    triggerHaptic([30, 30, 30]);
     groupAddr.classList.add('shake-error');
     setTimeout(() => groupAddr.classList.remove('shake-error'), 500);
     hasError = true;
   }
 
   if (hasError) return;
+
+  if (window.innerWidth <= 768) {
+    toggleMobileCartSheet(false);
+  }
 
   const payment = document.getElementById('cust-payment').value;
 
@@ -553,11 +593,13 @@ function openBoardingPassModal() {
 }
 
 function closeBoardingPassModal() {
+  triggerHaptic(15);
   document.getElementById('boarding-pass-modal').classList.add('hidden');
 }
 
-// Confirmar y Avión Takeoff (Optimizado para Celulares y PC)
+// Confirmar y Avión Takeoff
 function confirmAndSendWhatsApp() {
+  triggerHaptic([40, 50, 60]);
   localStorage.setItem('despegue_last_order', JSON.stringify(cart));
 
   closeBoardingPassModal();
@@ -628,6 +670,7 @@ function checkLastOrderAvailable() {
 }
 
 function loadLastOrder() {
+  triggerHaptic(20);
   const lastOrder = localStorage.getItem('despegue_last_order');
   if (lastOrder) {
     cart = JSON.parse(lastOrder);

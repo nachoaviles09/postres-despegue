@@ -248,13 +248,28 @@ body {
   font-size: 0.85rem; font-weight: bold; cursor: pointer;
 }
 
-/* Buscador y Radar Sweep */
-.search-filter-container { margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
+/* Buscador y Sticky Header */
+.search-filter-container { 
+  margin-bottom: 20px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
+
+.sticky-search {
+  position: sticky;
+  top: 10px;
+  z-index: 900;
+  background-color: var(--bg-main);
+  padding: 10px 0;
+  border-radius: 12px;
+}
 
 .search-box input {
   width: 100%; padding: 10px 15px; border: 1.5px solid var(--border-color);
   border-radius: 25px; font-size: 0.9rem; outline: none;
   background-color: var(--bg-card); color: var(--text-main);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -459,7 +474,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* FAQ Section (Ubicada abajo del todo) */
+/* FAQ Section */
 .faq-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; }
 .full-width-faq { grid-column: 1 / -1; margin-top: 25px; }
 .faq-section h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 18px; }
@@ -468,7 +483,9 @@ body {
 .faq-card h4 { font-size: 0.9rem; color: var(--text-main); margin-bottom: 6px; }
 .faq-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
 
-/* Cart Section & Promo Banner */
+/* Cart Section & Bottom Sheet Elements */
+.sheet-drag-handle, .btn-close-sheet, .cart-backdrop { display: none; }
+
 .cart-section { background: var(--bg-card); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); height: fit-content; }
 .cart-header h2 { font-size: 1.2rem; color: var(--text-main); }
 .cart-header p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px; }
@@ -498,7 +515,7 @@ body {
 }
 
 .promo-banner.hidden, .wholesale-tracker.hidden, .btn-reorder.hidden, .form-group.hidden,
-.mobile-cart-badge.hidden, .modal-overlay.hidden, .lightbox-overlay.hidden, .takeoff-plane.hidden, .toast.hidden, .radar-sweep.hidden, .roulette-result.hidden {
+.mobile-cart-badge.hidden, .modal-overlay.hidden, .lightbox-overlay.hidden, .takeoff-plane.hidden, .toast.hidden, .radar-sweep.hidden, .roulette-result.hidden, .cart-backdrop.hidden {
   display: none !important;
 }
 
@@ -682,7 +699,7 @@ body {
     gap: 16px;
   }
 
-  /* Header compacto tipo App Mobile */
+  /* Header compacto */
   .banner-container {
     padding: 4px 0;
   }
@@ -712,7 +729,6 @@ body {
     padding: 5px 8px;
   }
 
-  /* Barra de info rápida */
   .flight-info-bar {
     padding: 8px 10px;
     font-size: 0.75rem;
@@ -720,7 +736,6 @@ body {
     justify-content: flex-start;
   }
 
-  /* Pasos simples */
   .steps-container {
     grid-template-columns: 1fr;
     gap: 8px;
@@ -736,7 +751,6 @@ body {
     font-size: 0.8rem;
   }
 
-  /* Ruleta y Combos */
   .roulette-box {
     padding: 12px;
     margin-bottom: 16px;
@@ -763,7 +777,6 @@ body {
     padding: 10px;
   }
 
-  /* Filtros deslizables */
   .filter-pills {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -776,7 +789,7 @@ body {
     font-size: 0.78rem;
   }
 
-  /* CATÁLOGO: Distribución en 2 Columnas Limpias */
+  /* Catálogo 2 Columnas */
   .catalog-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -830,7 +843,6 @@ body {
     font-size: 0.75rem;
   }
 
-  /* Fila de Selector (+ / -) y Precio compacto */
   .qty-control-row {
     padding: 6px 8px;
     margin-top: 8px;
@@ -859,10 +871,56 @@ body {
     border-radius: 6px;
   }
 
-  /* Carrito Móvil y Modales */
+  /* Carrito Transformado en Bottom Sheet */
+  .cart-backdrop {
+    display: block;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1800;
+  }
+
   .cart-section {
-    padding: 14px;
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    max-height: 85vh;
+    background: var(--bg-card);
+    border-radius: 20px 20px 0 0;
+    padding: 16px 20px 30px 20px;
+    z-index: 1900;
+    overflow-y: auto;
+    transition: bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .cart-section.open-sheet {
+    bottom: 0 !important;
+  }
+
+  .sheet-drag-handle {
+    display: block;
+    width: 40px;
+    height: 5px;
+    background-color: var(--border-color);
     border-radius: 10px;
+    margin: 0 auto 12px auto;
+  }
+
+  .cart-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn-close-sheet {
+    display: block;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    cursor: pointer;
   }
 
   .floating-social-container {
