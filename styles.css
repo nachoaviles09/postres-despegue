@@ -1426,3 +1426,7 @@ body.dark-theme #boarding-pass-modal .boarding-pass-card {
 #lightbox-modal .lightbox-content {
   z-index: 10002 !important;
 }
+/* Oculta los botones flotantes de redes solo cuando el carrito móvil está abierto */
+body.cart-open .floating-social-container {
+  display: none !important;
+}

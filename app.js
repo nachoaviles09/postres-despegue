@@ -179,21 +179,16 @@ window.addEventListener('scroll', () => {
 
 function toggleMobileCartSheet(show) {
   const sheet = document.getElementById('mobile-cart-sheet');
-  const socialFloating = document.querySelector('.floating-social-container');
 
   if (sheet) {
     if (show) {
       sheet.classList.remove('hidden');
+      document.body.classList.add('cart-open'); // Agrega la clase al body
       document.body.style.overflow = 'hidden';
-      if (socialFloating) {
-        socialFloating.style.setProperty('display', 'none', 'important');
-      }
     } else {
       sheet.classList.add('hidden');
+      document.body.classList.remove('cart-open'); // Quita la clase del body
       document.body.style.overflow = '';
-      if (socialFloating) {
-        socialFloating.style.setProperty('display', 'flex', 'important');
-      }
     }
   }
 }
