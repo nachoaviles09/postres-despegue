@@ -1153,3 +1153,17 @@ body.dark-theme .faq-section {
     display: none !important;
   }
 }
+/* Corrección de opacidad para el Boarding Pass Modal */
+.boarding-pass-card {
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Fondo opaco en Modo Oscuro */
+body.dark-theme .boarding-pass-card {
+  background-color: #1e1e1e !important;
+  color: #f1f3f5 !important;
+}
