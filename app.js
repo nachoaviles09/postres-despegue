@@ -319,7 +319,7 @@ function renderCatalog(itemsToRender = products) {
         <div class="slider-container" id="slider-${product.id}">
           <div class="slider-track" id="track-${product.id}">
             ${product.images.map((imgSrc, imgIndex) => `
-              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}" onclick="openLightbox('${product.id}', ${imgIndex})" style="cursor: pointer;">
+              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}" onclick="openLightbox(event, '${product.id}', ${imgIndex})" style="cursor: pointer;">
             `).join('')}
           </div>
           <button class="slider-btn prev" onclick="moveSlider('${product.id}', -1)">❮</button>
@@ -815,52 +815,65 @@ function copyAlias() {
   });
 }
 
-// Variables globales para el visor de fotos
+// Variables globales exclusivas para el visor flotante
 let currentLightboxImages = [];
 let currentLightboxIndex = 0;
 
-// Función para abrir la foto ampliada
-function openLightbox(productId, imageIndex = 0) {
+// Función para abrir la foto ampliada evitando la propagación al carrito
+function openLightbox(event, productId, imageIndex = 0) {
+  if (event) {
+    event.stopPropagation(); // Frenamos el evento para que NO agregue al carrito
+    event.preventDefault();
+  }
+
   triggerHaptic(20);
   const product = products.find(p => p.id === productId);
-  
+
   if (product && product.images && product.images.length > 0) {
     currentLightboxImages = product.images;
     currentLightboxIndex = imageIndex;
   } else {
-    // Si se pasa una ruta de imagen directa (ej. el mapa)
     currentLightboxImages = [productId];
     currentLightboxIndex = 0;
   }
 
+  const modal = document.getElementById('lightbox-modal');
+  modal.classList.remove('hidden');
   updateLightboxContent();
-  document.getElementById('lightbox-modal').classList.remove('hidden');
 }
 
-// Actualiza la imagen y el contador
+// Actualiza la imagen y mantiene visibles las flechas sin que se borren
 function updateLightboxContent() {
   const imgElement = document.getElementById('lightbox-img');
   const counterElement = document.getElementById('lightbox-counter');
   const prevBtn = document.querySelector('.lightbox-prev');
   const nextBtn = document.querySelector('.lightbox-next');
 
-  imgElement.src = currentLightboxImages[currentLightboxIndex];
-  counterElement.innerText = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+  if (!imgElement) return;
 
-  // Si solo hay 1 foto, oculta las flechas y el contador
-  if (currentLightboxImages.length <= 1) {
-    prevBtn.style.display = 'none';
-    nextBtn.style.display = 'none';
-    counterElement.style.display = 'none';
+  imgElement.src = currentLightboxImages[currentLightboxIndex];
+
+  if (currentLightboxImages.length > 1) {
+    if (prevBtn) prevBtn.style.setProperty('display', 'flex', 'important');
+    if (nextBtn) nextBtn.style.setProperty('display', 'flex', 'important');
+    if (counterElement) {
+      counterElement.style.setProperty('display', 'block', 'important');
+      counterElement.innerText = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+    }
   } else {
-    prevBtn.style.display = 'flex';
-    nextBtn.style.display = 'flex';
-    counterElement.style.display = 'block';
+    if (prevBtn) prevBtn.style.setProperty('display', 'none', 'important');
+    if (nextBtn) nextBtn.style.setProperty('display', 'none', 'important');
+    if (counterElement) counterElement.style.setProperty('display', 'none', 'important');
   }
 }
 
-// Cambiar de foto (dirección: -1 o 1)
-function changeLightboxImage(direction) {
+// Cambiar de foto sin cerrar ni reiniciar
+function changeLightboxImage(event, direction) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   triggerHaptic(15);
   currentLightboxIndex += direction;
 
@@ -875,9 +888,9 @@ function changeLightboxImage(direction) {
 
 // Cerrar el visor
 function closeLightbox(event) {
-  if (!event || event.target.id === 'lightbox-modal' || event.target.classList.contains('lightbox-close')) {
-    document.getElementById('lightbox-modal').classList.add('hidden');
-  }
+  if (event) event.stopPropagation();
+  const modal = document.getElementById('lightbox-modal');
+  if (modal) modal.classList.add('hidden');
 }
 
 // Inicialización

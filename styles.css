@@ -1414,3 +1414,15 @@ body.dark-theme #boarding-pass-modal .boarding-pass-card {
     height: 180px !important;
   }
 }
+/* Asegurar permanencia de las flechas de la galería flotante */
+#lightbox-modal .lightbox-nav {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  z-index: 10005 !important;
+}
+
+#lightbox-modal .lightbox-content {
+  z-index: 10002 !important;
+}

@@ -21,7 +21,7 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=60">
+  <link rel="stylesheet" href="styles.css?v=61">
 </head>
 <body>
 
@@ -336,19 +336,19 @@
     </a>
   </div>
 
-  <!-- Modal Lightbox Ampliado con Galería -->
+<!-- Modal Lightbox Ampliado con Galería -->
   <div id="lightbox-modal" class="lightbox-overlay hidden" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    
+    <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+
     <div class="lightbox-content" onclick="event.stopPropagation()">
-      <button class="lightbox-nav lightbox-prev" onclick="changeLightboxImage(-1)">&#10094;</button>
-      
+      <button type="button" class="lightbox-nav lightbox-prev" onclick="changeLightboxImage(event, -1)">&#10094;</button>
+
       <div class="lightbox-img-wrapper">
         <img id="lightbox-img" src="" alt="Imagen ampliada">
         <div id="lightbox-counter" class="lightbox-counter">1 / 2</div>
       </div>
 
-      <button class="lightbox-nav lightbox-next" onclick="changeLightboxImage(1)">&#10095;</button>
+      <button type="button" class="lightbox-nav lightbox-next" onclick="changeLightboxImage(event, 1)">&#10095;</button>
     </div>
   </div>
 
@@ -370,6 +370,6 @@
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=60"></script>
+  <script src="app.js?v=61"></script>
 </body>
 </html>
