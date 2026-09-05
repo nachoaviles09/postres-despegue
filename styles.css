@@ -1426,20 +1426,7 @@ body.dark-theme #boarding-pass-modal .boarding-pass-card {
 #lightbox-modal .lightbox-content {
   z-index: 10002 !important;
 }
-/* Oculta los botones flotantes de redes solo cuando el carrito móvil está abierto */
-body.cart-open .floating-social-container {
-  display: none !important;
-}
-/* Corrección de visibilidad para el modal móvil y redes sociales */
-.floating-social-container.hidden {
-  display: none !important;
-}
-
-#mobile-cart-sheet:not(.hidden) {
-  display: block !important;
-  z-index: 10000 !important;
-}
-/* Ocultar botones flotantes de redes automáticamente cuando el carrito está visible */
+/* Ocultar botones flotantes de redes automáticamente cuando el carrito está abierto */
 #mobile-cart-sheet:not(.hidden) ~ .floating-social-container,
 body:has(#mobile-cart-sheet:not(.hidden)) .floating-social-container {
   display: none !important;
