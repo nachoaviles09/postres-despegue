@@ -248,7 +248,7 @@ function spinRoulette() {
       triggerHaptic([40, 30, 50]);
       const chosen = products[Math.floor(Math.random() * products.length)];
       resultDiv.innerHTML = `
-        <div>🎯 ¡El Capitán elige para vos: <strong>${chosen.name}</strong>!</div>
+        <div>🎯 ¡Elegimos para vos: <strong>${chosen.name}</strong>!</div>
         <button class="btn-accept-roulette" onclick="addToCart('${chosen.id}')">¡Lo quiero! 🛫</button>
       `;
     }
@@ -319,7 +319,7 @@ function renderCatalog(itemsToRender = products) {
         <div class="slider-container" id="slider-${product.id}">
           <div class="slider-track" id="track-${product.id}">
             ${product.images.map((imgSrc, imgIndex) => `
-              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}">
+              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}" onclick="openLightbox('${product.id}', ${imgIndex})" style="cursor: pointer;">
             `).join('')}
           </div>
           <button class="slider-btn prev" onclick="moveSlider('${product.id}', -1)">❮</button>
@@ -581,7 +581,7 @@ function renderCart() {
       
       document.getElementById('tracker-count-text').innerText = `${count350g} de 10`;
       document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
-      document.getElementById('tracker-hint-text').innerHTML = `💡 Te faltan <strong>${remaining} postre${remaining > 1 ? 's' : ''} de 350g</strong> para activar el descuento mayorista.`;
+      document.getElementById('tracker-hint-text').innerHTML = ` Te faltan <strong>${remaining} postre${remaining > 1 ? 's' : ''} de 350g</strong> para activar el descuento mayorista.`;
       
       wholesaleTracker.classList.remove('hidden');
     } else {
@@ -813,6 +813,71 @@ function copyAlias() {
   }).catch(() => {
     alert("No se pudo copiar automáticamente. El alias es: " + aliasText);
   });
+}
+
+// Variables globales para el visor de fotos
+let currentLightboxImages = [];
+let currentLightboxIndex = 0;
+
+// Función para abrir la foto ampliada
+function openLightbox(productId, imageIndex = 0) {
+  triggerHaptic(20);
+  const product = products.find(p => p.id === productId);
+  
+  if (product && product.images && product.images.length > 0) {
+    currentLightboxImages = product.images;
+    currentLightboxIndex = imageIndex;
+  } else {
+    // Si se pasa una ruta de imagen directa (ej. el mapa)
+    currentLightboxImages = [productId];
+    currentLightboxIndex = 0;
+  }
+
+  updateLightboxContent();
+  document.getElementById('lightbox-modal').classList.remove('hidden');
+}
+
+// Actualiza la imagen y el contador
+function updateLightboxContent() {
+  const imgElement = document.getElementById('lightbox-img');
+  const counterElement = document.getElementById('lightbox-counter');
+  const prevBtn = document.querySelector('.lightbox-prev');
+  const nextBtn = document.querySelector('.lightbox-next');
+
+  imgElement.src = currentLightboxImages[currentLightboxIndex];
+  counterElement.innerText = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+
+  // Si solo hay 1 foto, oculta las flechas y el contador
+  if (currentLightboxImages.length <= 1) {
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    counterElement.style.display = 'none';
+  } else {
+    prevBtn.style.display = 'flex';
+    nextBtn.style.display = 'flex';
+    counterElement.style.display = 'block';
+  }
+}
+
+// Cambiar de foto (dirección: -1 o 1)
+function changeLightboxImage(direction) {
+  triggerHaptic(15);
+  currentLightboxIndex += direction;
+
+  if (currentLightboxIndex < 0) {
+    currentLightboxIndex = currentLightboxImages.length - 1;
+  } else if (currentLightboxIndex >= currentLightboxImages.length) {
+    currentLightboxIndex = 0;
+  }
+
+  updateLightboxContent();
+}
+
+// Cerrar el visor
+function closeLightbox(event) {
+  if (!event || event.target.id === 'lightbox-modal' || event.target.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox-modal').classList.add('hidden');
+  }
 }
 
 // Inicialización

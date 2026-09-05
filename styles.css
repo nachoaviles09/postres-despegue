@@ -1255,3 +1255,162 @@ body.dark-theme #boarding-pass-modal .boarding-pass-card {
     display: none !important;
   }
 }
+/* Lightbox Visor Ampliado con Navegación */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox-overlay.hidden {
+  display: none !important;
+}
+
+.lightbox-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+  max-height: 85vh;
+}
+
+.lightbox-img-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#lightbox-img {
+  max-width: 80vw;
+  max-height: 75vh;
+  border-radius: 16px;
+  object-fit: contain;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+}
+
+.lightbox-nav {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: none;
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10002;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.lightbox-prev {
+  left: -20px;
+}
+
+.lightbox-next {
+  right: -20px;
+}
+
+@media (max-width: 768px) {
+  #lightbox-img {
+    max-width: 88vw;
+    max-height: 70vh;
+  }
+  .lightbox-prev {
+    left: -10px;
+  }
+  .lightbox-next {
+    right: -10px;
+  }
+}
+/* Reducción de ancho y centrado del botón flotante de pedido en celulares */
+@media (max-width: 768px) {
+  #mobile-cart-badge,
+  .mobile-cart-badge {
+    width: fit-content !important;
+    min-width: 200px !important;
+    max-width: 75vw !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 20px !important;
+    padding: 10px 18px !important;
+    border-radius: 30px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+  }
+}
+/* Ajuste de imágenes para cubrir el contenedor sin bordes ni bandas transparentes/blancas */
+.slider-container,
+.product-slider,
+.product-card .img-wrapper {
+  width: 100% !important;
+  height: 220px !important;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  background-color: #f1f3f5 !important;
+}
+
+.slider-img,
+.product-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .slider-container,
+  .product-slider,
+  .product-card .img-wrapper {
+    height: 180px !important;
+  }
+}
