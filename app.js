@@ -56,13 +56,79 @@ const products = [
 ];
 
 let cart = [];
-const sliderPositions = {};
 const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
 
 function triggerHaptic(duration = 20) {
   if ('vibrate' in navigator) navigator.vibrate(duration);
+}
+
+function renderCatalog(itemsToRender = products) {
+  const catalogDiv = document.getElementById('catalog');
+  catalogDiv.innerHTML = '';
+
+  if (itemsToRender.length === 0) {
+    catalogDiv.innerHTML = '<div class="no-results">🔍 No se encontraron postres.</div>';
+    return;
+  }
+
+  itemsToRender.forEach((product) => {
+    if (!selectedSizes[product.id]) selectedSizes[product.id] = '350g';
+    if (!selectedQuantities[product.id]) selectedQuantities[product.id] = 1;
+
+    const currentSize = selectedSizes[product.id];
+    const currentQty = selectedQuantities[product.id];
+    const currentPrice = product.prices[currentSize];
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <div>
+        <div class="slider-container">
+          <img src="${product.images[0]}" alt="${product.name}" class="slider-img" onclick="openLightbox('${product.images[0]}')">
+        </div>
+        <h3>${product.name}</h3>
+        <button class="btn-layers-toggle" onclick="openLayersModal('${product.id}')">🔍 Ver Capas</button>
+        <p class="ingredients"><strong>Ingredientes:</strong> ${product.ingredients}</p>
+      </div>
+      <div>
+        <div class="pills-group">
+          <button class="pill-btn ${currentSize === '350g' ? 'active' : ''}" onclick="selectSize('${product.id}', '350g')">350g</button>
+          <button class="pill-btn ${currentSize === '500g' ? 'active' : ''}" onclick="selectSize('${product.id}', '500g')">500g</button>
+        </div>
+        
+        <div class="qty-control-row">
+          <div class="qty-btn-group">
+            <button class="btn-qty" onclick="changeQty('${product.id}', -1)">-</button>
+            <span style="padding:0 8px; font-weight:bold;">${currentQty}</span>
+            <button class="btn-qty" onclick="changeQty('${product.id}', 1)">+</button>
+          </div>
+          <div class="price-tag">$${(currentPrice * currentQty).toLocaleString()}</div>
+        </div>
+
+        <button class="btn-add" onclick="addToCart('${product.id}')">Agregar 🛫</button>
+      </div>
+    `;
+
+    catalogDiv.appendChild(card);
+  });
+}
+
+function selectSize(productId, size) {
+  triggerHaptic(12);
+  selectedSizes[productId] = size;
+  renderCatalog(products);
+}
+
+function changeQty(productId, delta) {
+  triggerHaptic(12);
+  let current = selectedQuantities[productId] || 1;
+  current += delta;
+  if (current < 1) current = 1;
+  selectedQuantities[productId] = current;
+  renderCatalog(products);
 }
 
 function addToCart(productId) {
@@ -81,6 +147,7 @@ function addToCart(productId) {
 
   selectedQuantities[productId] = 1;
   renderCart();
+  showToast();
 }
 
 function removeFromCart(index) {
@@ -96,7 +163,6 @@ function renderCart() {
   const wholesaleTracker = document.getElementById('wholesale-tracker');
   const mobileBadge = document.getElementById('mobile-cart-badge');
 
-  // Recalcular contador exacto de postres de 350g
   const count350g = cart.filter(item => item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
 
@@ -107,7 +173,6 @@ function renderCart() {
     wholesaleTracker.classList.add('hidden');
     mobileBadge.classList.add('hidden');
 
-    // Resetea explícitamente el contador y la barra a 0
     document.getElementById('tracker-count-text').innerText = '0 de 10';
     document.getElementById('progress-bar-fill').style.width = '0%';
     return;
@@ -144,7 +209,7 @@ function renderCart() {
     const itemDiv = document.createElement('div');
     itemDiv.className = 'cart-item';
     itemDiv.innerHTML = `
-      <div class="cart-item-info">
+      <div>
         <strong>${item.name}</strong> (${item.size})<br>
         <small>$${finalUnitPrice.toLocaleString()}</small>
       </div>
@@ -159,30 +224,20 @@ function renderCart() {
   mobileBadge.classList.remove('hidden');
 }
 
-function renderCatalog() {
-  const catalogDiv = document.getElementById('catalog');
-  catalogDiv.innerHTML = '';
+function toggleMobileCartSheet(isOpen) {
+  triggerHaptic(15);
+  const cartSection = document.getElementById('cart-anchor');
+  const backdrop = document.getElementById('cart-backdrop');
 
-  products.forEach((product) => {
-    selectedSizes[product.id] = '350g';
-    selectedQuantities[product.id] = 1;
-
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div>
-        <div class="slider-container">
-          <img src="${product.images[0]}" alt="${product.name}" class="slider-img">
-        </div>
-        <h3>${product.name}</h3>
-        <p class="ingredients"><strong>Ingredientes:</strong> ${product.ingredients}</p>
-      </div>
-      <div>
-        <button class="btn-add" onclick="addToCart('${product.id}')">Agregar 🛫</button>
-      </div>
-    `;
-    catalogDiv.appendChild(card);
-  });
+  if (isOpen) {
+    cartSection.classList.add('open-sheet');
+    backdrop.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  } else {
+    cartSection.classList.remove('open-sheet');
+    backdrop.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
 }
 
 function toggleAddressField() {
@@ -191,20 +246,62 @@ function toggleAddressField() {
   addressGroup.classList.toggle('hidden', deliveryOpt !== 'envio');
 }
 
-function initTheme() {
-  const savedTheme = localStorage.getItem('despegue_theme');
-  if (savedTheme === 'dark') document.body.classList.add('dark-theme');
+function checkOpenStatus() {
+  const badge = document.getElementById('status-badge');
+  badge.innerHTML = '<span class="status-indicator open">🟢 ABIERTO</span>';
+}
+
+function showToast() {
+  const toast = document.getElementById('toast-notification');
+  toast.classList.remove('hidden');
+  setTimeout(() => { toast.classList.add('hidden'); }, 2000);
+}
+
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-modal').classList.remove('hidden');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox-modal').classList.add('hidden');
+}
+
+function openLayersModal(productId) {
+  const product = products.find(p => p.id === productId);
+  document.getElementById('layers-title').innerText = `Capas de ${product.name}`;
+  const list = document.getElementById('layers-list');
+  list.innerHTML = product.layers.map((l, i) => `<div style="padding:6px; background:var(--bg-subtle); margin-bottom:4px; border-radius:4px;">${i+1}. ${l}</div>`).join('');
+  document.getElementById('layers-modal').classList.remove('hidden');
+}
+
+function closeLayersModal() {
+  document.getElementById('layers-modal').classList.add('hidden');
 }
 
 function toggleTheme() {
   document.body.classList.toggle('dark-theme');
 }
 
-function checkOpenStatus() {
-  const badge = document.getElementById('status-badge');
-  badge.innerHTML = '<span class="status-indicator open">🟢 ABIERTO</span>';
+function openBoardingPassModal() {
+  if (cart.length === 0) return alert('El carrito está vacío');
+  const name = document.getElementById('cust-name').value;
+  if (!name) return alert('Ingresá tu nombre');
+  
+  toggleMobileCartSheet(false);
+  document.getElementById('bp-passenger-name').innerText = name;
+  document.getElementById('boarding-pass-modal').classList.remove('hidden');
 }
 
-initTheme();
+function closeBoardingPassModal() {
+  document.getElementById('boarding-pass-modal').classList.add('hidden');
+}
+
+function confirmAndSendWhatsApp() {
+  closeBoardingPassModal();
+  const name = document.getElementById('cust-name').value;
+  let msg = `Hola! Soy ${name}, mi pedido es:\n` + cart.map((c, i) => `${i+1}. ${c.name} (${c.size})`).join('\n');
+  window.open(`https://wa.me/5493436131681?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
 checkOpenStatus();
 renderCatalog();

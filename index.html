@@ -10,11 +10,11 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=35">
+  <link rel="stylesheet" href="styles.css?v=40">
 </head>
 <body>
 
-  <!-- Encabezado / Banner Principal -->
+  <!-- Encabezado Principal -->
   <header class="hero-header">
     <div class="banner-container">
       <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
@@ -31,13 +31,10 @@
     </div>
   </header>
 
-  <!-- Banner Informativo de Servicios en Carrusel Horizontal -->
+  <!-- Banner Informativo Completo -->
   <section class="flight-info-bar info-scroll-pills">
     <div class="info-item" id="status-badge">
-      <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
-    </div>
-    <div class="info-item">
-      📍 <strong>Retiro:</strong> López Jordán 1115
+      <!-- Dinámico: ABIERTO / CERRADO -->
     </div>
     <div class="info-item">
       🛵 <strong>Envíos:</strong> Moto Uber
@@ -51,59 +48,59 @@
   </section>
 
   <main class="container">
-    <!-- Catálogo de Productos -->
+    <!-- Sección de Menú y Catálogo -->
     <section class="catalog-section">
       
-      <!-- Paso a Paso (Optimizado para PC) -->
+      <!-- Paso a Paso Simplificado -->
       <div class="steps-container">
         <div class="step-card">
           <span class="step-number">1</span>
           <div class="step-info">
             <strong>1. Elegí tus Postres</strong>
-            <small>Seleccioná el sabor y tamaño que prefieras (350g o 500g)</small>
+            <small>Seleccioná tus sabores y el tamaño que prefieras</small>
           </div>
         </div>
         <div class="step-card">
           <span class="step-number">2</span>
           <div class="step-info">
             <strong>2. Completá tus Datos</strong>
-            <small>Ingresá tu nombre, retiro o dirección y medio de pago</small>
+            <small>Ingresá tu nombre, entrega y medio de pago</small>
           </div>
         </div>
         <div class="step-card">
           <span class="step-number">3</span>
           <div class="step-info">
             <strong>3. Enviar por WhatsApp</strong>
-            <small>Generá tu tarjeta de embarque y confirmá en 1 clic</small>
+            <small>Generá tu pase y confirmá directo con nosotros</small>
           </div>
         </div>
       </div>
 
-      <!-- Ruleta del Antojo / Asistente Indeciso -->
+      <!-- Ruleta del Antojo -->
       <div class="roulette-box">
         <div class="roulette-text">
-          <h3>🎯 ¿Indeciso? ¡Dejalo en manos del Capitán!</h3>
-          <p>Toca el botón y te sugeriremos el postre perfecto para tu vuelo de hoy.</p>
+          <h3>🎯 ¿Indeciso? ¡Dejalo en nuestras manos!</h3>
+          <p>Toca el botón y te sugeriremos el postre perfecto para hoy.</p>
         </div>
         <button class="btn-roulette pulse-btn" onclick="spinRoulette()">Girar la Ruleta 🎰</button>
         <div id="roulette-result" class="roulette-result hidden"></div>
       </div>
 
-      <!-- Sección de Combos / Packs Especiales -->
+      <!-- Packs Especiales -->
       <div class="combos-section">
-        <h3>✈️ Combos & Packs Especiales</h3>
+        <h3> Combos & Packs Especiales</h3>
         <div class="combos-carousel">
           <div class="combo-card">
             <div class="combo-info">
-              <h4>🛫 Pack Pareja (2x 350g)</h4>
+              <h4> Pack Pareja (2x 350g)</h4>
               <p>1 Oreo (350g) + 1 Chocotorta (350g).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('pareja')">Agregar ($12.000)</button>
           </div>
           <div class="combo-card">
             <div class="combo-info">
-              <h4>✈️ Pack Familión (4x 500g)</h4>
-              <p>Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
+              <h4> Pack Familión (2x 500g)</h4>
+              <p>1 Banana split (500g) + 1 Choco-oreo (500g).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('familiar')">Agregar ($27.200)</button>
           </div>
@@ -115,8 +112,8 @@
         <h2 class="section-title">Menú</h2>
       </div>
 
-      <!-- Buscador y Filtros Rápidos Sticky -->
-      <div class="search-filter-container sticky-search glass-card">
+      <!-- Buscador y Filtros -->
+      <div class="search-filter-container sticky-search">
         <div class="search-box">
           <input type="text" id="search-input" placeholder="🔍 Buscar postre o ingrediente..." oninput="applyFilters()">
         </div>
@@ -128,7 +125,7 @@
         </div>
       </div>
       
-      <!-- Contenedor del Catálogo -->
+      <!-- Grilla de Productos -->
       <div class="radar-container" id="radar-container">
         <div id="radar-sweep" class="radar-sweep hidden"></div>
         <div id="catalog" class="catalog-grid"></div>
@@ -136,10 +133,9 @@
 
     </section>
 
-    <!-- Overlay de Fondo para el Carrito Móvil -->
+    <!-- Overlay y Carrito Lateral/Móvil Unificado -->
     <div id="cart-backdrop" class="cart-backdrop hidden" onclick="toggleMobileCartSheet(false)"></div>
 
-    <!-- Carrito de Pedido -->
     <aside class="cart-section" id="cart-anchor">
       <div class="sheet-drag-handle" onclick="toggleMobileCartSheet(false)"></div>
 
@@ -149,7 +145,7 @@
           <button class="btn-close-sheet" onclick="toggleMobileCartSheet(false)">✕</button>
         </div>
         <p>Resumen y datos para el envío.</p>
-        <button id="btn-reorder" class="btn-reorder hidden" onclick="loadLastOrder()">🔁 Volver a pedir mi último pedido</button>
+        <button id="btn-reorder" class="btn-reorder hidden" onclick="loadLastOrder()">🔁 Repetir último pedido</button>
       </div>
 
       <div id="cart-items" class="cart-items">
@@ -157,7 +153,7 @@
       </div>
 
       <div class="cart-summary">
-        <!-- Rastreador de Progreso Mayorista -->
+        <!-- Progreso Mayorista -->
         <div id="wholesale-tracker" class="wholesale-tracker hidden">
           <div class="tracker-text-row">
             <span>Progreso Mayorista (350g):</span>
@@ -166,10 +162,10 @@
           <div class="progress-bar-bg">
             <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
           </div>
-          <p id="tracker-hint-text" class="tracker-hint">Añade postres de 350g para desbloquear $4.000 c/u</p>
+          <p id="tracker-hint-text" class="tracker-hint">Sumá postres de 350g para activar el descuento.</p>
         </div>
 
-        <div id="promo-banner" class="promo-banner glow-pulse hidden">
+        <div id="promo-banner" class="promo-banner hidden">
           🎉 ¡Aplica Descuento Mayorista! Tus postres de 350g quedan en <strong>$4.000 c/u</strong>.
         </div>
 
@@ -178,7 +174,7 @@
           <span class="total-amount">$<span id="cart-total">0</span></span>
         </div>
 
-        <!-- Formulario del Cliente -->
+        <!-- Formulario -->
         <form id="checkout-form" class="customer-form">
           <h3>📋 Datos para la Entrega</h3>
 
@@ -208,14 +204,14 @@
             </select>
           </div>
 
-          <button type="button" class="btn-checkout pulse-btn" onclick="openBoardingPassModal()">
+          <button type="button" class="btn-checkout" onclick="openBoardingPassModal()">
             Generar Tarjeta de Embarque 🎟️
           </button>
         </form>
       </div>
     </aside>
 
-    <!-- Preguntas Frecuentes con Enlace a la Dirección -->
+    <!-- Preguntas Frecuentes -->
     <section class="faq-section full-width-faq">
       <h3>❓ Preguntas Frecuentes & Información</h3>
       <div class="faq-accordion">
@@ -245,9 +241,9 @@
 
   </main>
 
-  <!-- Modales y Elementos Flotantes -->
+  <!-- Modales -->
   <div id="boarding-pass-modal" class="modal-overlay hidden">
-    <div class="boarding-pass-card slide-up">
+    <div class="boarding-pass-card">
       <div class="approved-stamp">PASAJE APROBADO ✈️</div>
       <div class="bp-header">
         <div>
@@ -270,7 +266,7 @@
           <span id="bp-payment-method">-</span>
         </div>
         <div class="bp-field full-width">
-          <label>Carga útil de a bordo (Detalle)</label>
+          <label>Detalle del Pedido</label>
           <div id="bp-items-list" class="bp-items-list"></div>
         </div>
         <div class="bp-field full-width total-highlight">
@@ -280,7 +276,7 @@
       </div>
       <div class="bp-footer">
         <button class="btn-bp-close" onclick="closeBoardingPassModal()">Modificar Pedido</button>
-        <button class="btn-bp-confirm pulse-btn" onclick="confirmAndSendWhatsApp()">Confirmar y Abordar por WhatsApp 📲</button>
+        <button class="btn-bp-confirm" onclick="confirmAndSendWhatsApp()">Confirmar por WhatsApp 📲</button>
       </div>
     </div>
   </div>
@@ -295,14 +291,15 @@
     </div>
   </div>
 
+  <!-- Botones Flotantes Ajustados para Celulares -->
   <div class="floating-social-container">
-    <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig glass-btn" title="Seguinos en Instagram">
-      <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
+    <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig" title="Instagram">
+      <img src="img/logo-ig.jpg" alt="Instagram" class="btn-icon-img">
       <span class="social-text">Instagram @postre.despegue</span>
     </a>
-    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="¿Consultas rápidas? Hablá con la tripulación">
-      <img src="img/logo-wsp.png" alt="WhatsApp Logo" class="btn-icon-img">
-      <span class="social-text">¿Dudas? Consultá acá</span>
+    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20✈️" target="_blank" class="floating-social-btn floating-wa" title="WhatsApp">
+      <img src="img/logo-wsp.png" alt="WhatsApp" class="btn-icon-img">
+      <span class="social-text">Consultas por WhatsApp</span>
     </a>
   </div>
 
@@ -312,7 +309,8 @@
 
   <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
 
-  <div id="mobile-cart-badge" class="mobile-cart-badge glass-badge hidden" onclick="toggleMobileCartSheet(true)">
+  <!-- Botón Flotante del Carrito para Celulares -->
+  <div id="mobile-cart-badge" class="mobile-cart-badge hidden" onclick="toggleMobileCartSheet(true)">
     <div class="mobile-cart-info">
       🛒 <span id="mobile-cart-count">0</span> postres
     </div>
@@ -325,6 +323,6 @@
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=35"></script>
+  <script src="app.js?v=40"></script>
 </body>
 </html>
