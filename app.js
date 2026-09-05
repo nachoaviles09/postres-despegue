@@ -178,15 +178,23 @@ window.addEventListener('scroll', () => {
 });
 
 function toggleMobileCartSheet(show) {
-  const sheet = document.getElementById('mobile-cart-sheet');
-  if (sheet) {
-    if (show) {
-      sheet.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    } else {
-      sheet.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
+  const sheet = document.getElementById('mobile-cart-sheet') || document.querySelector('.cart-section');
+  const backdrop = document.getElementById('cart-backdrop');
+
+  if (!sheet) return;
+
+  if (show) {
+    sheet.classList.remove('hidden');
+    sheet.classList.add('open-sheet');
+    if (backdrop) backdrop.classList.remove('hidden');
+    document.body.classList.add('cart-open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    sheet.classList.add('hidden');
+    sheet.classList.remove('open-sheet');
+    if (backdrop) backdrop.classList.add('hidden');
+    document.body.classList.remove('cart-open');
+    document.body.style.overflow = '';
   }
 }
 
