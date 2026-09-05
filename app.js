@@ -177,20 +177,20 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Bottom Sheet Carrito
-function toggleMobileCartSheet(isOpen) {
-  triggerHaptic(15);
-  const cartSection = document.getElementById('cart-anchor');
-  const backdrop = document.getElementById('cart-backdrop');
+function toggleMobileCartSheet(show) {
+  const sheet = document.getElementById('mobile-cart-sheet');
+  const socialFloating = document.querySelector('.floating-social-container'); // <--- CAPTURA LOS BOTONES FLOTANTES
 
-  if (isOpen) {
-    cartSection.classList.add('open-sheet');
-    backdrop.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  } else {
-    cartSection.classList.remove('open-sheet');
-    backdrop.classList.add('hidden');
-    document.body.style.overflow = '';
+  if (sheet) {
+    if (show) {
+      sheet.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      if (socialFloating) socialFloating.style.display = 'none'; // <--- OCULTA LOS BOTONES AL ABRIR
+    } else {
+      sheet.classList.add('hidden');
+      document.body.style.overflow = '';
+      if (socialFloating) socialFloating.style.display = ''; // <--- RESTABLECE LOS BOTONES AL CERRAR
+    }
   }
 }
 
