@@ -507,24 +507,32 @@ function addToCart(productId, event) {
   const product = products.find(p => p.id === productId);
   const size = selectedSizes[productId] || '350g';
   const qty = selectedQuantities[productId] || 1;
-  const basePrice = product.prices[size];
 
-  animateFlyToCart(event, product.images[0]);
-
+  // 1. Suma el producto al carrito
   for (let i = 0; i < qty; i++) {
     cart.push({
       name: product.name,
       size: size,
-      basePrice: basePrice
+      basePrice: product.prices[size]
     });
   }
 
-  selectedQuantities[productId] = 1;
-  const qtyElem = document.getElementById(`qty-${productId}`);
-  const priceElem = document.getElementById(`price-${productId}`);
-  if (qtyElem) qtyElem.innerText = '1';
-  if (priceElem) priceElem.innerText = `$${basePrice.toLocaleString()}`;
+  // 2. Animación visual temporal en el botón presionado
+  if (event && event.target) {
+    const btn = event.target;
+    const originalText = btn.innerText;
+    
+    btn.classList.add('added-success');
+    btn.innerText = '✓ ¡Agregado!';
+    
+    setTimeout(() => {
+      btn.classList.remove('added-success');
+      btn.innerText = originalText;
+    }, 1200);
+  }
 
+  // 3. Resetea cantidad y actualiza interfaz
+  selectedQuantities[productId] = 1;
   renderCart();
   showToast();
 }
@@ -661,6 +669,16 @@ function openBoardingPassModal() {
 
   const payment = document.getElementById('cust-payment').value;
 
+// Lógica para mostrar u ocultar el Alias según el pago
+  const aliasBox = document.getElementById('bp-alias-box');
+  if (aliasBox) {
+    if (payment === 'transferencia') {
+      aliasBox.classList.remove('hidden');
+    } else {
+      aliasBox.classList.add('hidden');
+    }
+  }
+
   document.getElementById('bp-passenger-name').innerText = nameInput.value.trim();
   document.getElementById('bp-delivery-type').innerText = delivery === 'envio' ? `Envío Moto Uber (${addressInput.value.trim()})` : 'Retiro en local';
   document.getElementById('bp-payment-method').innerText = payment === 'efectivo' ? 'Efectivo' : 'Transferencia Bancaria';
@@ -776,6 +794,24 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js')
       .then(reg => console.log('PWA lista', reg))
       .catch(err => console.error('Error PWA', err));
+  });
+}
+// Función para copiar el Alias al portapapeles
+function copyAlias() {
+  triggerHaptic(20);
+  const aliasText = document.getElementById('bp-alias-text').innerText;
+  
+  navigator.clipboard.writeText(aliasText).then(() => {
+    const btn = document.querySelector('.btn-copy-alias');
+    btn.classList.add('copied');
+    btn.innerText = "✓ ¡Copiado!";
+    
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerText = "📋 Copiar Alias";
+    }, 1800);
+  }).catch(() => {
+    alert("No se pudo copiar automáticamente. El alias es: " + aliasText);
   });
 }
 
