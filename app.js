@@ -179,21 +179,13 @@ window.addEventListener('scroll', () => {
 
 function toggleMobileCartSheet(show) {
   const sheet = document.getElementById('mobile-cart-sheet');
-  const socialContainer = document.querySelector('.floating-social-container');
-
-  if (!sheet) return;
-
-  if (show) {
-    sheet.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    if (socialContainer) {
-      socialContainer.classList.add('hidden');
-    }
-  } else {
-    sheet.classList.add('hidden');
-    document.body.style.overflow = '';
-    if (socialContainer) {
-      socialContainer.classList.remove('hidden');
+  if (sheet) {
+    if (show) {
+      sheet.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    } else {
+      sheet.classList.add('hidden');
+      document.body.style.overflow = '';
     }
   }
 }

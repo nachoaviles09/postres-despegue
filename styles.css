@@ -1439,3 +1439,8 @@ body.cart-open .floating-social-container {
   display: block !important;
   z-index: 10000 !important;
 }
+/* Ocultar botones flotantes de redes automáticamente cuando el carrito está visible */
+#mobile-cart-sheet:not(.hidden) ~ .floating-social-container,
+body:has(#mobile-cart-sheet:not(.hidden)) .floating-social-container {
+  display: none !important;
+}
