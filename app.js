@@ -119,7 +119,7 @@ function renderCatalog(itemsToRender = products) {
 function selectSize(productId, size) {
   triggerHaptic(12);
   selectedSizes[productId] = size;
-  renderCatalog(products);
+  applyFilters();
 }
 
 function changeQty(productId, delta) {
@@ -128,7 +128,7 @@ function changeQty(productId, delta) {
   current += delta;
   if (current < 1) current = 1;
   selectedQuantities[productId] = current;
-  renderCatalog(products);
+  applyFilters();
 }
 
 function addToCart(productId) {
@@ -224,6 +224,67 @@ function renderCart() {
   mobileBadge.classList.remove('hidden');
 }
 
+function setCategoryFilter(category, btnElement) {
+  triggerHaptic(15);
+  currentCategory = category;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btnElement.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+  const filtered = products.filter(product => {
+    const matchesCategory = (currentCategory === 'all') || (product.category === currentCategory);
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                          product.ingredients.toLowerCase().includes(searchTerm);
+    return matchesCategory && matchesSearch;
+  });
+  renderCatalog(filtered);
+}
+
+function addCombo(comboType) {
+  triggerHaptic(25);
+  if (comboType === 'pareja') {
+    const oreo = products.find(p => p.id === 'oreo');
+    const chocotorta = products.find(p => p.id === 'chocotorta');
+    cart.push({ name: oreo.name, size: '350g', basePrice: oreo.prices['350g'] });
+    cart.push({ name: chocotorta.name, size: '350g', basePrice: chocotorta.prices['350g'] });
+  } else if (comboType === 'familiar') {
+    ['tiramisu', 'oreo', 'chocotorta', 'pepitos'].forEach(id => {
+      const p = products.find(prod => prod.id === id);
+      cart.push({ name: p.name, size: '500g', basePrice: p.prices['500g'] });
+    });
+  }
+  renderCart();
+  showToast();
+}
+
+function spinRoulette() {
+  triggerHaptic(30);
+  const resultDiv = document.getElementById('roulette-result');
+  resultDiv.classList.add('hidden');
+
+  let counter = 0;
+  const interval = setInterval(() => {
+    triggerHaptic(10);
+    const randomProduct = products[Math.floor(Math.random() * products.length)];
+    resultDiv.innerHTML = `<span>🎰 Girando... <strong>${randomProduct.name}</strong></span>`;
+    resultDiv.classList.remove('hidden');
+    counter++;
+
+    if (counter > 10) {
+      clearInterval(interval);
+      triggerHaptic([40, 30, 50]);
+      const chosen = products[Math.floor(Math.random() * products.length)];
+      resultDiv.innerHTML = `
+        <div>🎯 ¡El Capitán elige para vos: <strong>${chosen.name}</strong>!</div>
+        <button class="btn-combo" style="margin-top:6px;" onclick="addToCart('${chosen.id}')">¡Lo quiero! 🛫</button>
+      `;
+    }
+  }, 100);
+}
+
 function toggleMobileCartSheet(isOpen) {
   triggerHaptic(15);
   const cartSection = document.getElementById('cart-anchor');
@@ -289,6 +350,23 @@ function openBoardingPassModal() {
   
   toggleMobileCartSheet(false);
   document.getElementById('bp-passenger-name').innerText = name;
+  document.getElementById('bp-delivery-type').innerText = document.getElementById('cust-delivery').value === 'envio' ? 'Envío Moto Uber' : 'Retiro en local';
+  document.getElementById('bp-payment-method').innerText = document.getElementById('cust-payment').value;
+  
+  let total = 0;
+  const count350g = cart.filter(item => item.size === '350g').length;
+  const isWholesale350g = count350g >= 10;
+
+  let itemsHtml = '';
+  cart.forEach((item, index) => {
+    let price = item.basePrice;
+    if (isWholesale350g && item.size === '350g') price = 4000;
+    total += price;
+    itemsHtml += `${index + 1}. ${item.name} (${item.size}) - $${price.toLocaleString()}<br>`;
+  });
+
+  document.getElementById('bp-items-list').innerHTML = itemsHtml;
+  document.getElementById('bp-total-amount').innerText = `$${total.toLocaleString()}`;
   document.getElementById('boarding-pass-modal').classList.remove('hidden');
 }
 
