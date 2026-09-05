@@ -119,7 +119,6 @@ function setupSliderGestures(containerElem, productId, imagesList) {
 
   // Eventos de Mouse para PC (Clic simple = Lightbox / Doble clic = Carrito)
   containerElem.addEventListener('click', (e) => {
-    // Evitamos que se dispare si hacen clic en los botones de flecha del slider
     if (e.target.classList.contains('slider-btn')) return;
 
     if (tapTimeout) clearTimeout(tapTimeout);
@@ -131,7 +130,7 @@ function setupSliderGestures(containerElem, productId, imagesList) {
   });
 
   containerElem.addEventListener('dblclick', (e) => {
-    if (tapTimeout) clearTimeout(tapTimeout); // Cancela el clic simple en PC
+    if (tapTimeout) clearTimeout(tapTimeout);
     triggerDoubleTapAction(productId, e);
   });
 }
@@ -357,7 +356,6 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
-    // Asignar los gestos inteligentes
     const sliderContainer = document.getElementById(`slider-${product.id}`);
     if (sliderContainer) {
       setupSliderGestures(sliderContainer, product.id, product.images);
@@ -548,6 +546,10 @@ function renderCart() {
   const wholesaleTracker = document.getElementById('wholesale-tracker');
   const mobileBadge = document.getElementById('mobile-cart-badge');
 
+  // Cuenta exacta de postres de 350g en el carrito actual
+  const count350g = cart.filter(item => item.size === '350g').length;
+  const isWholesale350g = count350g >= 10;
+
   if (cart.length === 0) {
     cartContainer.innerHTML = '<p class="empty-msg">Aún no has sumado postres a tu vuelo.</p>';
     cartTotal.innerText = '0';
@@ -558,9 +560,6 @@ function renderCart() {
   }
 
   cartContainer.innerHTML = '';
-
-  const count350g = cart.filter(item => item.size === '350g').length;
-  const isWholesale350g = count350g >= 10;
 
   if (isWholesale350g) {
     promoBanner.classList.remove('hidden');
@@ -655,7 +654,7 @@ function openBoardingPassModal() {
 
   if (hasError) return;
 
-  if (window.innerWidth <= 768) {
+  if (window.innerWidth <= 992) {
     toggleMobileCartSheet(false);
   }
 

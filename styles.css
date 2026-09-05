@@ -32,34 +32,37 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Header & Banner con Ajuste Perfecto */
+/* Header & Banner con Ajuste Perfecto y Color de Fondo del Logo */
 .hero-header {
   position: relative;
   width: 100%;
-  height: 240px;
+  background-color: #5c6370; /* Color exacto de fondo del logo */
   overflow: hidden;
-  background-color: var(--brand-gray);
 }
 
 .banner-container {
   width: 100%;
-  height: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
 }
 
 .banner-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-height: 250px;
+  height: auto;
+  object-fit: contain; /* Evita que el banner se corte y se visualice completo en el recuadro */
   object-position: center;
   display: block;
 }
 
 .glass-header {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  background: rgba(33, 37, 41, 0.75);
+  background: rgba(33, 37, 41, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -76,6 +79,7 @@ body {
   overflow: hidden;
   border: 2px solid white;
   flex-shrink: 0;
+  background-color: #5c6370;
 }
 
 .main-logo {
