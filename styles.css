@@ -1430,3 +1430,12 @@ body.dark-theme #boarding-pass-modal .boarding-pass-card {
 body.cart-open .floating-social-container {
   display: none !important;
 }
+/* Corrección de visibilidad para el modal móvil y redes sociales */
+.floating-social-container.hidden {
+  display: none !important;
+}
+
+#mobile-cart-sheet:not(.hidden) {
+  display: block !important;
+  z-index: 10000 !important;
+}
