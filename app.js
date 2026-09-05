@@ -546,7 +546,6 @@ function renderCart() {
   const wholesaleTracker = document.getElementById('wholesale-tracker');
   const mobileBadge = document.getElementById('mobile-cart-badge');
 
-  // Cuenta exacta de postres de 350g en el carrito actual
   const count350g = cart.filter(item => item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
 
@@ -654,7 +653,7 @@ function openBoardingPassModal() {
 
   if (hasError) return;
 
-  if (window.innerWidth <= 992) {
+  if (window.innerWidth <= 768) {
     toggleMobileCartSheet(false);
   }
 

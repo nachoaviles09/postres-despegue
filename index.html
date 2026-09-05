@@ -7,14 +7,14 @@
   
   <!-- Soporte PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#5c6370">
+  <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=22">
+  <link rel="stylesheet" href="styles.css?v=31">
 </head>
 <body>
 
-  <!-- Encabezado / Banner Principal con Ajuste Perfecto -->
+  <!-- Encabezado / Banner Principal con Ajuste Compacto Full Width -->
   <header class="hero-header">
     <div class="banner-container">
       <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
@@ -31,16 +31,19 @@
     </div>
   </header>
 
-  <!-- Banner Informativo de Servicios en Carrusel Horizontal Optimizado -->
+  <!-- Banner Informativo de Servicios en Carrusel Horizontal -->
   <section class="flight-info-bar info-scroll-pills">
     <div class="info-item" id="status-badge">
       <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
     </div>
     <div class="info-item">
+      📍 <strong>Retiro:</strong> López Jordán 1115
+    </div>
+    <div class="info-item">
       🛵 <strong>Envíos:</strong> Moto Uber
     </div>
     <div class="info-item">
-      🕒 <strong>Horarios:</strong> Lun-Jue 00:00 hs | Vie-Dom 02:00 hs
+      🕒 <strong>Horarios:</strong> Lun-Jue h/ 00:00 hs | Vie-Dom h/ 02:00 hs
     </div>
     <div class="info-item highlight">
       🎁 <strong>Promo Mayorista:</strong> 10+ postres de 350g a $4.000 c/u
@@ -86,20 +89,20 @@
         <div id="roulette-result" class="roulette-result hidden"></div>
       </div>
 
-      <!-- Sección de Combos / Packs -->
+      <!-- Sección de Combos / Packs Especiales -->
       <div class="combos-section">
-        <h3> Combos & Packs Especiales</h3>
+        <h3>✈️ Combos & Packs Especiales</h3>
         <div class="combos-carousel">
           <div class="combo-card">
             <div class="combo-info">
-              <h4> Pack Pareja (2x 350g)</h4>
+              <h4>🛫 Pack Pareja (2x 350g)</h4>
               <p>1 Oreo (350g) + 1 Chocotorta (350g).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('pareja')">Agregar ($12.000)</button>
           </div>
           <div class="combo-card">
             <div class="combo-info">
-              <h4> Pack Familión (4x 500g)</h4>
+              <h4>✈️ Pack Familión (4x 500g)</h4>
               <p>Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('familiar')">Agregar ($27.200)</button>
@@ -112,7 +115,7 @@
         <h2 class="section-title">Menú</h2>
       </div>
 
-      <!-- Buscador y Filtros Rápidos Sticky con Glassmorphism -->
+      <!-- Buscador y Filtros Rápidos Sticky -->
       <div class="search-filter-container sticky-search glass-card">
         <div class="search-box">
           <input type="text" id="search-input" placeholder="🔍 Buscar postre o ingrediente..." oninput="applyFilters()">
@@ -125,7 +128,7 @@
         </div>
       </div>
       
-      <!-- Contenedor del Catálogo con Efecto Radar -->
+      <!-- Contenedor del Catálogo -->
       <div class="radar-container" id="radar-container">
         <div id="radar-sweep" class="radar-sweep hidden"></div>
         <div id="catalog" class="catalog-grid"></div>
@@ -154,7 +157,7 @@
       </div>
 
       <div class="cart-summary">
-        <!-- Rastreador de Progreso Mayorista (Corregido) -->
+        <!-- Rastreador de Progreso Mayorista -->
         <div id="wholesale-tracker" class="wholesale-tracker hidden">
           <div class="tracker-text-row">
             <span>Progreso Mayorista (350g):</span>
@@ -212,23 +215,10 @@
       </div>
     </aside>
 
-    <!-- Sección Preguntas Frecuentes en Acordeón Táctil -->
+    <!-- Sección Preguntas Frecuentes en Acordeón (Sin Mapa) -->
     <section class="faq-section full-width-faq">
       <h3>❓ Preguntas Frecuentes & Información</h3>
       <div class="faq-accordion">
-        <details class="faq-item">
-          <summary>📍 ¿Dónde retiramos los pedidos? (Ubicación)</summary>
-          <div class="faq-content-map">
-            <p>Retiras tu vuelo en nuestro punto de despacho: <strong>López Jordán 1115</strong>.</p>
-            <div class="map-preview-container">
-              <a href="https://maps.google.com/?q=López+Jordán+1115" target="_blank" rel="noopener noreferrer" class="map-link-banner" title="Abrir en el mapa">
-                <div class="map-graphic-box">
-                  <span>🗺️ Toca aquí para abrir la ubicación en Google Maps / Apple Maps</span>
-                </div>
-              </a>
-            </div>
-          </div>
-        </details>
         <details class="faq-item">
           <summary>❄️ ¿Cómo conservar los postres?</summary>
           <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>
@@ -303,7 +293,7 @@
       <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
       <span class="social-text">Instagram @postre.despegue</span>
     </a>
-    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="Hablá con la tripulación">
+    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="¿Consultas rápidas? Hablá con la tripulación">
       <img src="img/logo-wsp.png" alt="WhatsApp Logo" class="btn-icon-img">
       <span class="social-text">¿Dudas? Consultá acá</span>
     </a>
@@ -332,6 +322,6 @@
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>
