@@ -1165,3 +1165,93 @@ body.dark-theme .boarding-pass-card {
   background-color: #1e1e1e !important;
   color: #f1f3f5 !important;
 }
+/* ==========================================================================
+   SOLUCIÓN DEFINITIVA: BOARDING PASS OPACO Y BOTONES FLOTANTES
+   ========================================================================== */
+
+/* 1. Corrección de Opacidad Sólida en el Boarding Pass */
+.boarding-pass-card,
+#boarding-pass-modal .boarding-pass-card {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-theme .boarding-pass-card,
+body.dark-theme #boarding-pass-modal .boarding-pass-card {
+  background: #1e1e1e !important;
+  background-color: #1e1e1e !important;
+  color: #f1f3f5 !important;
+}
+
+/* 2. Visibilidad y Estilos de los Botones Flotantes (Instagram / WhatsApp) */
+.floating-social-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  z-index: 9999 !important;
+}
+
+.floating-social-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  border-radius: 30px !important;
+  text-decoration: none !important;
+  color: #ffffff !important;
+  font-size: 0.85rem !important;
+  font-weight: bold !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.floating-social-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+.floating-ig {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+}
+
+.floating-wa {
+  background-color: #25d366 !important;
+}
+
+.btn-icon-img {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+}
+
+.social-text {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+/* Adaptación para Celulares (Solo Círculos con Icono) */
+@media (max-width: 768px) {
+  .floating-social-container {
+    bottom: 16px !important;
+    left: 16px !important;
+    gap: 8px !important;
+  }
+
+  .floating-social-btn {
+    padding: 10px !important;
+    border-radius: 50% !important;
+  }
+
+  .social-text {
+    display: none !important;
+  }
+}
