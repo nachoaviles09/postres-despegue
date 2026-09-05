@@ -68,12 +68,14 @@ function triggerHaptic(duration = 20) {
   }
 }
 
-// Detección Avanzada Táctil (Combina Swipe Horizontal y Doble Tap sobre el Slider)
-function setupSliderGestures(containerElem, productId) {
-  let lastTap = 0;
+// Gestos Inteligentes adaptados para Móvil y PC
+function setupSliderGestures(containerElem, productId, imagesList) {
+  let lastTapTime = 0;
+  let tapTimeout = null;
   let startX = 0;
   let startY = 0;
 
+  // Eventos táctiles para Celular
   containerElem.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -85,30 +87,51 @@ function setupSliderGestures(containerElem, productId) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // Si hubo desplazamiento horizontal significativo = SWIPE
+    // 1. Swipe horizontal (Cambiar foto)
     if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (tapTimeout) clearTimeout(tapTimeout);
       if (diffX > 0) moveSlider(productId, 1);
       else moveSlider(productId, -1);
       return;
     }
 
-    // Si el toque fue casi sin mover el dedo = TAP / DOBLE TAP
+    // 2. Toques en pantalla táctil
     if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
       const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
+      const tapLength = currentTime - lastTapTime;
 
       if (tapLength < 350 && tapLength > 0) {
+        // Doble toque (Celular) = Carrito
+        if (tapTimeout) clearTimeout(tapTimeout);
         e.preventDefault();
         triggerDoubleTapAction(productId, e.changedTouches[0]);
-        lastTap = 0;
+        lastTapTime = 0;
       } else {
-        lastTap = currentTime;
+        // Un toque (Celular) = Lightbox
+        lastTapTime = currentTime;
+        tapTimeout = setTimeout(() => {
+          const currentIdx = sliderPositions[productId] || 0;
+          openLightbox(imagesList[currentIdx]);
+        }, 350);
       }
     }
   });
 
-  // Compatibilidad con Doble Click en Computadoras
+  // Eventos de Mouse para PC (Clic simple = Lightbox / Doble clic = Carrito)
+  containerElem.addEventListener('click', (e) => {
+    // Evitamos que se dispare si hacen clic en los botones de flecha del slider
+    if (e.target.classList.contains('slider-btn')) return;
+
+    if (tapTimeout) clearTimeout(tapTimeout);
+    
+    tapTimeout = setTimeout(() => {
+      const currentIdx = sliderPositions[productId] || 0;
+      openLightbox(imagesList[currentIdx]);
+    }, 250);
+  });
+
   containerElem.addEventListener('dblclick', (e) => {
+    if (tapTimeout) clearTimeout(tapTimeout); // Cancela el clic simple en PC
     triggerDoubleTapAction(productId, e);
   });
 }
@@ -334,10 +357,10 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
-    // Asignar los eventos gestuales de Swipe y Doble Tap al contenedor del slider
+    // Asignar los gestos inteligentes
     const sliderContainer = document.getElementById(`slider-${product.id}`);
     if (sliderContainer) {
-      setupSliderGestures(sliderContainer, product.id);
+      setupSliderGestures(sliderContainer, product.id, product.images);
     }
 
     setup3DTilt(card);
