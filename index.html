@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=32">
+  <link rel="stylesheet" href="styles.css?v=35">
 </head>
 <body>
 
@@ -35,14 +35,15 @@
   <section class="flight-info-bar info-scroll-pills">
     <div class="info-item" id="status-badge">
       <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
+    </div>
     <div class="info-item">
-      🛵 <strong>Envíos:</strong> Moto Uber
+      📍 <strong>Retiro:</strong> López Jordán 1115
     </div>
     <div class="info-item">
       🛵 <strong>Envíos:</strong> Moto Uber
     </div>
     <div class="info-item">
-      🕒 <strong>Horarios:</strong> Lun-Jue 00:00 hs | Vie-Dom 02:00 hs
+      🕒 <strong>Horarios:</strong> Lun-Jue h/ 00:00 hs | Vie-Dom h/ 02:00 hs
     </div>
     <div class="info-item highlight">
       🎁 <strong>Promo Mayorista:</strong> 10+ postres de 350g a $4.000 c/u
@@ -53,27 +54,27 @@
     <!-- Catálogo de Productos -->
     <section class="catalog-section">
       
-      <!-- Paso a Paso (Optimizado para PC y Celulares) -->
+      <!-- Paso a Paso (Optimizado para PC) -->
       <div class="steps-container">
         <div class="step-card">
           <span class="step-number">1</span>
           <div class="step-info">
-            <strong>1. Elige tu Antojo</strong>
-            <small>Selecciona tus postres y el tamaño ideal (350g o 500g)</small>
+            <strong>1. Elegí tus Postres</strong>
+            <small>Seleccioná el sabor y tamaño que prefieras (350g o 500g)</small>
           </div>
         </div>
         <div class="step-card">
           <span class="step-number">2</span>
           <div class="step-info">
-            <strong>2. Datos de Envío</strong>
-            <small>Ingresa tu nombre, método de pago y dirección o retiro</small>
+            <strong>2. Completá tus Datos</strong>
+            <small>Ingresá tu nombre, retiro o dirección y medio de pago</small>
           </div>
         </div>
         <div class="step-card">
           <span class="step-number">3</span>
           <div class="step-info">
-            <strong>3. ¡Listos para Despegar!</strong>
-            <small>Genera tu Boarding Pass y confirma directo por WhatsApp</small>
+            <strong>3. Enviar por WhatsApp</strong>
+            <small>Generá tu tarjeta de embarque y confirmá en 1 clic</small>
           </div>
         </div>
       </div>
@@ -81,7 +82,7 @@
       <!-- Ruleta del Antojo / Asistente Indeciso -->
       <div class="roulette-box">
         <div class="roulette-text">
-          <h3>🎯 ¿Indeciso? ¡Dejalo en nuestras manos!</h3>
+          <h3>🎯 ¿Indeciso? ¡Dejalo en manos del Capitán!</h3>
           <p>Toca el botón y te sugeriremos el postre perfecto para tu vuelo de hoy.</p>
         </div>
         <button class="btn-roulette pulse-btn" onclick="spinRoulette()">Girar la Ruleta 🎰</button>
@@ -90,18 +91,18 @@
 
       <!-- Sección de Combos / Packs Especiales -->
       <div class="combos-section">
-        <h3> Combos & Packs Especiales</h3>
+        <h3>✈️ Combos & Packs Especiales</h3>
         <div class="combos-carousel">
           <div class="combo-card">
             <div class="combo-info">
-              <h4> Pack Pareja (2x 350g)</h4>
+              <h4>🛫 Pack Pareja (2x 350g)</h4>
               <p>1 Oreo (350g) + 1 Chocotorta (350g).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('pareja')">Agregar ($12.000)</button>
           </div>
           <div class="combo-card">
             <div class="combo-info">
-              <h4> Pack Familión (4x 500g)</h4>
+              <h4>✈️ Pack Familión (4x 500g)</h4>
               <p>Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('familiar')">Agregar ($27.200)</button>
@@ -214,16 +215,16 @@
       </div>
     </aside>
 
-    <!-- Sección Preguntas Frecuentes con Link de Ubicación -->
+    <!-- Preguntas Frecuentes con Enlace a la Dirección -->
     <section class="faq-section full-width-faq">
       <h3>❓ Preguntas Frecuentes & Información</h3>
       <div class="faq-accordion">
         <details class="faq-item">
           <summary>📍 ¿Dónde se retiran los pedidos?</summary>
-          <div class="faq-content-map">
+          <div class="faq-map-box">
             <p>Podes retirar tu pedido personalmente por nuestro punto de despacho en <strong>López Jordán 1115</strong>.</p>
-            <a href="https://maps.google.com/?q=López+Jordán+1115" target="_blank" rel="noopener noreferrer" class="map-link-btn">
-              🗺️ Abrir ubicación
+            <a href="https://maps.google.com/?q=López+Jordán+1115" target="_blank" rel="noopener noreferrer" class="map-btn-link">
+              🗺️ Abrir dirección en Google Maps
             </a>
           </div>
         </details>
@@ -244,7 +245,7 @@
 
   </main>
 
-  <!-- Modal: Tarjeta de Embarque Digital -->
+  <!-- Modales y Elementos Flotantes -->
   <div id="boarding-pass-modal" class="modal-overlay hidden">
     <div class="boarding-pass-card slide-up">
       <div class="approved-stamp">PASAJE APROBADO ✈️</div>
@@ -284,7 +285,6 @@
     </div>
   </div>
 
-  <!-- Modal: Visualizador de Capas -->
   <div id="layers-modal" class="modal-overlay hidden" onclick="closeLayersModal()">
     <div class="layers-card" onclick="event.stopPropagation()">
       <div class="layers-header">
@@ -295,7 +295,6 @@
     </div>
   </div>
 
-  <!-- Botones Flotantes Redes -->
   <div class="floating-social-container">
     <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig glass-btn" title="Seguinos en Instagram">
       <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
@@ -307,15 +306,12 @@
     </a>
   </div>
 
-  <!-- Modal Lightbox -->
   <div id="lightbox-modal" class="lightbox-overlay hidden" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="Ampliada">
   </div>
 
-  <!-- Elemento de Avión de Animación de Despegue -->
   <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
 
-  <!-- Botón / Badge Flotante para Celulares -->
   <div id="mobile-cart-badge" class="mobile-cart-badge glass-badge hidden" onclick="toggleMobileCartSheet(true)">
     <div class="mobile-cart-info">
       🛒 <span id="mobile-cart-count">0</span> postres
@@ -325,11 +321,10 @@
     </div>
   </div>
 
-  <!-- Notificación Toast -->
   <div id="toast-notification" class="toast hidden">
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=32"></script>
+  <script src="app.js?v=35"></script>
 </body>
 </html>
