@@ -37,9 +37,6 @@
       <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
     </div>
     <div class="info-item">
-      📍 <strong>Retiro:</strong> López Jordán 1115
-    </div>
-    <div class="info-item">
       🛵 <strong>Envíos:</strong> Moto Uber
     </div>
     <div class="info-item">
@@ -82,27 +79,27 @@
       <!-- Ruleta del Antojo / Asistente Indeciso -->
       <div class="roulette-box">
         <div class="roulette-text">
-          <h3>🎯 ¿Indeciso? ¡Dejalo en manos del Capitán!</h3>
+          <h3> ¿Indeciso? ¡Dejalo en nuestras manos!</h3>
           <p>Toca el botón y te sugeriremos el postre perfecto para tu vuelo de hoy.</p>
         </div>
-        <button class="btn-roulette pulse-btn" onclick="spinRoulette()">Girar la Ruleta 🎰</button>
+        <button class="btn-roulette pulse-btn" onclick="spinRoulette()">Girar la Ruleta </button>
         <div id="roulette-result" class="roulette-result hidden"></div>
       </div>
 
       <!-- Sección de Combos / Packs en Carrusel Horizontal -->
       <div class="combos-section">
-        <h3>✈️ Combos & Packs Especiales</h3>
+        <h3> Combos & Packs Especiales</h3>
         <div class="combos-carousel">
           <div class="combo-card">
             <div class="combo-info">
-              <h4>🛫 Pack Pareja (2x 350g)</h4>
+              <h4> Pack Pareja (2x 350g)</h4>
               <p>1 Oreo (350g) + 1 Chocotorta (350g).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('pareja')">Agregar ($12.000)</button>
           </div>
           <div class="combo-card">
             <div class="combo-info">
-              <h4>✈️ Pack Familión (4x 500g)</h4>
+              <h4> Pack Familión (4x 500g)</h4>
               <p>Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('familiar')">Agregar ($27.200)</button>
@@ -218,6 +215,23 @@
     <section class="faq-section full-width-faq">
       <h3>❓ Preguntas Frecuentes & Información</h3>
       <div class="faq-accordion">
+        <details class="faq-item">
+          <summary>📍 Ubicación y Mapa de Retiro</summary>
+          <div class="faq-map-container">
+            <p>Podes retirar tu pedido personalmente por nuestro punto de despacho:</p>
+            <strong class="pickup-address">López Jordán 1115</strong>
+            
+            <!-- PEGA TU CÓDIGO HTML DEL MAPA DENTRO DE ESTE CONTENEDOR -->
+            <div class="map-iframe-wrapper">
+              <!-- Reemplaza la siguiente línea con tu <iframe> si es diferente -->
+              <iframe src="<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3392.9733967255684!2d-60.48563392510061!3d-31.743927112160574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b44e0c994d7281%3A0xcfbb5992b01d046!2zR2Rvci4gTMOzcGV6IEpvcmTDoW4gMTExNSwgRTMxMDIgUGFyYW7DoSwgRW50cmUgUsOtb3M!5e0!3m2!1ses-419!2sar!4v1788573500126!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>"></iframe>
+            </div>
+
+            <a href="https://maps.google.com/?q=López+Jordán+1115" target="_blank" rel="noopener noreferrer" class="map-btn-link">
+              🗺️ Abrir dirección
+            </a>
+          </div>
+        </details>
         <details class="faq-item">
           <summary>❄️ ¿Cómo conservar los postres?</summary>
           <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>

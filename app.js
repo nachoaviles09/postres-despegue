@@ -23,7 +23,7 @@ const products = [
     category: 'clasicos',
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
-    images: ['img/choctorta-1.jpeg', 'img/chocotorta-2.jpeg'],
+    images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
     prices: { '350g': 6000, '500g': 6800 }
   },
   {
