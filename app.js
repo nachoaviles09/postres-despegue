@@ -179,17 +179,21 @@ window.addEventListener('scroll', () => {
 
 function toggleMobileCartSheet(show) {
   const sheet = document.getElementById('mobile-cart-sheet');
-  const socialFloating = document.querySelector('.floating-social-container'); // <--- CAPTURA LOS BOTONES FLOTANTES
+  const socialFloating = document.querySelector('.floating-social-container');
 
   if (sheet) {
     if (show) {
       sheet.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
-      if (socialFloating) socialFloating.style.display = 'none'; // <--- OCULTA LOS BOTONES AL ABRIR
+      if (socialFloating) {
+        socialFloating.style.setProperty('display', 'none', 'important');
+      }
     } else {
       sheet.classList.add('hidden');
       document.body.style.overflow = '';
-      if (socialFloating) socialFloating.style.display = ''; // <--- RESTABLECE LOS BOTONES AL CERRAR
+      if (socialFloating) {
+        socialFloating.style.setProperty('display', 'flex', 'important');
+      }
     }
   }
 }
