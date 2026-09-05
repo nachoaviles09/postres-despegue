@@ -10,11 +10,11 @@
   <meta name="theme-color" content="#948d91">
   <link rel="apple-touch-icon" href="img/logo.jpeg">
 
-  <link rel="stylesheet" href="styles.css?v=31">
+  <link rel="stylesheet" href="styles.css?v=32">
 </head>
 <body>
 
-  <!-- Encabezado / Banner Principal con Ajuste Compacto Full Width -->
+  <!-- Encabezado / Banner Principal -->
   <header class="hero-header">
     <div class="banner-container">
       <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
@@ -35,15 +35,14 @@
   <section class="flight-info-bar info-scroll-pills">
     <div class="info-item" id="status-badge">
       <!-- Se genera dinámicamente: ABIERTO / CERRADO -->
-    </div>
     <div class="info-item">
-      📍 <strong>Retiro:</strong> López Jordán 1115
+      🛵 <strong>Envíos:</strong> Moto Uber
     </div>
     <div class="info-item">
       🛵 <strong>Envíos:</strong> Moto Uber
     </div>
     <div class="info-item">
-      🕒 <strong>Horarios:</strong> Lun-Jue h/ 00:00 hs | Vie-Dom h/ 02:00 hs
+      🕒 <strong>Horarios:</strong> Lun-Jue 00:00 hs | Vie-Dom 02:00 hs
     </div>
     <div class="info-item highlight">
       🎁 <strong>Promo Mayorista:</strong> 10+ postres de 350g a $4.000 c/u
@@ -54,27 +53,27 @@
     <!-- Catálogo de Productos -->
     <section class="catalog-section">
       
-      <!-- Paso a Paso (Línea de Tiempo) -->
+      <!-- Paso a Paso (Optimizado para PC y Celulares) -->
       <div class="steps-container">
         <div class="step-card">
           <span class="step-number">1</span>
           <div class="step-info">
-            <strong>Elige</strong>
-            <small>Selecciona tus postres y tamaño</small>
+            <strong>1. Elige tu Antojo</strong>
+            <small>Selecciona tus postres y el tamaño ideal (350g o 500g)</small>
           </div>
         </div>
         <div class="step-card">
           <span class="step-number">2</span>
           <div class="step-info">
-            <strong>Completa</strong>
-            <small>Ingresa tus datos de entrega</small>
+            <strong>2. Datos de Envío</strong>
+            <small>Ingresa tu nombre, método de pago y dirección o retiro</small>
           </div>
         </div>
         <div class="step-card">
           <span class="step-number">3</span>
           <div class="step-info">
-            <strong>Despega</strong>
-            <small>Confirma y recibe por WhatsApp</small>
+            <strong>3. ¡Listos para Despegar!</strong>
+            <small>Genera tu Boarding Pass y confirma directo por WhatsApp</small>
           </div>
         </div>
       </div>
@@ -82,7 +81,7 @@
       <!-- Ruleta del Antojo / Asistente Indeciso -->
       <div class="roulette-box">
         <div class="roulette-text">
-          <h3>🎯 ¿Indeciso? ¡Dejalo en manos del Capitán!</h3>
+          <h3>🎯 ¿Indeciso? ¡Dejalo en nuestras manos!</h3>
           <p>Toca el botón y te sugeriremos el postre perfecto para tu vuelo de hoy.</p>
         </div>
         <button class="btn-roulette pulse-btn" onclick="spinRoulette()">Girar la Ruleta 🎰</button>
@@ -91,18 +90,18 @@
 
       <!-- Sección de Combos / Packs Especiales -->
       <div class="combos-section">
-        <h3>✈️ Combos & Packs Especiales</h3>
+        <h3> Combos & Packs Especiales</h3>
         <div class="combos-carousel">
           <div class="combo-card">
             <div class="combo-info">
-              <h4>🛫 Pack Pareja (2x 350g)</h4>
+              <h4> Pack Pareja (2x 350g)</h4>
               <p>1 Oreo (350g) + 1 Chocotorta (350g).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('pareja')">Agregar ($12.000)</button>
           </div>
           <div class="combo-card">
             <div class="combo-info">
-              <h4>✈️ Pack Familión (4x 500g)</h4>
+              <h4> Pack Familión (4x 500g)</h4>
               <p>Tiramisú, Oreo, Chocotorta y Pepitos (500g c/u).</p>
             </div>
             <button class="btn-combo" onclick="addCombo('familiar')">Agregar ($27.200)</button>
@@ -215,10 +214,19 @@
       </div>
     </aside>
 
-    <!-- Sección Preguntas Frecuentes en Acordeón (Sin Mapa) -->
+    <!-- Sección Preguntas Frecuentes con Link de Ubicación -->
     <section class="faq-section full-width-faq">
       <h3>❓ Preguntas Frecuentes & Información</h3>
       <div class="faq-accordion">
+        <details class="faq-item">
+          <summary>📍 ¿Dónde se retiran los pedidos?</summary>
+          <div class="faq-content-map">
+            <p>Podes retirar tu pedido personalmente por nuestro punto de despacho en <strong>López Jordán 1115</strong>.</p>
+            <a href="https://maps.google.com/?q=López+Jordán+1115" target="_blank" rel="noopener noreferrer" class="map-link-btn">
+              🗺️ Abrir ubicación en Google Maps
+            </a>
+          </div>
+        </details>
         <details class="faq-item">
           <summary>❄️ ¿Cómo conservar los postres?</summary>
           <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>
@@ -322,6 +330,6 @@
     ¡Postre sumado a tu pedido! 🛫
   </div>
 
-  <script src="app.js?v=31"></script>
+  <script src="app.js?v=32"></script>
 </body>
 </html>

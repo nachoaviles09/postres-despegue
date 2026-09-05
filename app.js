@@ -539,6 +539,7 @@ function removeFromCart(index) {
   renderCart();
 }
 
+// Render Carrito y Cálculo de Progreso Mayorista Garantizado
 function renderCart() {
   const cartContainer = document.getElementById('cart-items');
   const cartTotal = document.getElementById('cart-total');
@@ -546,6 +547,7 @@ function renderCart() {
   const wholesaleTracker = document.getElementById('wholesale-tracker');
   const mobileBadge = document.getElementById('mobile-cart-badge');
 
+  // Recalcula dinámicamente la cantidad exacta de postres de 350g en el carrito
   const count350g = cart.filter(item => item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
 
@@ -555,6 +557,10 @@ function renderCart() {
     promoBanner.classList.add('hidden');
     wholesaleTracker.classList.add('hidden');
     mobileBadge.classList.add('hidden');
+    
+    // Resetea explícitamente el contador y la barra a 0
+    document.getElementById('tracker-count-text').innerText = '0 de 10';
+    document.getElementById('progress-bar-fill').style.width = '0%';
     return;
   }
 
@@ -576,6 +582,8 @@ function renderCart() {
       wholesaleTracker.classList.remove('hidden');
     } else {
       wholesaleTracker.classList.add('hidden');
+      document.getElementById('tracker-count-text').innerText = '0 de 10';
+      document.getElementById('progress-bar-fill').style.width = '0%';
     }
   }
 
