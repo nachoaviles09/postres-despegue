@@ -12,6 +12,7 @@ const products = [
     id: 'oreo',
     name: 'OREO',
     category: 'oreo',
+    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas Oreo, dulce de leche repostero y crema de oreo.',
     layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
     images: ['img/oreo-1.jpeg', 'img/oreo-2.jpeg'],
@@ -21,6 +22,7 @@ const products = [
     id: 'chocotorta',
     name: 'CHOCOTORTA',
     category: 'clasicos',
+    inStock: { '350g': false, '500g': true }, // ✅ Con stock en 350g, ❌ Sin stock en 500g
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
     images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
@@ -30,6 +32,7 @@ const products = [
     id: 'chocooreo',
     name: 'CHOCO-OREO',
     category: 'oreo',
+    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas oreo, crema chocotorta y más galletitas oreo.',
     layers: ['Base de galletitas Oreo picadas', 'Crema Chocotorta suave', 'Capa intermedia de Oreo', 'Crema especial & trozos de Oreo'],
     images: ['img/chocooreo-1.jpeg', 'img/chocooreo-2.jpeg'],
@@ -314,8 +317,12 @@ function renderCatalog(itemsToRender = products) {
     const currentQty = selectedQuantities[product.id];
     const currentPrice = product.prices[currentSize];
 
+    // Validar si el tamaño actual seleccionado está sin stock
+    const isCurrentSizeOutOfStock = product.inStock && product.inStock[currentSize] === false;
+
     const card = document.createElement('div');
     card.className = 'card';
+    card.id = `card-${product.id}`;
     card.style.animationDelay = `${idx * 0.08}s`;
 
     card.innerHTML = `
@@ -323,7 +330,7 @@ function renderCatalog(itemsToRender = products) {
         <div class="slider-container" id="slider-${product.id}">
           <div class="slider-track" id="track-${product.id}">
             ${product.images.map((imgSrc, imgIndex) => `
-              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}" onclick="openLightbox(event, '${product.id}', ${imgIndex})" style="cursor: pointer;">
+              <img src="${imgSrc}" alt="${product.name}" class="slider-img" id="img-${product.id}-${imgIndex}" onclick="openLightbox(event, '${product.id}',${imgIndex})" style="cursor: pointer;">
             `).join('')}
           </div>
           <button class="slider-btn prev" onclick="moveSlider('${product.id}', -1)">❮</button>
@@ -346,16 +353,20 @@ function renderCatalog(itemsToRender = products) {
           </div>
         </div>
         
-        <div class="qty-control-row">
-          <div class="qty-btn-group">
-            <button class="btn-qty" onclick="changeQty('${product.id}', -1)">-</button>
-            <span class="qty-value" id="qty-${product.id}">${currentQty}</span>
-            <button class="btn-qty" onclick="changeQty('${product.id}', 1)">+</button>
+        ${isCurrentSizeOutOfStock ? `
+          <div class="out-of-stock-notice" style="color: #ef4444; font-weight: bold; text-align: center; margin: 10px 0; font-size: 0.85rem;">🔴 SIN STOCK EN ESTE TAMAÑO</div>
+          <button class="btn-add disabled" disabled style="background: #3f3f46; color: #a1a1aa; cursor: not-allowed;">Agotado</button>
+        ` : `
+          <div class="qty-control-row">
+            <div class="qty-btn-group">
+              <button class="btn-qty" onclick="changeQty('${product.id}', -1)">-</button>
+              <span class="qty-value" id="qty-${product.id}">${currentQty}</span>
+              <button class="btn-qty" onclick="changeQty('${product.id}', 1)">+</button>
+            </div>
+            <div class="price-tag" id="price-${product.id}">$${(currentPrice * currentQty).toLocaleString()}</div>
           </div>
-          <div class="price-tag" id="price-${product.id}">$${(currentPrice * currentQty).toLocaleString()}</div>
-        </div>
-
-        <button class="btn-add" onclick="addToCart('${product.id}', event)">Agregar 🛫</button>
+          <button class="btn-add" onclick="addToCart('${product.id}', event)">Agregar 🛫</button>
+        `}
       </div>
     `;
 
@@ -446,14 +457,15 @@ function applyFilters() {
 function selectSize(productId, size) {
   triggerHaptic(12);
   selectedSizes[productId] = size;
-  const product = products.find(p => p.id === productId);
-
+  
+  // Actualiza visualmente los botones de tamaño (píldoras)
   document.getElementById(`pill-${productId}-350g`).classList.toggle('active', size === '350g');
   document.getElementById(`pill-${productId}-500g`).classList.toggle('active', size === '500g');
 
-  const qty = selectedQuantities[productId] || 1;
-  document.getElementById(`price-${productId}`).innerText = `$${(product.prices[size] * qty).toLocaleString()}`;
+  // Refrescamos directamente el catálogo para que la tarjeta detecte el stock del nuevo tamaño seleccionado
+  applyFilters();
 }
+
 
 function moveSlider(productId, direction) {
   triggerHaptic(10);

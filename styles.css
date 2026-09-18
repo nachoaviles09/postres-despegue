@@ -1150,7 +1150,7 @@ body.dark-theme .faq-section {
   .floating-social-container {
     display: none !important;
   }
-}
+  
 /* Corrección de opacidad para el Boarding Pass Modal */
 .boarding-pass-card {
   background-color: #ffffff !important;
@@ -1443,4 +1443,31 @@ body.dark-theme #boarding-pass-modal .boarding-pass-card {
 /* Ocultar botones flotantes de Instagram y WhatsApp cuando el carrito está abierto */
 body.cart-open .floating-social-container {
   display: none !important;
+}
+/* Estilo para productos sin stock */
+.product-card.out-of-stock {
+  opacity: 0.6;
+}
+
+.product-card.out-of-stock img {
+  filter: grayscale(80%);
+}
+
+.stock-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ef4444; /* Rojo alerta */
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 5;
+}
+
+.btn-add-cart.disabled {
+  background: #27272a;
+  color: #71717a;
+  cursor: not-allowed;
 }
