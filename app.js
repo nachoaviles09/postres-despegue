@@ -3,6 +3,7 @@ const products = [
     id: 'tiramisu',
     name: 'TIRAMISÚ',
     category: 'clasicos',
+    inStock: { '350g': false, '500g': false }, // ✅ Con stock en ambos tamaños
     ingredients: 'Base de galletitas vainilla bañadas en café, crema tiramisú, galletitas vainilla bañadas en café y crema tiramisú.',
     layers: ['Base de galletitas vainilla bañadas en café', 'Crema tiramisú artesanal', 'Segunda capa de galletitas en café', 'Lluvia de cacao & crema tiramisú superior'],
     images: ['img/tiramisú-1.jpeg', 'img/tiramisú-2.jpeg'],
@@ -42,6 +43,7 @@ const products = [
     id: 'pepitos',
     name: 'PEPITOS',
     category: 'clasicos',
+    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas pepitos, dulce de leche repostero, chips de chocolate y crema chantillí.',
     layers: ['Base de galletitas Pepitos con chispas', 'Dulce de leche repostero abundante', 'Crema chantillí', 'Chispas de chocolate semi-amargo'],
     images: ['img/pepito-1.jpeg', 'img/pepitos-2.jpeg'],
@@ -51,6 +53,7 @@ const products = [
     id: 'banana-split',
     name: 'BANANA SPLIT',
     category: 'frutales',
+    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas de vainilla, dulce de leche repostero, banana, crema chantillí y chips de chocolate.',
     layers: ['Base de vainillas', 'Dulce de leche repostero', 'Rodajas de banana fresca', 'Crema chantillí & chips de chocolate'],
     images: ['img/bana split-1.jpeg', 'img/bana split-2.jpeg'],

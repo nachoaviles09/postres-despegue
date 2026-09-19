@@ -1,4 +1,4 @@
-const CACHE_NAME = 'despegue-v71';
+const CACHE_NAME = 'despegue-v73';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
