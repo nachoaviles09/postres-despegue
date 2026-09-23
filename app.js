@@ -13,7 +13,7 @@ const products = [
     id: 'oreo',
     name: 'OREO',
     category: 'oreo',
-    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': false, '500g': false }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas Oreo, dulce de leche repostero y crema de oreo.',
     layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
     images: ['img/oreo-1.jpeg', 'img/oreo-2.jpeg'],
@@ -33,7 +33,7 @@ const products = [
     id: 'chocooreo',
     name: 'CHOCO-OREO',
     category: 'oreo',
-    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': false, '500g': false }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas oreo, crema chocotorta y más galletitas oreo.',
     layers: ['Base de galletitas Oreo picadas', 'Crema Chocotorta suave', 'Capa intermedia de Oreo', 'Crema especial & trozos de Oreo'],
     images: ['img/chocooreo-1.jpeg', 'img/chocooreo-2.jpeg'],
@@ -53,7 +53,7 @@ const products = [
     id: 'banana-split',
     name: 'BANANA SPLIT',
     category: 'frutales',
-    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas de vainilla, dulce de leche repostero, banana, crema chantillí y chips de chocolate.',
     layers: ['Base de vainillas', 'Dulce de leche repostero', 'Rodajas de banana fresca', 'Crema chantillí & chips de chocolate'],
     images: ['img/bana split-1.jpeg', 'img/bana split-2.jpeg'],
