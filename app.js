@@ -13,7 +13,7 @@ const products = [
     id: 'oreo',
     name: 'OREO',
     category: 'oreo',
-    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas Oreo, dulce de leche repostero y crema de oreo.',
     layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
     images: ['img/oreo-1.jpeg', 'img/oreo-2.jpeg'],
@@ -23,7 +23,7 @@ const products = [
     id: 'chocotorta',
     name: 'CHOCOTORTA',
     category: 'clasicos',
-    inStock: { '350g': false, '500g': true }, // ✅ Con stock en 350g, ❌ Sin stock en 500g
+    inStock: { '350g': true, '500g': true }, // ✅ Con stock en 350g, ❌ Sin stock en 500g
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
     images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
@@ -33,7 +33,7 @@ const products = [
     id: 'chocooreo',
     name: 'CHOCO-OREO',
     category: 'oreo',
-    inStock: { '350g': false, '500g': false }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas oreo, crema chocotorta y más galletitas oreo.',
     layers: ['Base de galletitas Oreo picadas', 'Crema Chocotorta suave', 'Capa intermedia de Oreo', 'Crema especial & trozos de Oreo'],
     images: ['img/chocooreo-1.jpeg', 'img/chocooreo-2.jpeg'],
@@ -43,7 +43,7 @@ const products = [
     id: 'pepitos',
     name: 'PEPITOS',
     category: 'clasicos',
-    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas pepitos, dulce de leche repostero, chips de chocolate y crema chantillí.',
     layers: ['Base de galletitas Pepitos con chispas', 'Dulce de leche repostero abundante', 'Crema chantillí', 'Chispas de chocolate semi-amargo'],
     images: ['img/pepito-1.jpeg', 'img/pepitos-2.jpeg'],
