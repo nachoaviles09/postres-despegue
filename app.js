@@ -10,6 +10,26 @@ const products = [
     prices: { '350g': 6000, '500g': 6800 }
   },
   {
+    id: 'oreo sin gluten',
+    name: 'OREO SIN GLUTEN',
+    category: 'sin-gluten',
+    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    ingredients: 'Mismo ingredientes que oreo pero sin gluten en su totalidad.',
+    layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
+    images: ['img/oreo-gluten 1.jpeg', 'img/oreo-gluten 2.jpeg'],
+    prices: { '350g': 6000, '500g': 6800 }
+  },
+  {
+    id: 'frutilla (sin gluten)',
+    name: 'FRUTILLA (SIN GLUTEN)',
+    category: ['frutales', 'sin-gluten'],
+    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    ingredients: 'Bizcochuelo de chocolate, dulce de leche repostero, crema chantillí y frutillas.',
+    layers: [],
+    images: ['img/frutilla 1.jpeg', 'img/frutilla 2.jpeg'],
+    prices: { '350g': 6000, '500g': 6800 }
+  },
+  {
     id: 'oreo',
     name: 'OREO',
     category: 'oreo',
@@ -449,7 +469,16 @@ function setCategoryFilter(category, btnElement) {
 function applyFilters() {
   const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
   const filtered = products.filter(product => {
-    const matchesCategory = (currentCategory === 'all') || (product.category === currentCategory);
+    // Verificamos si la categoría coincide (soporta una sola categoría o un array de categorías)
+    let matchesCategory = false;
+    if (currentCategory === 'all') {
+      matchesCategory = true;
+    } else if (Array.isArray(product.categories)) {
+      matchesCategory = product.categories.includes(currentCategory);
+    } else {
+      matchesCategory = product.category === currentCategory;
+    }
+
     const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
                           product.ingredients.toLowerCase().includes(searchTerm);
     return matchesCategory && matchesSearch;
