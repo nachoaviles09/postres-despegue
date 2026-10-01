@@ -22,7 +22,7 @@ const products = [
   {
     id: 'frutilla (sin gluten)',
     name: 'FRUTILLA (SIN GLUTEN)',
-    category: ['frutales', 'sin-gluten'],
+    categories: ['frutales', 'sin-gluten'],
     inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
     ingredients: 'Bizcochuelo de chocolate, dulce de leche repostero, crema chantillí y frutillas.',
     layers: [],
