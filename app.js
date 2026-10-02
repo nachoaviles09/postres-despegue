@@ -63,7 +63,7 @@ const products = [
     id: 'pepitos',
     name: 'PEPITOS',
     category: 'clasicos',
-    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas pepitos, dulce de leche repostero, chips de chocolate y crema chantillí.',
     layers: ['Base de galletitas Pepitos con chispas', 'Dulce de leche repostero abundante', 'Crema chantillí', 'Chispas de chocolate semi-amargo'],
     images: ['img/pepito-1.jpeg', 'img/pepitos-2.jpeg'],
@@ -73,7 +73,7 @@ const products = [
     id: 'banana-split',
     name: 'BANANA SPLIT',
     category: 'frutales',
-    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': false, '500g': false }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas de vainilla, dulce de leche repostero, banana, crema chantillí y chips de chocolate.',
     layers: ['Base de vainillas', 'Dulce de leche repostero', 'Rodajas de banana fresca', 'Crema chantillí & chips de chocolate'],
     images: ['img/bana split-1.jpeg', 'img/bana split-2.jpeg'],
