@@ -3,7 +3,7 @@ const products = [
     id: 'tiramisu',
     name: 'TIRAMISÚ',
     category: 'clasicos',
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    inStock: { '350g': true, '500g': false }, // ✅ Con stock en ambos tamaños
     ingredients: 'Base de galletitas vainilla bañadas en café, crema tiramisú, galletitas vainilla bañadas en café y crema tiramisú.',
     layers: ['Base de galletitas vainilla bañadas en café', 'Crema tiramisú artesanal', 'Segunda capa de galletitas en café', 'Lluvia de cacao & crema tiramisú superior'],
     images: ['img/tiramisú-1.jpeg', 'img/tiramisú-2.jpeg'],
@@ -13,7 +13,7 @@ const products = [
     id: 'oreo sin gluten',
     name: 'OREO SIN GLUTEN',
     category: 'sin-gluten',
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    inStock: { '350g': true, '500g': false }, // ✅ Con stock en ambos tamaños
     ingredients: 'Mismo ingredientes que oreo pero sin gluten en su totalidad.',
     layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
     images: ['img/oreo-gluten 1.jpeg', 'img/oreo-gluten 2.jpeg'],
@@ -23,7 +23,7 @@ const products = [
     id: 'frutilla (sin gluten)',
     name: 'FRUTILLA (SIN GLUTEN)',
     categories: ['frutales', 'sin-gluten'],
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    inStock: { '350g': true, '500g': false }, // ✅ Con stock en ambos tamaños
     ingredients: 'Bizcochuelo de chocolate, dulce de leche repostero, crema chantillí y frutillas.',
     layers: [],
     images: ['img/frutilla 1.jpeg', 'img/frutilla 2.jpeg'],
