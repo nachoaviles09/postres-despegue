@@ -63,7 +63,7 @@ const products = [
     id: 'pepitos',
     name: 'PEPITOS',
     category: 'clasicos',
-    inStock: { '350g': false, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
     ingredients: 'Base de galletitas pepitos, dulce de leche repostero, chips de chocolate y crema chantillí.',
     layers: ['Base de galletitas Pepitos con chispas', 'Dulce de leche repostero abundante', 'Crema chantillí', 'Chispas de chocolate semi-amargo'],
     images: ['img/pepito-1.jpeg', 'img/pepitos-2.jpeg'],
