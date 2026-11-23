@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Postres Despegue | Tu antojo listo para despegar ✈️</title>
+
+  <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+  <link rel="shortcut icon" type="image/jpeg" href="img/logo.jpeg">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Postres Despegue | Tu antojo listo para despegar ✈️">
+  <meta property="og:description" content="Elegí tus postres favoritos de 350g o 500g, aprovechá la promo mayorista y hacé tu pedido online en 1 clic.">
+  <meta property="og:image" content="img/banner.jpeg">
+  <meta property="og:site_name" content="Postres Despegue">
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#948d91">
+  <link rel="apple-touch-icon" href="img/logo.jpeg">
+
+  <link rel="stylesheet" href="styles.css?v=85">
+</head>
+<body>
+
+  <header class="hero-header">
+    <div class="banner-container">
+      <img src="img/banner.jpeg" alt="Postres Despegue Banner" class="banner-img" id="parallax-banner">
+    </div>
+    <div class="header-content glass-header">
+      <div class="logo-wrapper">
+        <img src="img/logo.jpeg" alt="Logo Postres Despegue" class="main-logo">
+      </div>
+      <div class="brand-info">
+        <h1>POSTRES DESPEGUE</h1>
+        <p class="tagline">"Tu antojo listo para despegar"</p>
+      </div>
+      <button id="theme-toggle" class="btn-theme-toggle" onclick="toggleTheme()" title="Cambiar modo claro/oscuro">🌙</button>
+    </div>
+  </header>
+
+  <section class="flight-info-bar info-scroll-pills">
+    <div class="info-item" id="status-badge"></div>
+    <div class="info-item">
+      🛵 <strong>Envíos:</strong> Moto Uber
+    </div>
+    <div class="info-item">
+      🕒 <strong>Horarios:</strong> Lun-Jue 00:00 hs | Vie-Dom 02:00 hs
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="catalog-section">
+      
+      <div class="steps-container">
+        <div class="step-card">
+          <span class="step-number">1</span>
+          <div class="step-info">
+            <strong>Elige</strong>
+            <small>Selecciona tus postres y tamaño</small>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-number">2</span>
+          <div class="step-info">
+            <strong>Completa</strong>
+            <small>Ingresa tus datos de entrega</small>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-number">3</span>
+          <div class="step-info">
+            <strong>Despega</strong>
+            <small>Confirma y recibe por WhatsApp</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="roulette-box">
+        <div class="roulette-text">
+          <h3> ¿Indeciso? ¡Dejalo en nuestras manos!</h3>
+          <p>Toca el botón y te sugeriremos el postre perfecto para tu vuelo de hoy.</p>
+        </div>
+        <button class="btn-roulette pulse-btn" onclick="spinRoulette()">Girar la Ruleta </button>
+        <div id="roulette-result" class="roulette-result hidden"></div>
+      </div>
+
+      <!-- NUEVO APARTADO DE PROMOS (Controlado desde Google Sheets) -->
+      <section id="promos-section" class="promos-section hidden">
+        <div class="promos-header">
+          <h3>🔥 Promos del día</h3>
+          <span class="promos-subtitle">Ofertas especiales del día</span>
+        </div>
+        <div id="promos-grid" class="promos-grid"></div>
+      </section>
+
+      <div class="section-header-badge">
+        <img src="img/azafata logo.jpeg" alt="Azafata Postres Despegue" class="azafata-icon">
+        <h2 class="section-title">Menú</h2>
+      </div>
+
+      <div class="search-filter-container sticky-search glass-card">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="🔍 Buscar postre o ingrediente..." oninput="applyFilters()">
+        </div>
+        <div class="filter-pills">
+          <button class="filter-btn active" data-filter="all" onclick="setCategoryFilter('all', this)">Todos</button>
+          <button class="filter-btn" data-filter="oreo" onclick="setCategoryFilter('oreo', this)">Oreo 🍪</button>
+          <button class="filter-btn" data-filter="clasicos" onclick="setCategoryFilter('clasicos', this)">Clásicos 🍰</button>
+          <button class="filter-btn" data-filter="frutales" onclick="setCategoryFilter('frutales', this)">Frutales 🍌</button>
+          <button class="filter-btn" data-filter="sin-gluten" onclick="setCategoryFilter('sin-gluten', this)">Sin Gluten 🌾</button>
+        </div>
+      </div>
+      
+      <div class="radar-container" id="radar-container">
+        <div id="radar-sweep" class="radar-sweep hidden"></div>
+        <div id="catalog" class="catalog-grid"></div>
+      </div>
+
+    </section>
+
+    <div id="cart-backdrop" class="cart-backdrop hidden" onclick="toggleMobileCartSheet(false)"></div>
+
+    <aside class="cart-section" id="cart-anchor">
+      <div class="sheet-drag-handle" onclick="toggleMobileCartSheet(false)"></div>
+
+      <div class="cart-header">
+        <div class="cart-title-row">
+          <h2>Tu Pedido 🛒</h2>
+          <button class="btn-close-sheet" onclick="toggleMobileCartSheet(false)">✕</button>
+        </div>
+        <p>Resumen y datos para el envío.</p>
+        <button id="btn-reorder" class="btn-reorder hidden" onclick="loadLastOrder()">🔁 Volver a pedir mi último pedido</button>
+      </div>
+
+      <div id="cart-items" class="cart-items">
+        <p class="empty-msg">Aún no has sumado postres a tu vuelo.</p>
+      </div>
+
+      <div class="cart-summary">
+        <div id="wholesale-tracker" class="wholesale-tracker hidden">
+          <div class="tracker-text-row">
+            <span>Progreso Mayorista (350g):</span>
+            <strong id="tracker-count-text">0 de 10</strong>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+          <p id="tracker-hint-text" class="tracker-hint">Añade postres de 350g para desbloquear $4.000 c/u</p>
+        </div>
+
+        <div id="promo-banner" class="promo-banner glow-pulse hidden">
+          🎉 ¡Aplica Descuento Mayorista! Tus postres de 350g quedan en <strong>$4.000 c/u</strong>.
+        </div>
+
+        <div class="total-row">
+          <span>Total Estimado:</span>
+          <span class="total-amount">$<span id="cart-total">0</span></span>
+        </div>
+
+        <form id="checkout-form" class="customer-form">
+          <h3>📋 Datos para la Entrega</h3>
+
+          <div class="form-group" id="group-name">
+            <label for="cust-name">Nombre completo *</label>
+            <input type="text" id="cust-name" placeholder="Ej: María González" required>
+          </div>
+
+          <div class="form-group">
+            <label for="cust-delivery">Forma de entrega *</label>
+            <select id="cust-delivery" onchange="toggleAddressField()" required>
+              <option value="retiro">Retiro en local (López Jordán 1115)</option>
+              <option value="envio">Envío a domicilio (Moto Uber)</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden" id="address-group">
+            <label for="cust-address">Dirección de entrega *</label>
+            <input type="text" id="cust-address" placeholder="Ej: Av. Ramírez 1234, Dpto 2B">
+          </div>
+
+          <div class="form-group">
+            <label for="cust-payment">Medio de pago *</label>
+            <select id="cust-payment" required>
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia Bancaria</option>
+            </select>
+          </div>
+
+          <button type="button" class="btn-checkout pulse-btn" onclick="openBoardingPassModal()">
+            Generar Tarjeta de Embarque 🎟️
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    <section class="faq-section full-width-faq">
+      <h3> Preguntas Frecuentes / Información</h3>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary>📍 Ubicación y Mapa de Retiro</summary>
+          <div class="faq-map-container">
+            <p>Podes retirar tu pedido personalmente por nuestro punto de despacho:</p>
+            <strong class="pickup-address"> López Jordán 1115, Paraná</strong>
+            <div class="map-iframe-wrapper">
+              <iframe 
+                src="https://maps.google.com/maps?q=L%C3%B3pez%20Jord%C3%A1n%201115%2C%20Paran%C3%A1%2C%20Entre%20R%C3%ADos&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="200" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+            <a href="https://maps.google.com/?q=López+Jordán+1115,+Paraná" target="_blank" rel="noopener noreferrer" class="map-btn-link">
+              🗺️ Abrir en la app
+            </a>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>❄️ ¿Cómo conservar los postres?</summary>
+          <p>Nuestros postres se elaboran diariamente. Conservar en heladera entre 2°C y 5°C. Consumir preferentemente dentro de los 3 días.</p>
+        </details>
+        <details class="faq-item">
+          <summary>🛵 ¿Cómo funciona el envío?</summary>
+          <p>Realizamos envíos en el acto a través de Moto Uber. La tarifa del envío se calcula al momento del despacho según tu ubicación.</p>
+        </details>
+        <details class="faq-item">
+          <summary>🎁 ¿Cómo aplica la Promo Mayorista?</summary>
+          <p>Añade 10 o más postres del tamaño 350g al carrito y el sistema aplicará automáticamente el precio promocional de $4.000 por unidad.</p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="boarding-pass-modal" class="modal-overlay hidden">
+    <div class="boarding-pass-card slide-up">
+      <div class="approved-stamp">PASAJE APROBADO ✈️</div>
+      <div class="bp-header">
+        <div>
+          <span class="bp-airline">POSTRES DESPEGUE</span>
+          <h2>BOARDING PASS 🎟️</h2>
+        </div>
+        <span class="bp-flight-code">FLIGHT #DESPEGUE</span>
+      </div>
+      <div class="bp-body">
+        <div class="bp-field">
+          <label>PASAJERO/A</label>
+          <span id="bp-passenger-name">-</span>
+        </div>
+        <div class="bp-field">
+          <label>TIPO DE ENTREGA</label>
+          <span id="bp-delivery-type">-</span>
+        </div>
+        <div class="bp-field">
+          <label>MEDIO DE PAGO</label>
+          <span id="bp-payment-method">-</span>
+        </div>
+        <div class="bp-field full-width">
+          <label>Carga útil de a bordo (Detalle)</label>
+          <div id="bp-items-list" class="bp-items-list"></div>
+        </div>
+        <div class="bp-field full-width total-highlight">
+          <label>TOTAL A ABONAR</label>
+          <span id="bp-total-amount">$0</span>
+        </div>
+        <div id="bp-alias-box" class="bp-field full-width alias-box hidden">
+          <div class="alias-info">
+            <label>ALIAS </label>
+            <span id="bp-alias-text" class="alias-text">postres.despegue.mp</span>
+          </div>
+          <button type="button" class="btn-copy-alias" onclick="copyAlias()">📋 Copiar Alias</button>
+        </div>
+      </div>
+      <div class="bp-footer">
+        <button class="btn-bp-close" onclick="closeBoardingPassModal()">Modificar Pedido</button>
+        <button class="btn-bp-confirm pulse-btn" onclick="confirmAndSendWhatsApp()">Confirmar y Abordar por WhatsApp 📲</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="layers-modal" class="modal-overlay hidden" onclick="closeLayersModal()">
+    <div class="layers-card" onclick="event.stopPropagation()">
+      <div class="layers-header">
+        <h3 id="layers-title">Estructura del Postre</h3>
+        <button class="btn-close-modal" onclick="closeLayersModal()">✕</button>
+      </div>
+      <div id="layers-list" class="layers-list"></div>
+    </div>
+  </div>
+
+  <div class="floating-social-container">
+    <a href="https://www.instagram.com/postre.despegue" target="_blank" rel="noopener noreferrer" class="floating-social-btn floating-ig glass-btn" title="Seguinos en Instagram">
+      <img src="img/logo-ig.jpg" alt="Instagram Logo" class="btn-icon-img">
+      <span class="social-text">Instagram @postre.despegue</span>
+    </a>
+    <a href="https://wa.me/5493436131681?text=¡Hola%20Postres%20Despegue!%20Tengo%20una%20consulta%20sobre%20el%20menú%20o%20los%20envíos%20✈️" target="_blank" class="floating-social-btn floating-wa glass-btn" title="¿Consultas rápidas? Hablá con la tripulación">
+      <img src="img/logo-wsp.png" alt="WhatsApp Logo" class="btn-icon-img">
+      <span class="social-text">¿Dudas? Consultá acá</span>
+    </a>
+  </div>
+
+  <div id="lightbox-modal" class="lightbox-overlay hidden" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)">×</button>
+
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button type="button" class="lightbox-nav lightbox-prev" onclick="changeLightboxImage(event, -1)">❮</button>
+
+      <div class="lightbox-img-wrapper">
+        <img id="lightbox-img" src="" alt="Imagen ampliada">
+        <div id="lightbox-counter" class="lightbox-counter">1 / 2</div>
+      </div>
+
+      <button type="button" class="lightbox-nav lightbox-next" onclick="changeLightboxImage(event, 1)">❯</button>
+    </div>
+  </div>
+
+  <div id="takeoff-plane" class="takeoff-plane hidden">✈️</div>
+
+  <div id="mobile-cart-badge" class="mobile-cart-badge glass-badge hidden" onclick="toggleMobileCartSheet(true)">
+    <div class="mobile-cart-info">
+      🛒 <span id="mobile-cart-count">0</span> postres
+    </div>
+    <div class="mobile-cart-price">
+      Ver Pedido $<span id="mobile-cart-total">0</span> →
+    </div>
+  </div>
+
+  <div id="toast-notification" class="toast hidden">
+    ¡Postre sumado a tu pedido! 🛫
+  </div>
+
+  <script src="app.js?v=85"></script>
+</body>
+</html>
