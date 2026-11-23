@@ -1471,3 +1471,160 @@ body.cart-open .floating-social-container {
   color: #71717a;
   cursor: not-allowed;
 }
+
+/* ==========================================================================
+   APARTADO DE PROMOS (GOOGLE SHEETS) Y BADGES DE STOCK
+   ========================================================================== */
+.promos-section {
+  background: var(--bg-card);
+  border: 1.5px solid var(--brand-gray);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 24px rgba(148, 141, 145, 0.14);
+}
+
+.promos-section.hidden {
+  display: none !important;
+}
+
+.promos-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 8px;
+}
+
+.promos-header h3 {
+  font-size: 1.15rem;
+  color: var(--text-main);
+}
+
+.promos-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.promos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 14px;
+}
+
+.promo-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.promo-badge-tag {
+  display: inline-block;
+  width: fit-content;
+  background: #25d366;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.promo-card h4 {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-top: 6px;
+}
+
+.promo-card p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.promo-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.promo-prices {
+  display: flex;
+  flex-direction: column;
+}
+
+.promo-old-price {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.promo-final-price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.btn-add-promo {
+  background-color: var(--brand-gray);
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-add-promo:hover {
+  background-color: var(--brand-dark-gray);
+  transform: translateY(-1px);
+}
+
+.btn-add-promo.added-success {
+  background-color: #2b8a3e !important;
+}
+
+.stock-remaining-pill {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .promos-section {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+  .promos-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

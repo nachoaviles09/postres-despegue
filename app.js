@@ -1,19 +1,37 @@
+// ==========================================================================
+// URL DE GOOGLE APPS SCRIPT (Pegá acá tu URL terminada en /exec)
+// ==========================================================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRud3Cq8v92Hem9wn7xB2CHoBA4AffXU0kibWarFzvIs3atvD9546ecFOTIYNHe991wA/exec';
+
 const products = [
   {
     id: 'tiramisu',
     name: 'TIRAMISÚ',
     category: 'clasicos',
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Base de galletitas vainilla bañadas en café, crema tiramisú, galletitas vainilla bañadas en café y crema tiramisú.',
     layers: ['Base de galletitas vainilla bañadas en café', 'Crema tiramisú artesanal', 'Segunda capa de galletitas en café', 'Lluvia de cacao & crema tiramisú superior'],
     images: ['img/tiramisú-1.jpeg', 'img/tiramisú-2.jpeg'],
     prices: { '350g': 6000, '500g': 6800 }
   },
   {
+    id: 'flan',
+    name: 'FLAN',
+    category: 'clasicos',
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
+    ingredients: 'Flan, dulce de leche repostero y crema chantilly.',
+    layers: ['Flan', 'Dulce de leche', 'Crema chantilly'],
+    images: ['img/flan-1.jpeg', 'img/flan-2.jpeg'],
+    prices: { '350g': 6000, '500g': 6800 }
+  },
+  {
     id: 'oreo sin gluten',
     name: 'OREO SIN GLUTEN',
     category: 'sin-gluten',
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Mismo ingredientes que oreo pero sin gluten en su totalidad.',
     layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
     images: ['img/oreo-gluten 1.jpeg', 'img/oreo-gluten 2.jpeg'],
@@ -23,7 +41,8 @@ const products = [
     id: 'frutilla (sin gluten)',
     name: 'FRUTILLA (SIN GLUTEN)',
     categories: ['frutales', 'sin-gluten'],
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en ambos tamaños
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Bizcochuelo de chocolate, dulce de leche repostero, crema chantillí y frutillas.',
     layers: [],
     images: ['img/frutilla 1.jpeg', 'img/frutilla 2.jpeg'],
@@ -33,7 +52,8 @@ const products = [
     id: 'oreo',
     name: 'OREO',
     category: 'oreo',
-    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Base de galletitas Oreo, dulce de leche repostero y crema de oreo.',
     layers: ['Base crocante de galletitas Oreo', 'Dulce de leche repostero cremoso', 'Crema suave de Oreo con trozos de galletita'],
     images: ['img/oreo-1.jpeg', 'img/oreo-2.jpeg'],
@@ -43,7 +63,8 @@ const products = [
     id: 'chocotorta',
     name: 'CHOCOTORTA',
     category: 'clasicos',
-    inStock: { '350g': true, '500g': true }, // ✅ Con stock en 350g, ❌ Sin stock en 500g
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Base de galletitas chocolinas, crema chocotorta y más galletitas chocolinas.',
     layers: ['Base de galletitas Chocolinas', 'Crema de Chocotorta artesanal', 'Segunda capa de Chocolinas', 'Cobertura cremosa de Chocotorta'],
     images: ['img/chocotorta-1.jpeg', 'img/chocotorta-2.jpeg'],
@@ -53,7 +74,8 @@ const products = [
     id: 'chocooreo',
     name: 'CHOCO-OREO',
     category: 'oreo',
-    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Base de galletitas oreo, crema chocotorta y más galletitas oreo.',
     layers: ['Base de galletitas Oreo picadas', 'Crema Chocotorta suave', 'Capa intermedia de Oreo', 'Crema especial & trozos de Oreo'],
     images: ['img/chocooreo-1.jpeg', 'img/chocooreo-2.jpeg'],
@@ -63,7 +85,8 @@ const products = [
     id: 'pepitos',
     name: 'PEPITOS',
     category: 'clasicos',
-    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Base de galletitas pepitos, dulce de leche repostero, chips de chocolate y crema chantillí.',
     layers: ['Base de galletitas Pepitos con chispas', 'Dulce de leche repostero abundante', 'Crema chantillí', 'Chispas de chocolate semi-amargo'],
     images: ['img/pepito-1.jpeg', 'img/pepitos-2.jpeg'],
@@ -73,7 +96,8 @@ const products = [
     id: 'banana-split',
     name: 'BANANA SPLIT',
     category: 'frutales',
-    inStock: { '350g': true, '500g': true }, // ❌ Sin stock en 350g, ✅ Con stock en 500g
+    inStock: { '350g': true, '500g': true },
+    stockQty: { '350g': null, '500g': null },
     ingredients: 'Base de galletitas de vainilla, dulce de leche repostero, banana, crema chantillí y chips de chocolate.',
     layers: ['Base de vainillas', 'Dulce de leche repostero', 'Rodajas de banana fresca', 'Crema chantillí & chips de chocolate'],
     images: ['img/bana split-1.jpeg', 'img/bana split-2.jpeg'],
@@ -81,11 +105,137 @@ const products = [
   }
 ];
 
+let activePromos = [];
 let cart = [];
 const sliderPositions = {};
 const selectedSizes = {};
 const selectedQuantities = {};
 let currentCategory = 'all';
+
+// ==========================================================================
+// SINCRONIZACIÓN CON GOOGLE SHEETS (STOCK, PRECIOS Y PROMOS)
+// ==========================================================================
+async function syncWithGoogleSheets() {
+  if (!SCRIPT_URL || SCRIPT_URL.includes('PEGA_AQUI')) return;
+
+  try {
+    const response = await fetch(`${SCRIPT_URL}?t=${Date.now()}`);
+    const data = await response.json();
+
+    if (data && data.status === 'ok') {
+      // 1. Aplicar Stock y Precios a cada postre
+      if (data.stock) {
+        products.forEach(prod => {
+          const remote = data.stock[prod.id.toLowerCase()];
+          if (!remote) return;
+
+          prod.inStock = {
+            '350g': remote.inStock['350g'],
+            '500g': remote.inStock['500g']
+          };
+          prod.stockQty = {
+            '350g': remote.stockQty ? remote.stockQty['350g'] : null,
+            '500g': remote.stockQty ? remote.stockQty['500g'] : null
+          };
+
+          if (remote.prices && remote.prices['350g']) {
+            prod.prices['350g'] = remote.prices['350g'];
+          }
+          if (remote.prices && remote.prices['500g']) {
+            prod.prices['500g'] = remote.prices['500g'];
+          }
+
+          // Si 350g se agotó pero 500g tiene stock, preselecciona 500g automáticamente
+          if (!prod.inStock['350g'] && prod.inStock['500g']) {
+            selectedSizes[prod.id] = '500g';
+          }
+        });
+      }
+
+      // 2. Renderizar Promos activas
+      if (Array.isArray(data.promos)) {
+        activePromos = data.promos;
+        renderPromos();
+      }
+
+      // 3. Refrescar catálogo con el stock actualizado
+      applyFilters();
+    }
+  } catch (err) {
+    console.warn('No se pudo conectar con Google Sheets, usando catálogo local:', err);
+  }
+}
+
+function renderPromos() {
+  const section = document.getElementById('promos-section');
+  const grid = document.getElementById('promos-grid');
+  if (!section || !grid) return;
+
+  if (!activePromos || activePromos.length === 0) {
+    section.classList.add('hidden');
+    return;
+  }
+
+  section.classList.remove('hidden');
+  grid.innerHTML = '';
+
+  activePromos.forEach(promo => {
+    const card = document.createElement('div');
+    card.className = 'promo-card';
+    card.innerHTML = `
+      <div>
+        <span class="promo-badge-tag">${promo.badge}</span>
+        <h4>${promo.title}</h4>
+        <p>${promo.description}</p>
+      </div>
+      <div class="promo-price-row">
+        <div class="promo-prices">
+          ${promo.oldPrice ? `<span class="promo-old-price">$${Number(promo.oldPrice).toLocaleString()}</span>` : ''}
+          <span class="promo-final-price">$${Number(promo.price).toLocaleString()}</span>
+        </div>
+        <button type="button" class="btn-add-promo" onclick="addPromoToCart('${promo.id}', event)">Sumar Promo 🛫</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function addPromoToCart(promoId, event) {
+  triggerHaptic(25);
+  const promo = activePromos.find(p => p.id === promoId);
+  if (!promo) return;
+
+  cart.push({
+    name: promo.title,
+    size: promo.badge || 'Promo',
+    basePrice: Number(promo.price),
+    isPromo: true
+  });
+
+  if (event && event.target) {
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.classList.add('added-success');
+    btn.innerText = '✓ ¡Agregada!';
+    setTimeout(() => {
+      btn.classList.remove('added-success');
+      btn.innerText = originalText;
+    }, 1200);
+  }
+
+  renderCart();
+  showToast();
+}
+
+// Calcula cuántas unidades disponibles quedan para un producto y tamaño específico
+function getAvailableUnits(product, size) {
+  if (!product.inStock || product.inStock[size] === false) return 0;
+  const maxQty = product.stockQty ? product.stockQty[size] : null;
+  if (maxQty === null || maxQty === undefined) return Infinity;
+
+  const alreadyInCart = cart.filter(item => !item.isPromo && item.productId === product.id && item.size === size).length;
+  return Math.max(0, maxQty - alreadyInCart);
+}
 
 // Vibración Háptica
 function triggerHaptic(duration = 20) {
@@ -101,7 +251,6 @@ function setupSliderGestures(containerElem, productId, imagesList) {
   let startX = 0;
   let startY = 0;
 
-  // Eventos táctiles para Celular
   containerElem.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -113,7 +262,6 @@ function setupSliderGestures(containerElem, productId, imagesList) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // 1. Swipe horizontal (Cambiar foto)
     if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
       if (tapTimeout) clearTimeout(tapTimeout);
       if (diffX > 0) moveSlider(productId, 1);
@@ -121,48 +269,46 @@ function setupSliderGestures(containerElem, productId, imagesList) {
       return;
     }
 
-    // 2. Toques en pantalla táctil
     if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
       const currentTime = new Date().getTime();
       const tapLength = currentTime - lastTapTime;
 
       if (tapLength < 350 && tapLength > 0) {
-        // Doble toque (Celular) = Carrito
         if (tapTimeout) clearTimeout(tapTimeout);
         e.preventDefault();
         triggerDoubleTapAction(productId, e.changedTouches[0]);
         lastTapTime = 0;
       } else {
-        // Un toque (Celular) = Lightbox
         lastTapTime = currentTime;
         tapTimeout = setTimeout(() => {
           const currentIdx = sliderPositions[productId] || 0;
-          openLightbox(imagesList[currentIdx]);
+          openLightbox(null, productId, currentIdx);
         }, 350);
       }
     }
   });
 
-  // Eventos de Mouse para PC (Clic simple = Lightbox / Doble clic = Carrito)
   containerElem.addEventListener('click', (e) => {
-    // Evitamos que se dispare si hacen clic en los botones de flecha del slider
     if (e.target.classList.contains('slider-btn')) return;
 
     if (tapTimeout) clearTimeout(tapTimeout);
-    
     tapTimeout = setTimeout(() => {
       const currentIdx = sliderPositions[productId] || 0;
-      openLightbox(imagesList[currentIdx]);
+      openLightbox(null, productId, currentIdx);
     }, 250);
   });
 
   containerElem.addEventListener('dblclick', (e) => {
-    if (tapTimeout) clearTimeout(tapTimeout); // Cancela el clic simple en PC
+    if (tapTimeout) clearTimeout(tapTimeout);
     triggerDoubleTapAction(productId, e);
   });
 }
 
 function triggerDoubleTapAction(productId, event) {
+  const product = products.find(p => p.id === productId);
+  const size = selectedSizes[productId] || '350g';
+  if (!product || getAvailableUnits(product, size) <= 0) return;
+
   triggerHaptic([30, 20, 40]);
 
   const sliderContainer = document.getElementById(`slider-${productId}`);
@@ -224,17 +370,6 @@ function toggleMobileCartSheet(show) {
   }
 }
 
-// Lightbox
-function openLightbox(src) {
-  triggerHaptic(15);
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox-modal').classList.remove('hidden');
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox-modal').classList.add('hidden');
-}
-
 // Modal Capas
 function openLayersModal(productId) {
   triggerHaptic(15);
@@ -259,8 +394,11 @@ function closeLayersModal() {
   document.getElementById('layers-modal').classList.add('hidden');
 }
 
-// Ruleta del Antojo
+// Ruleta del Antojo (solo elige entre postres con stock disponible)
 function spinRoulette() {
+  const availableProducts = products.filter(p => p.inStock['350g'] || p.inStock['500g']);
+  if (availableProducts.length === 0) return;
+
   triggerHaptic(30);
   const resultDiv = document.getElementById('roulette-result');
   resultDiv.classList.add('hidden');
@@ -268,7 +406,7 @@ function spinRoulette() {
   let counter = 0;
   const interval = setInterval(() => {
     triggerHaptic(10);
-    const randomProduct = products[Math.floor(Math.random() * products.length)];
+    const randomProduct = availableProducts[Math.floor(Math.random() * availableProducts.length)];
     resultDiv.innerHTML = `<span>🎰 Girando... <strong>${randomProduct.name}</strong></span>`;
     resultDiv.classList.remove('hidden');
     counter++;
@@ -276,7 +414,10 @@ function spinRoulette() {
     if (counter > 12) {
       clearInterval(interval);
       triggerHaptic([40, 30, 50]);
-      const chosen = products[Math.floor(Math.random() * products.length)];
+      const chosen = availableProducts[Math.floor(Math.random() * availableProducts.length)];
+      if (!chosen.inStock[selectedSizes[chosen.id] || '350g']) {
+        selectedSizes[chosen.id] = chosen.inStock['350g'] ? '350g' : '500g';
+      }
       resultDiv.innerHTML = `
         <div>🎯 ¡Elegimos para vos: <strong>${chosen.name}</strong>!</div>
         <button class="btn-accept-roulette" onclick="addToCart('${chosen.id}')">¡Lo quiero! 🛫</button>
@@ -337,11 +478,19 @@ function renderCatalog(itemsToRender = products) {
     if (!selectedQuantities[product.id]) selectedQuantities[product.id] = 1;
 
     const currentSize = selectedSizes[product.id];
-    const currentQty = selectedQuantities[product.id];
     const currentPrice = product.prices[currentSize];
+    const availableUnits = getAvailableUnits(product, currentSize);
+    const isCurrentSizeOutOfStock = availableUnits <= 0;
 
-    // Validar si el tamaño actual seleccionado está sin stock
-    const isCurrentSizeOutOfStock = product.inStock && product.inStock[currentSize] === false;
+    if (!isCurrentSizeOutOfStock && selectedQuantities[product.id] > availableUnits) {
+      selectedQuantities[product.id] = availableUnits;
+    }
+    const currentQty = selectedQuantities[product.id];
+
+    const exactQty = product.stockQty ? product.stockQty[currentSize] : null;
+    const lowStockBadge = (!isCurrentSizeOutOfStock && typeof exactQty === 'number')
+      ? `<div class="stock-remaining-pill">⚡ Stock disponible: ${availableUnits} ${availableUnits === 1 ? 'unidad' : 'unidades'}</div>`
+      : '';
 
     const card = document.createElement('div');
     card.className = 'card';
@@ -375,7 +524,7 @@ function renderCatalog(itemsToRender = products) {
             <button class="pill-btn ${currentSize === '500g' ? 'active' : ''}" id="pill-${product.id}-500g" onclick="selectSize('${product.id}', '500g')">500g</button>
           </div>
         </div>
-        
+        ${lowStockBadge}
         ${isCurrentSizeOutOfStock ? `
           <div class="out-of-stock-notice" style="color: #ef4444; font-weight: bold; text-align: center; margin: 10px 0; font-size: 0.85rem;">🔴 SIN STOCK EN ESTE TAMAÑO</div>
           <button class="btn-add disabled" disabled style="background: #3f3f46; color: #a1a1aa; cursor: not-allowed;">Agotado</button>
@@ -395,7 +544,6 @@ function renderCatalog(itemsToRender = products) {
 
     catalogDiv.appendChild(card);
 
-    // Asignar los gestos inteligentes
     const sliderContainer = document.getElementById(`slider-${product.id}`);
     if (sliderContainer) {
       setupSliderGestures(sliderContainer, product.id, product.images);
@@ -420,34 +568,23 @@ function setup3DTilt(card) {
 
 function changeQty(productId, delta) {
   triggerHaptic(12);
+  const product = products.find(p => p.id === productId);
+  const size = selectedSizes[productId] || '350g';
+  const maxAvailable = getAvailableUnits(product, size);
+
   let current = selectedQuantities[productId] || 1;
   current += delta;
   if (current < 1) current = 1;
+  if (current > maxAvailable) current = maxAvailable;
   selectedQuantities[productId] = current;
 
-  document.getElementById(`qty-${productId}`).innerText = current;
-  const product = products.find(p => p.id === productId);
-  const size = selectedSizes[productId] || '350g';
-  const unitPrice = product.prices[size];
-
-  document.getElementById(`price-${productId}`).innerText = `$${(unitPrice * current).toLocaleString()}`;
-}
-
-function addCombo(comboType) {
-  triggerHaptic(25);
-  if (comboType === 'pareja') {
-    const oreo = products.find(p => p.id === 'oreo');
-    const chocotorta = products.find(p => p.id === 'chocotorta');
-    cart.push({ name: oreo.name, size: '350g', basePrice: oreo.prices['350g'] });
-    cart.push({ name: chocotorta.name, size: '350g', basePrice: chocotorta.prices['350g'] });
-  } else if (comboType === 'familiar') {
-    ['tiramisu', 'oreo', 'chocotorta', 'pepitos'].forEach(id => {
-      const p = products.find(prod => prod.id === id);
-      cart.push({ name: p.name, size: '500g', basePrice: p.prices['500g'] });
-    });
+  const qtyEl = document.getElementById(`qty-${productId}`);
+  const priceEl = document.getElementById(`price-${productId}`);
+  if (qtyEl) qtyEl.innerText = current;
+  if (priceEl) {
+    const unitPrice = product.prices[size];
+    priceEl.innerText = `$${(unitPrice * current).toLocaleString()}`;
   }
-  renderCart();
-  showToast();
 }
 
 function setCategoryFilter(category, btnElement) {
@@ -469,7 +606,6 @@ function setCategoryFilter(category, btnElement) {
 function applyFilters() {
   const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
   const filtered = products.filter(product => {
-    // Verificamos si la categoría coincide (soporta una sola categoría o un array de categorías)
     let matchesCategory = false;
     if (currentCategory === 'all') {
       matchesCategory = true;
@@ -489,15 +625,13 @@ function applyFilters() {
 function selectSize(productId, size) {
   triggerHaptic(12);
   selectedSizes[productId] = size;
+  selectedQuantities[productId] = 1;
   
-  // Actualiza visualmente los botones de tamaño (píldoras)
   document.getElementById(`pill-${productId}-350g`).classList.toggle('active', size === '350g');
   document.getElementById(`pill-${productId}-500g`).classList.toggle('active', size === '500g');
 
-  // Refrescamos directamente el catálogo para que la tarjeta detecte el stock del nuevo tamaño seleccionado
   applyFilters();
 }
-
 
 function moveSlider(productId, direction) {
   triggerHaptic(10);
@@ -518,54 +652,26 @@ function moveSlider(productId, direction) {
   }
 }
 
-// Fly to Cart
-function animateFlyToCart(event, imgSrc) {
-  const target = window.innerWidth <= 768 
-    ? document.getElementById('mobile-cart-badge') 
-    : document.getElementById('cart-anchor');
-
-  if (!target) return;
-
-  const targetRect = target.getBoundingClientRect();
-  const clone = document.createElement('img');
-  clone.src = imgSrc;
-  clone.className = 'flying-clone';
-
-  const startX = event ? (event.clientX || window.innerWidth / 2) : window.innerWidth / 2;
-  const startY = event ? (event.clientY || window.innerHeight / 2) : window.innerHeight / 2;
-
-  clone.style.left = `${startX}px`;
-  clone.style.top = `${startY}px`;
-
-  document.body.appendChild(clone);
-
-  requestAnimationFrame(() => {
-    clone.style.left = `${targetRect.left + (targetRect.width / 2) - 15}px`;
-    clone.style.top = `${targetRect.top + (targetRect.height / 2) - 15}px`;
-    clone.style.width = '20px';
-    clone.style.height = '20px';
-    clone.style.opacity = '0.2';
-  });
-
-  setTimeout(() => { clone.remove(); }, 800);
-}
-
 function addToCart(productId, event) {
-  triggerHaptic(25);
   const product = products.find(p => p.id === productId);
   const size = selectedSizes[productId] || '350g';
-  const qty = selectedQuantities[productId] || 1;
+  const availableUnits = getAvailableUnits(product, size);
 
-  // 1. Suma el producto al carrito
-  for (let i = 0; i < qty; i++) {
+  if (availableUnits <= 0) return;
+
+  triggerHaptic(25);
+  const qtyToAdd = Math.min(selectedQuantities[productId] || 1, availableUnits);
+
+  for (let i = 0; i < qtyToAdd; i++) {
     cart.push({
+      productId: product.id,
       name: product.name,
       size: size,
-      basePrice: product.prices[size]
+      basePrice: product.prices[size],
+      isPromo: false
     });
   }
 
-  // 2. Animación visual temporal en el botón presionado
   if (event && event.target) {
     const btn = event.target;
     const originalText = btn.innerText;
@@ -579,10 +685,14 @@ function addToCart(productId, event) {
     }, 1200);
   }
 
-  // 3. Resetea cantidad y actualiza interfaz
   selectedQuantities[productId] = 1;
   renderCart();
   showToast();
+
+  // Si tiene stock numérico limitado, refresca la tarjeta para reflejar las unidades restantes
+  if (product.stockQty && typeof product.stockQty[size] === 'number') {
+    applyFilters();
+  }
 }
 
 function showToast() {
@@ -593,8 +703,13 @@ function showToast() {
 
 function removeFromCart(index) {
   triggerHaptic(15);
+  const removed = cart[index];
   cart.splice(index, 1);
   renderCart();
+
+  if (removed && !removed.isPromo) {
+    applyFilters();
+  }
 }
 
 function renderCart() {
@@ -615,7 +730,7 @@ function renderCart() {
 
   cartContainer.innerHTML = '';
 
-  const count350g = cart.filter(item => item.size === '350g').length;
+  const count350g = cart.filter(item => !item.isPromo && item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
 
   if (isWholesale350g) {
@@ -641,7 +756,7 @@ function renderCart() {
 
   cart.forEach((item, index) => {
     let finalUnitPrice = item.basePrice;
-    if (isWholesale350g && item.size === '350g') {
+    if (!item.isPromo && isWholesale350g && item.size === '350g') {
       finalUnitPrice = 4000;
     }
     total += finalUnitPrice;
@@ -651,7 +766,7 @@ function renderCart() {
     itemDiv.innerHTML = `
       <div class="cart-item-info">
         <strong>${item.name}</strong> (${item.size})<br>
-        <small>$${finalUnitPrice.toLocaleString()} ${isWholesale350g && item.size === '350g' ? '🏷️ (Mayorista)' : ''}</small>
+        <small>$${finalUnitPrice.toLocaleString()} ${!item.isPromo && isWholesale350g && item.size === '350g' ? '🏷️ (Mayorista)' : ''}</small>
       </div>
       <button class="btn-remove" onclick="removeFromCart(${index})">X</button>
     `;
@@ -717,7 +832,6 @@ function openBoardingPassModal() {
 
   const payment = document.getElementById('cust-payment').value;
 
-// Lógica para mostrar u ocultar el Alias según el pago
   const aliasBox = document.getElementById('bp-alias-box');
   if (aliasBox) {
     if (payment === 'transferencia') {
@@ -731,14 +845,14 @@ function openBoardingPassModal() {
   document.getElementById('bp-delivery-type').innerText = delivery === 'envio' ? `Envío Moto Uber (${addressInput.value.trim()})` : 'Retiro en local';
   document.getElementById('bp-payment-method').innerText = payment === 'efectivo' ? 'Efectivo' : 'Transferencia Bancaria';
 
-  const count350g = cart.filter(item => item.size === '350g').length;
+  const count350g = cart.filter(item => !item.isPromo && item.size === '350g').length;
   const isWholesale350g = count350g >= 10;
   let total = 0;
   let itemsHtml = '';
 
   cart.forEach((item, index) => {
     let price = item.basePrice;
-    if (isWholesale350g && item.size === '350g') price = 4000;
+    if (!item.isPromo && isWholesale350g && item.size === '350g') price = 4000;
     total += price;
     itemsHtml += `${index + 1}. ${item.name} (${item.size}) - $${price.toLocaleString()}<br>`;
   });
@@ -754,10 +868,22 @@ function closeBoardingPassModal() {
   document.getElementById('boarding-pass-modal').classList.add('hidden');
 }
 
-// Confirmar y Avión Takeoff
+// Confirmar, descontar stock numérico en Sheets (si aplica) y enviar a WhatsApp
 function confirmAndSendWhatsApp() {
   triggerHaptic([40, 50, 60]);
   localStorage.setItem('despegue_last_order', JSON.stringify(cart));
+
+  // Descuenta stock en segundo plano si algún producto tiene stock numérico en Google Sheets
+  if (SCRIPT_URL && !SCRIPT_URL.includes('PEGA_AQUI')) {
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({
+        action: 'descontarStock',
+        items: cart
+      })
+    }).catch(() => {});
+  }
 
   closeBoardingPassModal();
 
@@ -787,20 +913,20 @@ function confirmAndSendWhatsApp() {
     message += `💳 *Medio de pago:* ${paymentText}\n\n`;
     message += `📋 *DETALLE DEL PEDIDO:*\n`;
 
-    const count350g = cart.filter(item => item.size === '350g').length;
+    const count350g = cart.filter(item => !item.isPromo && item.size === '350g').length;
     const isWholesale350g = count350g >= 10;
     let total = 0;
 
     cart.forEach((item, index) => {
       let finalUnitPrice = item.basePrice;
-      if (isWholesale350g && item.size === '350g') {
+      if (!item.isPromo && isWholesale350g && item.size === '350g') {
         finalUnitPrice = 4000;
       }
       message += `${index + 1}. ${item.name} (${item.size}) - $${finalUnitPrice.toLocaleString()}\n`;
       total += finalUnitPrice;
     });
 
-    message += `\n📦 *Cantidad de postres:* ${cart.length}`;
+    message += `\n📦 *Cantidad de ítems:* ${cart.length}`;
     message += `\n💰 *Total Estimado:* $${total.toLocaleString()}`;
 
     if (isWholesale350g) {
@@ -836,7 +962,6 @@ function loadLastOrder() {
   }
 }
 
-// Service Worker PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -844,7 +969,7 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('Error PWA', err));
   });
 }
-// Función para copiar el Alias al portapapeles
+
 function copyAlias() {
   triggerHaptic(20);
   const aliasText = document.getElementById('bp-alias-text').innerText;
@@ -863,14 +988,13 @@ function copyAlias() {
   });
 }
 
-// Variables globales exclusivas para el visor flotante
+// Visor Lightbox Ampliado
 let currentLightboxImages = [];
 let currentLightboxIndex = 0;
 
-// Función para abrir la foto ampliada evitando la propagación al carrito
 function openLightbox(event, productId, imageIndex = 0) {
   if (event) {
-    event.stopPropagation(); // Frenamos el evento para que NO agregue al carrito
+    event.stopPropagation();
     event.preventDefault();
   }
 
@@ -890,7 +1014,6 @@ function openLightbox(event, productId, imageIndex = 0) {
   updateLightboxContent();
 }
 
-// Actualiza la imagen y mantiene visibles las flechas sin que se borren
 function updateLightboxContent() {
   const imgElement = document.getElementById('lightbox-img');
   const counterElement = document.getElementById('lightbox-counter');
@@ -915,7 +1038,6 @@ function updateLightboxContent() {
   }
 }
 
-// Cambiar de foto sin cerrar ni reiniciar
 function changeLightboxImage(event, direction) {
   if (event) {
     event.stopPropagation();
@@ -934,7 +1056,6 @@ function changeLightboxImage(event, direction) {
   updateLightboxContent();
 }
 
-// Cerrar el visor
 function closeLightbox(event) {
   if (event) event.stopPropagation();
   const modal = document.getElementById('lightbox-modal');
@@ -946,3 +1067,4 @@ initTheme();
 checkOpenStatus();
 renderCatalog();
 checkLastOrderAvailable();
+syncWithGoogleSheets();
